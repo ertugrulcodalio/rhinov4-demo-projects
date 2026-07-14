@@ -1,0 +1,27 @@
+[
+  {
+    "title": "Phase 0 \u2014 Multi-tenancy gate",
+    "notes": "Verify multi-tenancy is installed and working correctly",
+    "status": "done"
+  },
+  {
+    "title": "Phase A \u2014 Generate feature models",
+    "notes": "Run blueprint generation, migrations, and register models",
+    "status": "in_progress"
+  },
+  {
+    "title": "Phase B \u2014 Implement Extras",
+    "notes": "Implement custom policies, validations, and callbacks (Extras)",
+    "status": "todo"
+  },
+  {
+    "title": "Phase C \u2014 Verify",
+    "notes": "Verify multi-tenancy, API endpoints, and AC status",
+    "status": "todo"
+  },
+  {
+    "title": "Phase D \u2014 Write tests",
+    "notes": "Write unit and integration tests for all models and policies",
+    "status": "todo"
+  }
+]

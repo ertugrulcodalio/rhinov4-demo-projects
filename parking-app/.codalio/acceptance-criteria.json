@@ -1,0 +1,108 @@
+{
+  "criteria": [
+    {
+      "id": "AC-1",
+      "name": "ParkingLot CRUD works for admin and manager",
+      "user_story": "ParkingLot Management",
+      "phase": "MVP",
+      "status": "pending",
+      "subtasks": [
+        "app/policies/parking_lot_policy.rb",
+        "spec/requests/parking_lots_spec.rb"
+      ]
+    },
+    {
+      "id": "AC-2",
+      "name": "ParkingSpot CRUD works; is_available reflects active reservations",
+      "user_story": "ParkingSpot Management",
+      "phase": "MVP",
+      "status": "pending",
+      "subtasks": [
+        "app/models/reservation.rb",
+        "app/policies/parking_spot_policy.rb",
+        "spec/requests/parking_spots_spec.rb"
+      ]
+    },
+    {
+      "id": "AC-3",
+      "name": "Vehicle CRUD works; members can only manage their own vehicles",
+      "user_story": "Vehicle Management",
+      "phase": "MVP",
+      "status": "pending",
+      "subtasks": [
+        "app/policies/vehicle_policy.rb",
+        "app/models/vehicle.rb",
+        "spec/requests/vehicles_spec.rb"
+      ]
+    },
+    {
+      "id": "AC-4",
+      "name": "Reservation lifecycle: pending → active → completed or cancelled",
+      "user_story": "Reservation Management",
+      "phase": "MVP",
+      "status": "pending",
+      "subtasks": [
+        "app/models/reservation.rb",
+        "app/policies/reservation_policy.rb",
+        "spec/requests/reservations_spec.rb"
+      ]
+    },
+    {
+      "id": "AC-5",
+      "name": "All endpoints return correct 403 for unauthorized roles",
+      "user_story": "Authorization",
+      "phase": "MVP",
+      "status": "pending",
+      "subtasks": [
+        "app/policies/parking_lot_policy.rb",
+        "app/policies/parking_spot_policy.rb",
+        "app/policies/vehicle_policy.rb",
+        "app/policies/reservation_policy.rb"
+      ]
+    },
+    {
+      "id": "AC-6",
+      "name": "RSpec request specs cover happy path + 403 + 404 per model",
+      "user_story": "Testing",
+      "phase": "MVP",
+      "status": "pending",
+      "subtasks": [
+        "spec/requests/parking_lots_spec.rb",
+        "spec/requests/parking_spots_spec.rb",
+        "spec/requests/vehicles_spec.rb",
+        "spec/requests/reservations_spec.rb"
+      ]
+    },
+    {
+      "id": "AC-7",
+      "name": "React frontend: list and detail views for ParkingLots, ParkingSpots, Vehicles, Reservations",
+      "user_story": "Frontend Views",
+      "phase": "MVP",
+      "status": "pending",
+      "subtasks": [
+        "app/frontend/models/static.js"
+      ]
+    },
+    {
+      "id": "AC-8",
+      "name": "Frontend connects to Rails API via Vite proxy at /api",
+      "user_story": "Frontend Integration",
+      "phase": "MVP",
+      "status": "pending",
+      "subtasks": [
+        "vite.config.js"
+      ]
+    },
+    {
+      "id": "AC-9",
+      "name": "Login flow works; organization slug routing works",
+      "user_story": "Authentication & Routing",
+      "phase": "MVP",
+      "status": "pending",
+      "subtasks": [
+        "app/frontend/routes/"
+      ]
+    }
+  ],
+  "updated_at": "2026-07-14T17:13:18Z"
+}

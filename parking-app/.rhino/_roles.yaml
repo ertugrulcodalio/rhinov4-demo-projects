@@ -1,0 +1,10 @@
+roles:
+  admin:
+    name: Admin
+    description: "Full access to all models (CRUD)"
+  manager:
+    name: Manager
+    description: "Manages parking lots, spots, and reservations"
+  member:
+    name: Member
+    description: "Manages own vehicles and reservations"

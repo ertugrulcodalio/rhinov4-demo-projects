@@ -1,0 +1,22 @@
+[
+  {
+    "title": "Analyze existing UI and schema",
+    "notes": "Analyze the existing client files, schema, and types to understand the Blog model fields and current routing setup.",
+    "status": "done"
+  },
+  {
+    "title": "Create Blog pages",
+    "notes": "Create custom pages for Blog list, detail, and form (create/edit) under client/src/pages/. (Already exists!)",
+    "status": "done"
+  },
+  {
+    "title": "Configure routing and navigation",
+    "notes": "Add routes for the new Blog pages in client/src/App.tsx and navigation links in client/src/components/AppShell.tsx.",
+    "status": "in_progress"
+  },
+  {
+    "title": "Verify and finalize UI integration",
+    "notes": "Verify the UI works correctly and matches the schema.",
+    "status": "todo"
+  }
+]

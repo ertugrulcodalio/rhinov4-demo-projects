@@ -1,0 +1,54 @@
+{
+  "version": 1,
+  "generated_at": "2026-07-14T13:40:37-04:00",
+  "files": {
+    "parking_lots.yaml": {
+      "content_hash": "dff009483e93dab6266f907337cdcdd655432b7a0231fdf784ed7fb074416927",
+      "generated_files": [
+        "app/models/parking_lot.rb",
+        "db/migrate/20260714174037_create_parking_lots.rb",
+        "spec/factories/parking_lots.rb",
+        "app/models/scopes/parking_lot_scope.rb",
+        "app/policies/parking_lot_policy.rb",
+        "spec/models/parking_lot_spec.rb"
+      ],
+      "generated_at": "2026-07-14T13:40:37-04:00"
+    },
+    "parking_spots.yaml": {
+      "content_hash": "05d9b5f1241d7d4c5151bf257caf7c576aa6c82cb4de4db0f935ef9d89173e8f",
+      "generated_files": [
+        "app/models/parking_spot.rb",
+        "db/migrate/20260714174038_create_parking_spots.rb",
+        "spec/factories/parking_spots.rb",
+        "app/models/scopes/parking_spot_scope.rb",
+        "app/policies/parking_spot_policy.rb",
+        "spec/models/parking_spot_spec.rb"
+      ],
+      "generated_at": "2026-07-14T13:40:37-04:00"
+    },
+    "vehicles.yaml": {
+      "content_hash": "0338d9c05a28739cc202cb3e454e89415bd29b4038bdca01860abf28ca4e9b1c",
+      "generated_files": [
+        "app/models/vehicle.rb",
+        "db/migrate/20260714174039_create_vehicles.rb",
+        "spec/factories/vehicles.rb",
+        "app/models/scopes/vehicle_scope.rb",
+        "app/policies/vehicle_policy.rb",
+        "spec/models/vehicle_spec.rb"
+      ],
+      "generated_at": "2026-07-14T13:40:37-04:00"
+    },
+    "reservations.yaml": {
+      "content_hash": "01c89aa0a292256409022d0bd3c8bafea4be19c606815bd0b6d1db9322d10cd2",
+      "generated_files": [
+        "app/models/reservation.rb",
+        "db/migrate/20260714174040_create_reservations.rb",
+        "spec/factories/reservations.rb",
+        "app/models/scopes/reservation_scope.rb",
+        "app/policies/reservation_policy.rb",
+        "spec/models/reservation_spec.rb"
+      ],
+      "generated_at": "2026-07-14T13:40:37-04:00"
+    }
+  }
+}

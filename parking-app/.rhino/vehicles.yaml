@@ -1,0 +1,62 @@
+model: Vehicle
+slug: vehicles
+table: vehicles
+
+options:
+  belongs_to_organization: true
+  soft_deletes: false
+  audit_trail: false
+  pagination: true
+  per_page: 25
+
+columns:
+  license_plate:
+    type: string
+    nullable: false
+    searchable: true
+    filterable: true
+  make:
+    type: string
+    nullable: true
+    searchable: true
+  model:
+    type: string
+    nullable: true
+    searchable: true
+  color:
+    type: string
+    nullable: true
+  vehicle_type:
+    type: string
+    default: "car"
+    filterable: true
+  user_id:
+    type: foreignId
+    foreign_model: User
+    index: true
+
+relationships:
+  - type: belongsTo
+    model: Organization
+  - type: belongsTo
+    model: User
+  - type: hasMany
+    model: Reservation
+    dependent: destroy
+
+permissions:
+  admin:
+    actions: [index, show, store, update, destroy]
+    show_fields: "*"
+    create_fields: "*"
+    update_fields: "*"
+  manager:
+    actions: [index, show]
+    show_fields: "*"
+    create_fields: []
+    update_fields: []
+  member:
+    actions: [index, show, store, update]
+    show_fields: "*"
+    create_fields: [license_plate, make, model, color, vehicle_type, user_id]
+    update_fields: [license_plate, make, model, color, vehicle_type, user_id]

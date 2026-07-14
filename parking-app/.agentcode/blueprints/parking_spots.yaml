@@ -1,0 +1,54 @@
+model: ParkingSpot
+slug: parking_spots
+table: parking_spots
+
+options:
+  belongs_to_organization: false
+  soft_deletes: false
+  audit_trail: false
+  pagination: true
+  per_page: 25
+
+columns:
+  number:
+    type: string
+    nullable: false
+    searchable: true
+    filterable: true
+    sortable: true
+  spot_type:
+    type: string
+    default: "standard"
+    filterable: true
+  is_available:
+    type: boolean
+    default: true
+    filterable: true
+  parking_lot_id:
+    type: foreignId
+    foreign_model: ParkingLot
+    index: true
+
+relationships:
+  - type: belongsTo
+    model: ParkingLot
+  - type: hasMany
+    model: Reservation
+    dependent: destroy
+
+permissions:
+  admin:
+    actions: [index, show, store, update, destroy]
+    show_fields: "*"
+    create_fields: "*"
+    update_fields: "*"
+  manager:
+    actions: [index, show, store, update]
+    show_fields: "*"
+    create_fields: [number, spot_type, is_available, parking_lot_id]
+    update_fields: [number, spot_type, is_available, parking_lot_id]
+  member:
+    actions: [index, show]
+    show_fields: [id, number, spot_type, is_available, parking_lot_id]
+    create_fields: []
+    update_fields: []

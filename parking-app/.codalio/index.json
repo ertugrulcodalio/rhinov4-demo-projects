@@ -1,0 +1,26 @@
+{
+  "project_type": "rhino",
+  "ruby_version": "3.x",
+  "node_version": "20.x",
+  "models": [
+    { "name": "ParkingLot", "file": "app/models/parking_lot.rb", "table": "parking_lots" },
+    { "name": "ParkingSpot", "file": "app/models/parking_spot.rb", "table": "parking_spots" },
+    { "name": "Vehicle", "file": "app/models/vehicle.rb", "table": "vehicles" },
+    { "name": "Reservation", "file": "app/models/reservation.rb", "table": "reservations" }
+  ],
+  "controllers": [],
+  "frontend_routes": [],
+  "frontend_components": [],
+  "migrations": [],
+  "tests": [
+    "spec/requests/parking_lots_spec.rb",
+    "spec/requests/parking_spots_spec.rb",
+    "spec/requests/vehicles_spec.rb",
+    "spec/requests/reservations_spec.rb"
+  ],
+  "key_config_files": [
+    "config/initializers/rhino.rb",
+    "config/routes.rb"
+  ],
+  "updated_at": "2026-07-14T17:13:18Z"
+}

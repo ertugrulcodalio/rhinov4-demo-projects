@@ -1,0 +1,27 @@
+[
+  {
+    "title": "PRD integrity audit",
+    "notes": "Perform cross-section gap analysis and write .codalio/prd-integrity-report.json (No prd.json present, skipped)",
+    "status": "done"
+  },
+  {
+    "title": "Data model design and blueprints",
+    "notes": "Design database schema and write blueprints (_roles.yaml and model YAMLs)",
+    "status": "done"
+  },
+  {
+    "title": "Permissions and Extras design",
+    "notes": "Identify Extras and design custom permissions/validations/endpoints",
+    "status": "done"
+  },
+  {
+    "title": "Screens and UI handoff",
+    "notes": "Identify screens and write .codalio/ui-handoff.json if prototype exists (No prototype, skipped)",
+    "status": "done"
+  },
+  {
+    "title": "Acceptance criteria and remaining artifacts",
+    "notes": "Write implementation plan (.rhino-plan.md), acceptance criteria (.codalio/acceptance-criteria.json), and project index (.codalio/index.json)",
+    "status": "done"
+  }
+]

@@ -1,0 +1,19 @@
+{
+  "project_type": "rhino",
+  "ruby_version": "3.x",
+  "node_version": "20.x",
+  "models": [
+    { "name": "Blog", "file": "app/models/blog.rb", "table": "blogs" }
+  ],
+  "controllers": [],
+  "frontend_routes": [],
+  "frontend_components": [],
+  "migrations": [],
+  "tests": [],
+  "key_config_files": [
+    "config/initializers/rhino.rb",
+    "config/routes.rb",
+    "app/frontend/routes/__root.tsx"
+  ],
+  "updated_at": "2026-07-13T18:55:36Z"
+}

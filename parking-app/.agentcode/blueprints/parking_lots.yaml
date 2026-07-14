@@ -1,0 +1,50 @@
+model: ParkingLot
+slug: parking_lots
+table: parking_lots
+
+options:
+  belongs_to_organization: true
+  soft_deletes: false
+  audit_trail: false
+  pagination: true
+  per_page: 25
+
+columns:
+  name:
+    type: string
+    nullable: false
+    searchable: true
+    filterable: true
+    sortable: true
+  address:
+    type: string
+    nullable: false
+    searchable: true
+  total_spots:
+    type: integer
+    nullable: false
+    sortable: true
+
+relationships:
+  - type: belongsTo
+    model: Organization
+  - type: hasMany
+    model: ParkingSpot
+    dependent: destroy
+
+permissions:
+  admin:
+    actions: [index, show, store, update, destroy]
+    show_fields: "*"
+    create_fields: "*"
+    update_fields: "*"
+  manager:
+    actions: [index, show, update]
+    show_fields: "*"
+    create_fields: []
+    update_fields: [name, address, total_spots]
+  member:
+    actions: [index, show]
+    show_fields: [id, name, address, total_spots]
+    create_fields: []
+    update_fields: []
