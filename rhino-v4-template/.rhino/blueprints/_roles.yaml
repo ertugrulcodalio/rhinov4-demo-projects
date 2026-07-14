@@ -1,7 +1,0 @@
-roles:
-  admin:
-    name: Admin
-    description: "Admin role"
-  user:
-    name: User
-    description: "User role"
