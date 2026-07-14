@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
-    "rhino:types": "cd ../server-laravel && php artisan rhino:export-types --output=../client-web/src/rhino.d.ts"
+    "rhino:types": "cd ../.. && bundle exec rake rhino:export_types OUTPUT=client/src/rhino.d.ts"
   },
   "dependencies": {
     "@rhino-dev/rhino-react": "^4.3.2",
