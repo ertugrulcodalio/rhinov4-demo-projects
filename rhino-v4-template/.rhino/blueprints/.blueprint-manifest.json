@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "generated_at": "2026-07-13T15:26:20-04:00",
+  "files": {
+    "blogs.yaml": {
+      "content_hash": "2aa140c30ec9ef26618450d9cf18900e35fe52c57f27a93fd2f5e0a8b993d71f",
+      "generated_files": [
+        "app/models/blog.rb",
+        "db/migrate/20260713192620_create_blogs.rb",
+        "spec/factories/blogs.rb",
+        "app/models/scopes/blog_scope.rb",
+        "app/policies/blog_policy.rb",
+        "spec/models/blog_spec.rb"
+      ],
+      "generated_at": "2026-07-13T15:26:20-04:00"
+    }
+  }
+}

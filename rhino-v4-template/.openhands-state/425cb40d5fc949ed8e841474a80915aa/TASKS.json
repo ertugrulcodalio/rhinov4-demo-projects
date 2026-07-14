@@ -1,0 +1,37 @@
+[
+  {
+    "title": "Read inputs",
+    "notes": "",
+    "status": "done"
+  },
+  {
+    "title": "Inventory the suites",
+    "notes": "",
+    "status": "done"
+  },
+  {
+    "title": "Run the backend suite",
+    "notes": "",
+    "status": "in_progress"
+  },
+  {
+    "title": "Run Cypress",
+    "notes": "",
+    "status": "todo"
+  },
+  {
+    "title": "Coverage",
+    "notes": "",
+    "status": "todo"
+  },
+  {
+    "title": "Map results to criteria",
+    "notes": "",
+    "status": "todo"
+  },
+  {
+    "title": "Save the report",
+    "notes": "",
+    "status": "todo"
+  }
+]

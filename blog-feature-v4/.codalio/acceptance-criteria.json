@@ -1,0 +1,36 @@
+{
+  "criteria": [
+    {
+      "id": "AC-1",
+      "name": "Admins can create/edit/delete blogs.",
+      "user_story": "Blog Management",
+      "phase": "MVP",
+      "status": "tested",
+      "subtasks": [
+        "bundle exec rails agentcode:blueprint",
+        "bundle exec rails db:migrate",
+        "Generated Blog model and migrations, added to config/initializers/rhino.rb"
+      ]
+    },
+    {
+      "id": "AC-2",
+      "name": "Users can view a list of blogs for their organization.",
+      "user_story": "Blog Viewing",
+      "phase": "MVP",
+      "status": "tested",
+      "subtasks": [
+        "bundle exec rails agentcode:blueprint",
+        "bundle exec rails db:migrate",
+        "Generated Blog model and migrations, added to config/initializers/rhino.rb"
+      ]
+    }
+  ],
+  "updated_at": "2026-07-13T20:02:14.434797+00:00",
+  "compliance": {
+    "implemented": 2,
+    "partial": 0,
+    "missing": 0,
+    "total": 2,
+    "score": 100.0
+  }
+}

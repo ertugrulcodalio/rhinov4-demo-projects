@@ -1,0 +1,32 @@
+[
+  {
+    "title": "Read inputs and inventory suites",
+    "notes": "Read inputs and inventory suites",
+    "status": "done"
+  },
+  {
+    "title": "Run backend test suite",
+    "notes": "Run backend test suite",
+    "status": "done"
+  },
+  {
+    "title": "Run Cypress test suite",
+    "notes": "Run Cypress test suite",
+    "status": "done"
+  },
+  {
+    "title": "Compute coverage",
+    "notes": "Compute coverage",
+    "status": "done"
+  },
+  {
+    "title": "Map results to criteria",
+    "notes": "Map results to criteria",
+    "status": "done"
+  },
+  {
+    "title": "Write review report",
+    "notes": "Write review report",
+    "status": "done"
+  }
+]
