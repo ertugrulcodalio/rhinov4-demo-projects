@@ -1,2 +1,9 @@
 rhino-v4-templates/
 .DS_Store
+
+# Ignore generated demo apps but track their PRDs
+parking-app/*
+!parking-app/prd.md
+food-delivery-app/*
+!food-delivery-app/prd.md
+food-delivery-v4/
