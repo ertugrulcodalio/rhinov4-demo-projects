@@ -1,0 +1,45 @@
+model: Order
+table: orders
+
+options:
+  belongs_to_organization: true
+  soft_deletes: false
+  audit_trail: false
+
+columns:
+  status:
+    type: string
+    nullable: false
+    default: "pending"
+    filterable: true
+    sortable: true
+  total_price:
+    type: decimal
+    precision: 10
+    scale: 2
+    nullable: true
+
+relationships:
+  - type: belongsTo
+    model: User
+  - type: hasMany
+    model: OrderItem
+
+permissions:
+  restaurant_admin:
+    actions: [index, show, update]
+    show_fields: "*"
+    create_fields: []
+    update_fields:
+      - status
+
+  customer:
+    actions: [index, show, store, update, destroy]
+    show_fields:
+      - id
+      - status
+      - total_price
+    create_fields:
+      - total_price
+    update_fields:
+      - status

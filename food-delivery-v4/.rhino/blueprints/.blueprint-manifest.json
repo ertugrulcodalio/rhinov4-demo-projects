@@ -1,0 +1,54 @@
+{
+  "version": 1,
+  "generated_at": "2026-07-16T12:06:17-04:00",
+  "files": {
+    "orders.yaml": {
+      "content_hash": "1359bdffef43ce62160fc640bd19c7b19978990d88226938c915e56773350356",
+      "generated_files": [
+        "app/models/order.rb",
+        "db/migrate/20260716160620_create_orders.rb",
+        "spec/factories/orders.rb",
+        "app/models/scopes/order_scope.rb",
+        "app/policies/order_policy.rb",
+        "spec/models/order_spec.rb"
+      ],
+      "generated_at": "2026-07-16T12:06:17-04:00"
+    },
+    "menu_items.yaml": {
+      "content_hash": "e75a4685ff68a1ac1de74fff05930ba0007c94910e87a6d03b64d2bb6099496a",
+      "generated_files": [
+        "app/models/menu_item.rb",
+        "db/migrate/20260716160617_create_menu_items.rb",
+        "spec/factories/menu_items.rb",
+        "app/models/scopes/menu_item_scope.rb",
+        "app/policies/menu_item_policy.rb",
+        "spec/models/menu_item_spec.rb"
+      ],
+      "generated_at": "2026-07-16T12:06:17-04:00"
+    },
+    "menus.yaml": {
+      "content_hash": "1cf56981243599116bec4836940b063b230a0bfa28f497b412ad932a3c508017",
+      "generated_files": [
+        "app/models/menu.rb",
+        "db/migrate/20260716160618_create_menus.rb",
+        "spec/factories/menus.rb",
+        "app/models/scopes/menu_scope.rb",
+        "app/policies/menu_policy.rb",
+        "spec/models/menu_spec.rb"
+      ],
+      "generated_at": "2026-07-16T12:06:17-04:00"
+    },
+    "order_items.yaml": {
+      "content_hash": "1d881bdc9ddd04da603fe932d1a48ae59e580a05d4e96de77f122b3005c3557f",
+      "generated_files": [
+        "app/models/order_item.rb",
+        "db/migrate/20260716160619_create_order_items.rb",
+        "spec/factories/order_items.rb",
+        "app/models/scopes/order_item_scope.rb",
+        "app/policies/order_item_policy.rb",
+        "spec/models/order_item_spec.rb"
+      ],
+      "generated_at": "2026-07-16T12:06:17-04:00"
+    }
+  }
+}

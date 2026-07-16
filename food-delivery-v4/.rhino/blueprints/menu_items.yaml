@@ -1,0 +1,64 @@
+model: MenuItem
+table: menu_items
+
+options:
+  belongs_to_organization: false
+  soft_deletes: false
+  audit_trail: false
+
+columns:
+  name:
+    type: string
+    nullable: false
+    filterable: true
+    sortable: true
+    searchable: true
+  description:
+    type: text
+    nullable: true
+  price:
+    type: decimal
+    precision: 10
+    scale: 2
+    nullable: false
+    filterable: true
+    sortable: true
+  status:
+    type: string
+    nullable: false
+    default: "draft"
+    filterable: true
+    sortable: true
+
+relationships:
+  - type: belongsTo
+    model: Menu
+
+permissions:
+  restaurant_admin:
+    actions: [index, show, store, update, destroy]
+    show_fields: "*"
+    create_fields:
+      - name
+      - description
+      - price
+      - status
+      - menu_id
+    update_fields:
+      - name
+      - description
+      - price
+      - status
+      - menu_id
+
+  customer:
+    actions: [index, show]
+    show_fields:
+      - id
+      - name
+      - description
+      - price
+      - status
+      - menu_id
+    create_fields: []
+    update_fields: []

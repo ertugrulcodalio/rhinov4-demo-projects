@@ -1,0 +1,51 @@
+model: OrderItem
+table: order_items
+
+options:
+  belongs_to_organization: false
+  soft_deletes: false
+  audit_trail: false
+
+columns:
+  quantity:
+    type: integer
+    nullable: false
+    filterable: true
+    sortable: true
+  unit_price:
+    type: decimal
+    precision: 10
+    scale: 2
+    nullable: false
+
+relationships:
+  - type: belongsTo
+    model: Order
+  - type: belongsTo
+    model: MenuItem
+
+permissions:
+  restaurant_admin:
+    actions: [index, show]
+    show_fields: "*"
+    create_fields: []
+    update_fields: []
+
+  customer:
+    actions: [index, show, store, update, destroy]
+    show_fields:
+      - id
+      - quantity
+      - unit_price
+      - order_id
+      - menu_item_id
+    create_fields:
+      - quantity
+      - unit_price
+      - order_id
+      - menu_item_id
+    update_fields:
+      - quantity
+      - unit_price
+      - order_id
+      - menu_item_id

@@ -1,0 +1,42 @@
+model: Menu
+table: menus
+
+options:
+  belongs_to_organization: true
+  soft_deletes: false
+  audit_trail: false
+
+columns:
+  name:
+    type: string
+    nullable: false
+    filterable: true
+    sortable: true
+    searchable: true
+  description:
+    type: text
+    nullable: true
+
+relationships:
+  - type: hasMany
+    model: MenuItem
+
+permissions:
+  restaurant_admin:
+    actions: [index, show, store, update, destroy]
+    show_fields: "*"
+    create_fields:
+      - name
+      - description
+    update_fields:
+      - name
+      - description
+
+  customer:
+    actions: [index, show]
+    show_fields:
+      - id
+      - name
+      - description
+    create_fields: []
+    update_fields: []
