@@ -25,6 +25,27 @@ cp .env.example .env
 ./start.sh seed       # Re-seed database
 ```
 
+## Testing
+
+```bash
+# Run full suite
+bundle exec rspec
+
+# With readable output
+bundle exec rspec --format documentation
+
+# Generate HTML + Markdown + JSON reports
+bundle exec rspec --format documentation \
+  --format html --out rspec_results.html \
+  --format json --out rspec_results.json \
+  2>&1 | tee rspec_results.md
+
+# Run a specific spec file
+bundle exec rspec spec/requests/cross_tenant_spec.rb
+```
+
+**146 examples, 0 failures** (food-delivery models + TaskFlow baseline)
+
 ## Seed credentials
 
 | Email | Password | Org | Role |

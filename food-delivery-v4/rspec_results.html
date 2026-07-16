@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <title>RSpec results</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Expires" content="-1" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <style type="text/css">
+  body {
+    margin: 0;
+    padding: 0;
+    background: #fff;
+    font-size: 80%;
+  }
+  </style>
+  <script type="text/javascript">
+    // <![CDATA[
+
+function addClass(element_id, classname) {
+  document.getElementById(element_id).className += (" " + classname);
+}
+
+function removeClass(element_id, classname) {
+  var elem = document.getElementById(element_id);
+  var classlist = elem.className.replace(classname,'');
+  elem.className = classlist;
+}
+
+function moveProgressBar(percentDone) {
+  document.getElementById("rspec-header").style.width = percentDone +"%";
+}
+
+function makeRed(element_id) {
+  removeClass(element_id, 'passed');
+  removeClass(element_id, 'not_implemented');
+  addClass(element_id,'failed');
+}
+
+function makeYellow(element_id) {
+  var elem = document.getElementById(element_id);
+  if (elem.className.indexOf("failed") == -1) {  // class doesn't includes failed
+    if (elem.className.indexOf("not_implemented") == -1) { // class doesn't include not_implemented
+      removeClass(element_id, 'passed');
+      addClass(element_id,'not_implemented');
+    }
+  }
+}
+
+function apply_filters() {
+  var passed_filter = document.getElementById('passed_checkbox').checked;
+  var failed_filter = document.getElementById('failed_checkbox').checked;
+  var pending_filter = document.getElementById('pending_checkbox').checked;
+
+  assign_display_style("example passed", passed_filter);
+  assign_display_style("example failed", failed_filter);
+  assign_display_style("example not_implemented", pending_filter);
+
+  assign_display_style_for_group("example_group passed", passed_filter);
+  assign_display_style_for_group("example_group not_implemented", pending_filter, pending_filter || passed_filter);
+  assign_display_style_for_group("example_group failed", failed_filter, failed_filter || pending_filter || passed_filter);
+}
+
+function get_display_style(display_flag) {
+  var style_mode = 'none';
+  if (display_flag == true) {
+    style_mode = 'block';
+  }
+  return style_mode;
+}
+
+function assign_display_style(classname, display_flag) {
+  var style_mode = get_display_style(display_flag);
+  var elems = document.getElementsByClassName(classname)
+  for (var i=0; i<elems.length;i++) {
+    elems[i].style.display = style_mode;
+  }
+}
+
+function assign_display_style_for_group(classname, display_flag, subgroup_flag) {
+  var display_style_mode = get_display_style(display_flag);
+  var subgroup_style_mode = get_display_style(subgroup_flag);
+  var elems = document.getElementsByClassName(classname)
+  for (var i=0; i<elems.length;i++) {
+    var style_mode = display_style_mode;
+    if ((display_flag != subgroup_flag) && (elems[i].getElementsByTagName('dt')[0].innerHTML.indexOf(", ") != -1)) {
+      elems[i].style.display = subgroup_style_mode;
+    } else {
+      elems[i].style.display = display_style_mode;
+    }
+  }
+}
+
+    // ]]>
+  </script>
+  <style type="text/css">
+#rspec-header {
+  background: #65C400; color: #fff; height: 4em;
+}
+
+.rspec-report h1 {
+  margin: 0px 10px 0px 10px;
+  padding: 10px;
+  font-family: "Lucida Grande", Helvetica, sans-serif;
+  font-size: 1.8em;
+  position: absolute;
+}
+
+#label {
+  float:left;
+}
+
+#display-filters {
+  float:left;
+  padding: 28px 0 0 40%;
+  font-family: "Lucida Grande", Helvetica, sans-serif;
+}
+
+#summary {
+  float:right;
+  padding: 5px 10px;
+  font-family: "Lucida Grande", Helvetica, sans-serif;
+  text-align: right;
+}
+
+#summary p {
+  margin: 0 0 0 2px;
+}
+
+#summary #totals {
+  font-size: 1.2em;
+}
+
+.example_group {
+  margin: 0 10px 5px;
+  background: #fff;
+}
+
+dl {
+  margin: 0; padding: 0 0 5px;
+  font: normal 11px "Lucida Grande", Helvetica, sans-serif;
+}
+
+dt {
+  padding: 3px;
+  background: #65C400;
+  color: #fff;
+  font-weight: bold;
+}
+
+dd {
+  margin: 5px 0 5px 5px;
+  padding: 3px 3px 3px 18px;
+}
+
+dd .duration {
+  padding-left: 5px;
+  text-align: right;
+  right: 0px;
+  float:right;
+}
+
+dd.example.passed {
+  border-left: 5px solid #65C400;
+  border-bottom: 1px solid #65C400;
+  background: #DBFFB4; color: #3D7700;
+}
+
+dd.example.not_implemented {
+  border-left: 5px solid #FAF834;
+  border-bottom: 1px solid #FAF834;
+  background: #FCFB98; color: #131313;
+}
+
+dd.example.pending_fixed {
+  border-left: 5px solid #0000C2;
+  border-bottom: 1px solid #0000C2;
+  color: #0000C2; background: #D3FBFF;
+}
+
+dd.example.failed {
+  border-left: 5px solid #C20000;
+  border-bottom: 1px solid #C20000;
+  color: #C20000; background: #FFFBD3;
+}
+
+
+dt.not_implemented {
+  color: #000000; background: #FAF834;
+}
+
+dt.pending_fixed {
+  color: #FFFFFF; background: #C40D0D;
+}
+
+dt.failed {
+  color: #FFFFFF; background: #C40D0D;
+}
+
+
+#rspec-header.not_implemented {
+  color: #000000; background: #FAF834;
+}
+
+#rspec-header.pending_fixed {
+  color: #FFFFFF; background: #C40D0D;
+}
+
+#rspec-header.failed {
+  color: #FFFFFF; background: #C40D0D;
+}
+
+
+.backtrace {
+  color: #000;
+  font-size: 12px;
+}
+
+a {
+  color: #BE5C00;
+}
+
+/* Ruby code, style similar to vibrant ink */
+.ruby {
+  font-size: 12px;
+  font-family: monospace;
+  color: white;
+  background-color: black;
+  padding: 0.1em 0 0.2em 0;
+}
+
+.ruby .keyword { color: #FF6600; }
+.ruby .constant { color: #339999; }
+.ruby .attribute { color: white; }
+.ruby .global { color: white; }
+.ruby .module { color: white; }
+.ruby .class { color: white; }
+.ruby .string { color: #66FF00; }
+.ruby .ident { color: white; }
+.ruby .method { color: #FFCC00; }
+.ruby .number { color: white; }
+.ruby .char { color: white; }
+.ruby .comment { color: #9933CC; }
+.ruby .symbol { color: white; }
+.ruby .regex { color: #44B4CC; }
+.ruby .punct { color: white; }
+.ruby .escape { color: white; }
+.ruby .interp { color: white; }
+.ruby .expr { color: white; }
+
+.ruby .offending { background-color: gray; }
+.ruby .linenum {
+  width: 75px;
+  padding: 0.1em 1em 0.2em 0;
+  color: #000000;
+  background-color: #FFFBD3;
+}
+
+  </style>
+</head>
+<body>
+<div class="rspec-report">
+
+<div id="rspec-header">
+  <div id="label">
+    <h1>RSpec Code Examples</h1>
+  </div>
+
+  <div id="display-filters">
+    <input id="passed_checkbox"  name="passed_checkbox"  type="checkbox" checked="checked" onchange="apply_filters()" value="1" /> <label for="passed_checkbox">Passed</label>
+    <input id="failed_checkbox"  name="failed_checkbox"  type="checkbox" checked="checked" onchange="apply_filters()" value="2" /> <label for="failed_checkbox">Failed</label>
+    <input id="pending_checkbox" name="pending_checkbox" type="checkbox" checked="checked" onchange="apply_filters()" value="3" /> <label for="pending_checkbox">Pending</label>
+  </div>
+
+  <div id="summary">
+    <p id="totals">&#160;</p>
+    <p id="duration">&#160;</p>
+  </div>
+</div>
+
+
+<div class="results">
+<div id="div_group_1" class="example_group passed">
+  <dl style="margin-left: 0px;">
+  <dt id="example_group_1" class="passed">MenuItem — CRUD &amp; Permissions</dt>
+  </dl>
+</div>
+<div id="div_group_2" class="example_group passed">
+  <dl style="margin-left: 15px;">
+  <dt id="example_group_2" class="passed">as restaurant_admin</dt>
+    <script type="text/javascript">moveProgressBar('0.6');</script>
+    <dd class="example passed"><span class="passed_spec_name">can list menu_items</span><span class='duration'>0.07554s</span></dd>
+    <script type="text/javascript">moveProgressBar('1.3');</script>
+    <dd class="example passed"><span class="passed_spec_name">can show menu_items</span><span class='duration'>0.01047s</span></dd>
+    <script type="text/javascript">moveProgressBar('2.0');</script>
+    <dd class="example passed"><span class="passed_spec_name">can create menu_items</span><span class='duration'>0.01108s</span></dd>
+    <script type="text/javascript">moveProgressBar('2.7');</script>
+    <dd class="example passed"><span class="passed_spec_name">can update menu_items</span><span class='duration'>0.00713s</span></dd>
+    <script type="text/javascript">moveProgressBar('3.4');</script>
+    <dd class="example passed"><span class="passed_spec_name">can delete menu_items</span><span class='duration'>0.00602s</span></dd>
+  </dl>
+</div>
+<div id="div_group_3" class="example_group passed">
+  <dl style="margin-left: 15px;">
+  <dt id="example_group_3" class="passed">as customer (customer route)</dt>
+    <script type="text/javascript">moveProgressBar('4.1');</script>
+    <dd class="example passed"><span class="passed_spec_name">can list menu_items</span><span class='duration'>0.00491s</span></dd>
+    <script type="text/javascript">moveProgressBar('4.7');</script>
+    <dd class="example passed"><span class="passed_spec_name">can show an active menu_item</span><span class='duration'>0.00611s</span></dd>
+    <script type="text/javascript">moveProgressBar('5.4');</script>
+    <dd class="example passed"><span class="passed_spec_name">cannot create menu_items</span><span class='duration'>0.00429s</span></dd>
+    <script type="text/javascript">moveProgressBar('6.1');</script>
+    <dd class="example passed"><span class="passed_spec_name">cannot update menu_items</span><span class='duration'>0.00650s</span></dd>
+    <script type="text/javascript">moveProgressBar('6.8');</script>
+    <dd class="example passed"><span class="passed_spec_name">cannot delete menu_items</span><span class='duration'>0.00620s</span></dd>
+    <script type="text/javascript">moveProgressBar('7.5');</script>
+    <dd class="example passed"><span class="passed_spec_name">shows only permitted fields</span><span class='duration'>0.00814s</span></dd>
+  </dl>
+</div>
+<div id="div_group_4" class="example_group passed">
+  <dl style="margin-left: 0px;">
+  <dt id="example_group_4" class="passed">Menu — CRUD &amp; Permissions</dt>
+  </dl>
+</div>
+<div id="div_group_5" class="example_group passed">
+  <dl style="margin-left: 15px;">
+  <dt id="example_group_5" class="passed">as restaurant_admin</dt>
+    <script type="text/javascript">moveProgressBar('8.2');</script>
+    <dd class="example passed"><span class="passed_spec_name">can list menus</span><span class='duration'>0.00529s</span></dd>
+    <script type="text/javascript">moveProgressBar('8.9');</script>
+    <dd class="example passed"><span class="passed_spec_name">can show menus</span><span class='duration'>0.00572s</span></dd>
+    <script type="text/javascript">moveProgressBar('9.5');</script>
+    <dd class="example passed"><span class="passed_spec_name">can create menus</span><span class='duration'>0.00626s</span></dd>
+    <script type="text/javascript">moveProgressBar('10.2');</script>
+    <dd class="example passed"><span class="passed_spec_name">can update menus</span><span class='duration'>0.00667s</span></dd>
+    <script type="text/javascript">moveProgressBar('10.9');</script>
+    <dd class="example passed"><span class="passed_spec_name">can delete menus</span><span class='duration'>0.00709s</span></dd>
+  </dl>
+</div>
+<div id="div_group_6" class="example_group passed">
+  <dl style="margin-left: 15px;">
+  <dt id="example_group_6" class="passed">as customer (customer route)</dt>
+    <script type="text/javascript">moveProgressBar('11.6');</script>
+    <dd class="example passed"><span class="passed_spec_name">can list menus</span><span class='duration'>0.00486s</span></dd>
+    <script type="text/javascript">moveProgressBar('12.3');</script>
+    <dd class="example passed"><span class="passed_spec_name">can show menus</span><span class='duration'>0.00573s</span></dd>
+    <script type="text/javascript">moveProgressBar('13.0');</script>
+    <dd class="example passed"><span class="passed_spec_name">cannot create menus</span><span class='duration'>0.00492s</span></dd>
+    <script type="text/javascript">moveProgressBar('13.6');</script>
+    <dd class="example passed"><span class="passed_spec_name">cannot update menus</span><span class='duration'>0.00618s</span></dd>
+    <script type="text/javascript">moveProgressBar('14.3');</script>
+    <dd class="example passed"><span class="passed_spec_name">cannot delete menus</span><span class='duration'>0.00609s</span></dd>
+    <script type="text/javascript">moveProgressBar('15.0');</script>
+    <dd class="example passed"><span class="passed_spec_name">shows only permitted fields</span><span class='duration'>0.00538s</span></dd>
+  </dl>
+</div>
+<div id="div_group_7" class="example_group passed">
+  <dl style="margin-left: 0px;">
+  <dt id="example_group_7" class="passed">OrderItem — CRUD &amp; Permissions</dt>
+  </dl>
+</div>
+<div id="div_group_8" class="example_group passed">
+  <dl style="margin-left: 15px;">
+  <dt id="example_group_8" class="passed">as restaurant_admin</dt>
+    <script type="text/javascript">moveProgressBar('15.7');</script>
+    <dd class="example passed"><span class="passed_spec_name">can list order_items</span><span class='duration'>0.00585s</span></dd>
+    <script type="text/javascript">moveProgressBar('16.4');</script>
+    <dd class="example passed"><span class="passed_spec_name">can show order_items</span><span class='duration'>0.01527s</span></dd>
+    <script type="text/javascript">moveProgressBar('17.1');</script>
+    <dd class="example passed"><span class="passed_spec_name">cannot create order_items</span><span class='duration'>0.00609s</span></dd>
+    <script type="text/javascript">moveProgressBar('17.8');</script>
+    <dd class="example passed"><span class="passed_spec_name">cannot update order_items</span><span class='duration'>0.01146s</span></dd>
+    <script type="text/javascript">moveProgressBar('18.4');</script>
+    <dd class="example passed"><span class="passed_spec_name">cannot delete order_items</span><span class='duration'>0.01140s</span></dd>
+  </dl>
+</div>
+<div id="div_group_9" class="example_group passed">
+  <dl style="margin-left: 15px;">
+  <dt id="example_group_9" class="passed">as customer (customer route)</dt>
+    <script type="text/javascript">moveProgressBar('19.1');</script>
+    <dd class="example passed"><span class="passed_spec_name">can list own order_items</span><span class='duration'>0.00566s</span></dd>
+    <script type="text/javascript">moveProgressBar('19.8');</script>
+    <dd class="example passed"><span class="passed_spec_name">can show own order_item</span><span class='duration'>0.00695s</span></dd>
+    <script type="text/javascript">moveProgressBar('20.5');</script>
+    <dd class="example passed"><span class="passed_spec_name">can create order_items</span><span class='duration'>0.01963s</span></dd>
+    <script type="text/javascript">moveProgressBar('21.2');</script>
+    <dd class="example passed"><span class="passed_spec_name">can update own order_item</span><span class='duration'>0.00950s</span></dd>
+    <script type="text/javascript">moveProgressBar('21.9');</script>
+    <dd class="example passed"><span class="passed_spec_name">can delete own order_item</span><span class='duration'>0.00804s</span></dd>
+    <script type="text/javascript">moveProgressBar('22.6');</script>
+    <dd class="example passed"><span class="passed_spec_name">shows only permitted fields</span><span class='duration'>0.00731s</span></dd>
+  </dl>
+</div>
+<div id="div_group_10" class="example_group passed">
+  <dl style="margin-left: 0px;">
+  <dt id="example_group_10" class="passed">Order — CRUD &amp; Permissions</dt>
+  </dl>
+</div>
+<div id="div_group_11" class="example_group passed">
+  <dl style="margin-left: 15px;">
+  <dt id="example_group_11" class="passed">as restaurant_admin</dt>
+    <script type="text/javascript">moveProgressBar('23.2');</script>
+    <dd class="example passed"><span class="passed_spec_name">can list orders</span><span class='duration'>0.00570s</span></dd>
+    <script type="text/javascript">moveProgressBar('23.9');</script>
+    <dd class="example passed"><span class="passed_spec_name">can show orders</span><span class='duration'>0.00899s</span></dd>
+    <script type="text/javascript">moveProgressBar('24.6');</script>
+    <dd class="example passed"><span class="passed_spec_name">can update orders</span><span class='duration'>0.01189s</span></dd>
+    <script type="text/javascript">moveProgressBar('25.3');</script>
+    <dd class="example passed"><span class="passed_spec_name">cannot create orders</span><span class='duration'>0.00560s</span></dd>
+    <script type="text/javascript">moveProgressBar('26.0');</script>
+    <dd class="example passed"><span class="passed_spec_name">cannot delete orders</span><span class='duration'>0.00849s</span></dd>
+  </dl>
+</div>
+<div id="div_group_12" class="example_group passed">
+  <dl style="margin-left: 15px;">
+  <dt id="example_group_12" class="passed">as customer (customer route)</dt>
+    <script type="text/javascript">moveProgressBar('26.7');</script>
+    <dd class="example passed"><span class="passed_spec_name">can list own orders</span><span class='duration'>0.00554s</span></dd>
+    <script type="text/javascript">moveProgressBar('27.3');</script>
+    <dd class="example passed"><span class="passed_spec_name">can show own order</span><span class='duration'>0.00575s</span></dd>
+    <script type="text/javascript">moveProgressBar('28.0');</script>
+    <dd class="example passed"><span class="passed_spec_name">can create orders</span><span class='duration'>0.00697s</span></dd>
+    <script type="text/javascript">moveProgressBar('28.7');</script>
+    <dd class="example passed"><span class="passed_spec_name">can update own order</span><span class='duration'>0.00625s</span></dd>
+    <script type="text/javascript">moveProgressBar('29.4');</script>
+    <dd class="example passed"><span class="passed_spec_name">can delete own order</span><span class='duration'>0.00585s</span></dd>
+    <script type="text/javascript">moveProgressBar('30.1');</script>
+    <dd class="example passed"><span class="passed_spec_name">shows only permitted fields</span><span class='duration'>0.00555s</span></dd>
+  </dl>
+</div>
+<div id="div_group_13" class="example_group passed">
+  <dl style="margin-left: 0px;">
+  <dt id="example_group_13" class="passed">Auth</dt>
+    <script type="text/javascript">moveProgressBar('30.8');</script>
+    <dd class="example passed"><span class="passed_spec_name">logs in with valid credentials and returns token</span><span class='duration'>0.00594s</span></dd>
+    <script type="text/javascript">moveProgressBar('31.5');</script>
+    <dd class="example passed"><span class="passed_spec_name">rejects login with invalid credentials</span><span class='duration'>0.00300s</span></dd>
+    <script type="text/javascript">moveProgressBar('32.1');</script>
+    <dd class="example passed"><span class="passed_spec_name">rejects login with non-existent email</span><span class='duration'>0.00078s</span></dd>
+    <script type="text/javascript">moveProgressBar('32.8');</script>
+    <dd class="example passed"><span class="passed_spec_name">requires authentication to access protected endpoints</span><span class='duration'>0.00168s</span></dd>
+    <script type="text/javascript">moveProgressBar('33.5');</script>
+    <dd class="example passed"><span class="passed_spec_name">can logout</span><span class='duration'>0.00346s</span></dd>
+  </dl>
+</div>
+<div id="div_group_14" class="example_group passed">
+  <dl style="margin-left: 0px;">
+  <dt id="example_group_14" class="passed">Comments</dt>
+    <script type="text/javascript">moveProgressBar('34.2');</script>
+    <dd class="example passed"><span class="passed_spec_name">admin can create a comment</span><span class='duration'>0.02662s</span></dd>
+    <script type="text/javascript">moveProgressBar('34.9');</script>
+    <dd class="example passed"><span class="passed_spec_name">auto-sets user_id on comment creation</span><span class='duration'>0.01424s</span></dd>
+    <script type="text/javascript">moveProgressBar('35.6');</script>
+    <dd class="example passed"><span class="passed_spec_name">comment has a uuid</span><span class='duration'>0.01641s</span></dd>
+    <script type="text/javascript">moveProgressBar('36.3');</script>
+    <dd class="example passed"><span class="passed_spec_name">admin can list comments</span><span class='duration'>0.01334s</span></dd>
+    <script type="text/javascript">moveProgressBar('36.9');</script>
+    <dd class="example passed"><span class="passed_spec_name">member can create a comment</span><span class='duration'>0.03042s</span></dd>
+    <script type="text/javascript">moveProgressBar('37.6');</script>
+    <dd class="example passed"><span class="passed_spec_name">viewer cannot create a comment</span><span class='duration'>0.01260s</span></dd>
+  </dl>
+</div>
+<div id="div_group_15" class="example_group passed">
+  <dl style="margin-left: 0px;">
+  <dt id="example_group_15" class="passed">Cross-tenant isolation</dt>
+  </dl>
+</div>
+<div id="div_group_16" class="example_group passed">
+  <dl style="margin-left: 15px;">
+  <dt id="example_group_16" class="passed">Menu tenant isolation</dt>
+    <script type="text/javascript">moveProgressBar('38.3');</script>
+    <dd class="example passed"><span class="passed_spec_name">index excludes menus from other org</span><span class='duration'>0.01822s</span></dd>
+    <script type="text/javascript">moveProgressBar('39.0');</script>
+    <dd class="example passed"><span class="passed_spec_name">show returns 404 for menu belonging to other org</span><span class='duration'>0.01779s</span></dd>
+    <script type="text/javascript">moveProgressBar('39.7');</script>
+    <dd class="example passed"><span class="passed_spec_name">update returns 404 for menu belonging to other org</span><span class='duration'>0.01948s</span></dd>
+    <script type="text/javascript">moveProgressBar('40.4');</script>
+    <dd class="example passed"><span class="passed_spec_name">destroy returns 404 for menu belonging to other org</span><span class='duration'>0.01971s</span></dd>
+    <script type="text/javascript">moveProgressBar('41.0');</script>
+    <dd class="example passed"><span class="passed_spec_name">create places menu in authenticated org, not a crafted org_id</span><span class='duration'>0.01880s</span></dd>
+    <script type="text/javascript">moveProgressBar('41.7');</script>
+    <dd class="example passed"><span class="passed_spec_name">accessing other org endpoint returns 404 even with valid credentials</span><span class='duration'>0.01406s</span></dd>
+  </dl>
+</div>
+<div id="div_group_17" class="example_group passed">
+  <dl style="margin-left: 15px;">
+  <dt id="example_group_17" class="passed">MenuItem tenant isolation</dt>
+    <script type="text/javascript">moveProgressBar('42.4');</script>
+    <dd class="example passed"><span class="passed_spec_name">index excludes menu_items from other org</span><span class='duration'>0.01758s</span></dd>
+    <script type="text/javascript">moveProgressBar('43.1');</script>
+    <dd class="example passed"><span class="passed_spec_name">show returns 404 for menu_item in other org&#39;s menu</span><span class='duration'>0.01727s</span></dd>
+    <script type="text/javascript">moveProgressBar('43.8');</script>
+    <dd class="example passed"><span class="passed_spec_name">update returns 404 for menu_item in other org&#39;s menu</span><span class='duration'>0.02360s</span></dd>
+    <script type="text/javascript">moveProgressBar('44.5');</script>
+    <dd class="example passed"><span class="passed_spec_name">destroy returns 404 for menu_item in other org&#39;s menu</span><span class='duration'>0.01944s</span></dd>
+  </dl>
+</div>
+<div id="div_group_18" class="example_group passed">
+  <dl style="margin-left: 15px;">
+  <dt id="example_group_18" class="passed">Order tenant isolation</dt>
+    <script type="text/javascript">moveProgressBar('45.2');</script>
+    <dd class="example passed"><span class="passed_spec_name">index excludes orders from other org</span><span class='duration'>0.01694s</span></dd>
+    <script type="text/javascript">moveProgressBar('45.8');</script>
+    <dd class="example passed"><span class="passed_spec_name">show returns 404 for order belonging to other org</span><span class='duration'>0.01672s</span></dd>
+    <script type="text/javascript">moveProgressBar('46.5');</script>
+    <dd class="example passed"><span class="passed_spec_name">update returns 404 for order belonging to other org</span><span class='duration'>0.01672s</span></dd>
+    <script type="text/javascript">moveProgressBar('47.2');</script>
+    <dd class="example passed"><span class="passed_spec_name">destroy returns 404 for order belonging to other org</span><span class='duration'>0.01723s</span></dd>
+    <script type="text/javascript">moveProgressBar('47.9');</script>
+    <dd class="example passed"><span class="passed_spec_name">create places order in authenticated org, ignores crafted org_id</span><span class='duration'>0.01687s</span></dd>
+    <script type="text/javascript">moveProgressBar('48.6');</script>
+    <dd class="example passed"><span class="passed_spec_name">accessing other org endpoint returns 404 even with valid credentials</span><span class='duration'>0.01437s</span></dd>
+  </dl>
+</div>
+<div id="div_group_19" class="example_group passed">
+  <dl style="margin-left: 15px;">
+  <dt id="example_group_19" class="passed">OrderItem tenant isolation</dt>
+    <script type="text/javascript">moveProgressBar('49.3');</script>
+    <dd class="example passed"><span class="passed_spec_name">index excludes order_items from other org</span><span class='duration'>0.02000s</span></dd>
+    <script type="text/javascript">moveProgressBar('50.0');</script>
+    <dd class="example passed"><span class="passed_spec_name">show returns 404 for order_item in other org&#39;s order</span><span class='duration'>0.02273s</span></dd>
+    <script type="text/javascript">moveProgressBar('50.6');</script>
+    <dd class="example passed"><span class="passed_spec_name">update returns 404 for order_item in other org&#39;s order</span><span class='duration'>0.01880s</span></dd>
+    <script type="text/javascript">moveProgressBar('51.3');</script>
+    <dd class="example passed"><span class="passed_spec_name">destroy returns 404 for order_item in other org&#39;s order</span><span class='duration'>0.01963s</span></dd>
+  </dl>
+</div>
+<div id="div_group_20" class="example_group passed">
+  <dl style="margin-left: 15px;">
+  <dt id="example_group_20" class="passed">Customer order isolation</dt>
+    <script type="text/javascript">moveProgressBar('52.0');</script>
+    <dd class="example passed"><span class="passed_spec_name">customer index only returns own orders, not another customer&#39;s</span><span class='duration'>0.01602s</span></dd>
+    <script type="text/javascript">moveProgressBar('52.7');</script>
+    <dd class="example passed"><span class="passed_spec_name">customer cannot show another customer&#39;s order (404)</span><span class='duration'>0.01744s</span></dd>
+    <script type="text/javascript">moveProgressBar('53.4');</script>
+    <dd class="example passed"><span class="passed_spec_name">customer cannot update another customer&#39;s order (404)</span><span class='duration'>0.01749s</span></dd>
+    <script type="text/javascript">moveProgressBar('54.1');</script>
+    <dd class="example passed"><span class="passed_spec_name">customer cannot destroy another customer&#39;s order (404)</span><span class='duration'>0.01639s</span></dd>
+  </dl>
+</div>
+<div id="div_group_21" class="example_group passed">
+  <dl style="margin-left: 15px;">
+  <dt id="example_group_21" class="passed">Customer order_item isolation</dt>
+    <script type="text/javascript">moveProgressBar('54.7');</script>
+    <dd class="example passed"><span class="passed_spec_name">customer index only returns order_items from own orders</span><span class='duration'>0.01693s</span></dd>
+    <script type="text/javascript">moveProgressBar('55.4');</script>
+    <dd class="example passed"><span class="passed_spec_name">customer cannot show another customer&#39;s order_item (404)</span><span class='duration'>0.02223s</span></dd>
+    <script type="text/javascript">moveProgressBar('56.1');</script>
+    <dd class="example passed"><span class="passed_spec_name">customer cannot update another customer&#39;s order_item (404)</span><span class='duration'>0.01931s</span></dd>
+    <script type="text/javascript">moveProgressBar('56.8');</script>
+    <dd class="example passed"><span class="passed_spec_name">customer cannot destroy another customer&#39;s order_item (404)</span><span class='duration'>0.02114s</span></dd>
+  </dl>
+</div>
+<div id="div_group_22" class="example_group passed">
+  <dl style="margin-left: 15px;">
+  <dt id="example_group_22" class="passed">Unauthenticated access</dt>
+    <script type="text/javascript">moveProgressBar('57.5');</script>
+    <dd class="example passed"><span class="passed_spec_name">tenant route without auth returns 401</span><span class='duration'>0.01541s</span></dd>
+    <script type="text/javascript">moveProgressBar('58.2');</script>
+    <dd class="example passed"><span class="passed_spec_name">customer route without auth returns 401</span><span class='duration'>0.01481s</span></dd>
+  </dl>
+</div>
+<div id="div_group_23" class="example_group passed">
+  <dl style="margin-left: 0px;">
+  <dt id="example_group_23" class="passed">Customer scope behavior</dt>
+    <script type="text/javascript">moveProgressBar('58.9');</script>
+    <dd class="example passed"><span class="passed_spec_name">customer index returns only active menu_items</span><span class='duration'>0.01548s</span></dd>
+    <script type="text/javascript">moveProgressBar('59.5');</script>
+    <dd class="example passed"><span class="passed_spec_name">customer cannot show a draft menu_item (404)</span><span class='duration'>0.01660s</span></dd>
+    <script type="text/javascript">moveProgressBar('60.2');</script>
+    <dd class="example passed"><span class="passed_spec_name">customer CAN show an active menu_item</span><span class='duration'>0.01469s</span></dd>
+    <script type="text/javascript">moveProgressBar('60.9');</script>
+    <dd class="example passed"><span class="passed_spec_name">admin index returns both active and draft menu_items</span><span class='duration'>0.01745s</span></dd>
+    <script type="text/javascript">moveProgressBar('61.6');</script>
+    <dd class="example passed"><span class="passed_spec_name">admin can show a draft menu_item</span><span class='duration'>0.01948s</span></dd>
+    <script type="text/javascript">moveProgressBar('62.3');</script>
+    <dd class="example passed"><span class="passed_spec_name">customer cannot create a menu_item</span><span class='duration'>0.02007s</span></dd>
+    <script type="text/javascript">moveProgressBar('63.0');</script>
+    <dd class="example passed"><span class="passed_spec_name">customer cannot update a menu_item</span><span class='duration'>0.01871s</span></dd>
+    <script type="text/javascript">moveProgressBar('63.6');</script>
+    <dd class="example passed"><span class="passed_spec_name">customer cannot destroy a menu_item</span><span class='duration'>0.03669s</span></dd>
+    <script type="text/javascript">moveProgressBar('64.3');</script>
+    <dd class="example passed"><span class="passed_spec_name">customer only sees menus for their org</span><span class='duration'>0.04853s</span></dd>
+    <script type="text/javascript">moveProgressBar('65.0');</script>
+    <dd class="example passed"><span class="passed_spec_name">customer from other org cannot see this org&#39;s active items</span><span class='duration'>0.03183s</span></dd>
+  </dl>
+</div>
+<div id="div_group_24" class="example_group passed">
+  <dl style="margin-left: 0px;">
+  <dt id="example_group_24" class="passed">Labels</dt>
+    <script type="text/javascript">moveProgressBar('65.7');</script>
+    <dd class="example passed"><span class="passed_spec_name">admin can create a label</span><span class='duration'>0.02084s</span></dd>
+    <script type="text/javascript">moveProgressBar('66.4');</script>
+    <dd class="example passed"><span class="passed_spec_name">admin can list labels</span><span class='duration'>0.01348s</span></dd>
+    <script type="text/javascript">moveProgressBar('67.1');</script>
+    <dd class="example passed"><span class="passed_spec_name">admin can update a label</span><span class='duration'>0.01463s</span></dd>
+    <script type="text/javascript">moveProgressBar('67.8');</script>
+    <dd class="example passed"><span class="passed_spec_name">admin can soft-delete a label</span><span class='duration'>0.01984s</span></dd>
+    <script type="text/javascript">moveProgressBar('68.4');</script>
+    <dd class="example passed"><span class="passed_spec_name">force-delete route does not exist for labels</span><span class='duration'>0.03108s</span></dd>
+    <script type="text/javascript">moveProgressBar('69.1');</script>
+    <dd class="example passed"><span class="passed_spec_name">member cannot create a label</span><span class='duration'>0.01360s</span></dd>
+    <script type="text/javascript">moveProgressBar('69.8');</script>
+    <dd class="example passed"><span class="passed_spec_name">viewer can list labels</span><span class='duration'>0.01179s</span></dd>
+    <script type="text/javascript">moveProgressBar('70.5');</script>
+    <dd class="example passed"><span class="passed_spec_name">labels are isolated per organization</span><span class='duration'>0.01023s</span></dd>
+  </dl>
+</div>
+<div id="div_group_25" class="example_group passed">
+  <dl style="margin-left: 0px;">
+  <dt id="example_group_25" class="passed">Menus</dt>
+    <script type="text/javascript">moveProgressBar('71.2');</script>
+    <dd class="example passed"><span class="passed_spec_name">admin can list menus</span><span class='duration'>0.00832s</span></dd>
+    <script type="text/javascript">moveProgressBar('71.9');</script>
+    <dd class="example passed"><span class="passed_spec_name">admin can create a menu</span><span class='duration'>0.01165s</span></dd>
+    <script type="text/javascript">moveProgressBar('72.6');</script>
+    <dd class="example passed"><span class="passed_spec_name">admin can update a menu</span><span class='duration'>0.01092s</span></dd>
+    <script type="text/javascript">moveProgressBar('73.2');</script>
+    <dd class="example passed"><span class="passed_spec_name">admin can delete a menu</span><span class='duration'>0.01026s</span></dd>
+  </dl>
+</div>
+<div id="div_group_26" class="example_group passed">
+  <dl style="margin-left: 0px;">
+  <dt id="example_group_26" class="passed">MenuItems</dt>
+    <script type="text/javascript">moveProgressBar('73.9');</script>
+    <dd class="example passed"><span class="passed_spec_name">admin can list menu_items</span><span class='duration'>0.01013s</span></dd>
+    <script type="text/javascript">moveProgressBar('74.6');</script>
+    <dd class="example passed"><span class="passed_spec_name">admin can create a menu_item</span><span class='duration'>0.01092s</span></dd>
+    <script type="text/javascript">moveProgressBar('75.3');</script>
+    <dd class="example passed"><span class="passed_spec_name">admin can publish a menu_item (draft → active)</span><span class='duration'>0.01118s</span></dd>
+    <script type="text/javascript">moveProgressBar('76.0');</script>
+    <dd class="example passed"><span class="passed_spec_name">admin can delete a menu_item</span><span class='duration'>0.00967s</span></dd>
+  </dl>
+</div>
+<div id="div_group_27" class="example_group passed">
+  <dl style="margin-left: 0px;">
+  <dt id="example_group_27" class="passed">Orders (tenant group)</dt>
+    <script type="text/javascript">moveProgressBar('76.7');</script>
+    <dd class="example passed"><span class="passed_spec_name">admin can list all orders for the org</span><span class='duration'>0.01354s</span></dd>
+    <script type="text/javascript">moveProgressBar('77.3');</script>
+    <dd class="example passed"><span class="passed_spec_name">admin can show an order</span><span class='duration'>0.01371s</span></dd>
+    <script type="text/javascript">moveProgressBar('78.0');</script>
+    <dd class="example passed"><span class="passed_spec_name">admin can update order status</span><span class='duration'>0.01577s</span></dd>
+  </dl>
+</div>
+<div id="div_group_28" class="example_group passed">
+  <dl style="margin-left: 0px;">
+  <dt id="example_group_28" class="passed">Orders (customer group)</dt>
+    <script type="text/javascript">moveProgressBar('78.7');</script>
+    <dd class="example passed"><span class="passed_spec_name">customer can create an order</span><span class='duration'>0.01149s</span></dd>
+    <script type="text/javascript">moveProgressBar('79.4');</script>
+    <dd class="example passed"><span class="passed_spec_name">customer can list own orders</span><span class='duration'>0.01056s</span></dd>
+    <script type="text/javascript">moveProgressBar('80.1');</script>
+    <dd class="example passed"><span class="passed_spec_name">customer can show own order</span><span class='duration'>0.01089s</span></dd>
+    <script type="text/javascript">moveProgressBar('80.8');</script>
+    <dd class="example passed"><span class="passed_spec_name">customer can cancel own order</span><span class='duration'>0.01193s</span></dd>
+    <script type="text/javascript">moveProgressBar('81.5');</script>
+    <dd class="example passed"><span class="passed_spec_name">customer can add an order_item to own order</span><span class='duration'>0.01374s</span></dd>
+  </dl>
+</div>
+<div id="div_group_29" class="example_group passed">
+  <dl style="margin-left: 0px;">
+  <dt id="example_group_29" class="passed">Projects</dt>
+    <script type="text/javascript">moveProgressBar('82.1');</script>
+    <dd class="example passed"><span class="passed_spec_name">admin can list projects</span><span class='duration'>0.01505s</span></dd>
+    <script type="text/javascript">moveProgressBar('82.8');</script>
+    <dd class="example passed"><span class="passed_spec_name">admin can create a project</span><span class='duration'>0.01470s</span></dd>
+    <script type="text/javascript">moveProgressBar('83.5');</script>
+    <dd class="example passed"><span class="passed_spec_name">admin can update a project</span><span class='duration'>0.01505s</span></dd>
+    <script type="text/javascript">moveProgressBar('84.2');</script>
+    <dd class="example passed"><span class="passed_spec_name">admin can delete a project</span><span class='duration'>0.01276s</span></dd>
+    <script type="text/javascript">moveProgressBar('84.9');</script>
+    <dd class="example passed"><span class="passed_spec_name">admin sees all fields including budget and internal_notes</span><span class='duration'>0.01409s</span></dd>
+    <script type="text/javascript">moveProgressBar('85.6');</script>
+    <dd class="example passed"><span class="passed_spec_name">member cannot see budget or internal_notes</span><span class='duration'>0.01438s</span></dd>
+    <script type="text/javascript">moveProgressBar('86.3');</script>
+    <dd class="example passed"><span class="passed_spec_name">viewer cannot see budget or internal_notes</span><span class='duration'>0.01466s</span></dd>
+    <script type="text/javascript">moveProgressBar('86.9');</script>
+    <dd class="example passed"><span class="passed_spec_name">manager cannot set budget when creating a project</span><span class='duration'>0.00983s</span></dd>
+    <script type="text/javascript">moveProgressBar('87.6');</script>
+    <dd class="example passed"><span class="passed_spec_name">member cannot create a project</span><span class='duration'>0.00871s</span></dd>
+    <script type="text/javascript">moveProgressBar('88.3');</script>
+    <dd class="example passed"><span class="passed_spec_name">viewer cannot delete a project</span><span class='duration'>0.00985s</span></dd>
+    <script type="text/javascript">moveProgressBar('89.0');</script>
+    <dd class="example passed"><span class="passed_spec_name">cannot access projects from another organization</span><span class='duration'>0.01154s</span></dd>
+    <script type="text/javascript">moveProgressBar('89.7');</script>
+    <dd class="example passed"><span class="passed_spec_name">cannot access another organization endpoint</span><span class='duration'>0.00860s</span></dd>
+  </dl>
+</div>
+<div id="div_group_30" class="example_group passed">
+  <dl style="margin-left: 0px;">
+  <dt id="example_group_30" class="passed">Soft Deletes</dt>
+    <script type="text/javascript">moveProgressBar('90.4');</script>
+    <dd class="example passed"><span class="passed_spec_name">admin can view trashed projects</span><span class='duration'>0.01297s</span></dd>
+    <script type="text/javascript">moveProgressBar('91.0');</script>
+    <dd class="example passed"><span class="passed_spec_name">admin can restore a soft-deleted project</span><span class='duration'>0.01355s</span></dd>
+    <script type="text/javascript">moveProgressBar('91.7');</script>
+    <dd class="example passed"><span class="passed_spec_name">admin can force-delete a project</span><span class='duration'>0.01513s</span></dd>
+    <script type="text/javascript">moveProgressBar('92.4');</script>
+    <dd class="example passed"><span class="passed_spec_name">viewer cannot restore a project</span><span class='duration'>0.01119s</span></dd>
+  </dl>
+</div>
+<div id="div_group_31" class="example_group passed">
+  <dl style="margin-left: 0px;">
+  <dt id="example_group_31" class="passed">Tasks</dt>
+    <script type="text/javascript">moveProgressBar('93.1');</script>
+    <dd class="example passed"><span class="passed_spec_name">admin can create a task</span><span class='duration'>0.01608s</span></dd>
+    <script type="text/javascript">moveProgressBar('93.8');</script>
+    <dd class="example passed"><span class="passed_spec_name">admin can list tasks</span><span class='duration'>0.01419s</span></dd>
+    <script type="text/javascript">moveProgressBar('94.5');</script>
+    <dd class="example passed"><span class="passed_spec_name">admin can update a task</span><span class='duration'>0.01758s</span></dd>
+    <script type="text/javascript">moveProgressBar('95.2');</script>
+    <dd class="example passed"><span class="passed_spec_name">admin can delete a task</span><span class='duration'>0.01278s</span></dd>
+    <script type="text/javascript">moveProgressBar('95.8');</script>
+    <dd class="example passed"><span class="passed_spec_name">member only sees tasks assigned to them</span><span class='duration'>0.01568s</span></dd>
+    <script type="text/javascript">moveProgressBar('96.5');</script>
+    <dd class="example passed"><span class="passed_spec_name">admin sees estimated_hours</span><span class='duration'>0.01278s</span></dd>
+    <script type="text/javascript">moveProgressBar('97.2');</script>
+    <dd class="example passed"><span class="passed_spec_name">member cannot see estimated_hours</span><span class='duration'>0.01439s</span></dd>
+    <script type="text/javascript">moveProgressBar('97.9');</script>
+    <dd class="example passed"><span class="passed_spec_name">member can update task status and description</span><span class='duration'>0.01672s</span></dd>
+    <script type="text/javascript">moveProgressBar('98.6');</script>
+    <dd class="example passed"><span class="passed_spec_name">member cannot update task title (forbidden field)</span><span class='duration'>0.01215s</span></dd>
+    <script type="text/javascript">moveProgressBar('99.3');</script>
+    <dd class="example passed"><span class="passed_spec_name">member cannot create a task</span><span class='duration'>0.00908s</span></dd>
+    <script type="text/javascript">moveProgressBar('100.0');</script>
+    <dd class="example passed"><span class="passed_spec_name">viewer cannot update a task</span><span class='duration'>0.01028s</span></dd>
+  </dl>
+</div>
+<script type="text/javascript">document.getElementById('duration').innerHTML = "Finished in <strong>1.99557 seconds</strong>";</script>
+<script type="text/javascript">document.getElementById('totals').innerHTML = "146 examples, 0 failures";</script>
+</div>
+</div>
+</body>
+</html>
