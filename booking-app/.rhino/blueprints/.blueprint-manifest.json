@@ -1,0 +1,66 @@
+{
+  "version": 1,
+  "generated_at": "2026-07-16T16:50:53-04:00",
+  "files": {
+    "blogs.yaml": {
+      "content_hash": "2aa140c30ec9ef26618450d9cf18900e35fe52c57f27a93fd2f5e0a8b993d71f",
+      "generated_files": [
+        "app/models/blog.rb",
+        "db/migrate/20260713192620_create_blogs.rb",
+        "spec/factories/blogs.rb",
+        "app/models/scopes/blog_scope.rb",
+        "app/policies/blog_policy.rb",
+        "spec/models/blog_spec.rb"
+      ],
+      "generated_at": "2026-07-13T15:26:20-04:00"
+    },
+    "services.yaml": {
+      "content_hash": "05cd98f373bc5de46ea096721e135d53f7efb610e4b332407befec54fb67424f",
+      "generated_files": [
+        "app/models/service.rb",
+        "db/migrate/20260716205053_create_services.rb",
+        "spec/factories/services.rb",
+        "app/models/scopes/service_scope.rb",
+        "app/policies/service_policy.rb",
+        "spec/models/service_spec.rb"
+      ],
+      "generated_at": "2026-07-16T16:50:53-04:00"
+    },
+    "staff_members.yaml": {
+      "content_hash": "50b40b9480b811795e920c942b0582b394e39b0a2a72a760eee64e2923ae1ab0",
+      "generated_files": [
+        "app/models/staff_member.rb",
+        "db/migrate/20260716205054_create_staff_members.rb",
+        "spec/factories/staff_members.rb",
+        "app/models/scopes/staff_member_scope.rb",
+        "app/policies/staff_member_policy.rb",
+        "spec/models/staff_member_spec.rb"
+      ],
+      "generated_at": "2026-07-16T16:50:53-04:00"
+    },
+    "time_slots.yaml": {
+      "content_hash": "d2242c970fee87440d5b89288626af448bbb622404b03afaff7ecb4dbca39e33",
+      "generated_files": [
+        "app/models/time_slot.rb",
+        "db/migrate/20260716205055_create_time_slots.rb",
+        "spec/factories/time_slots.rb",
+        "app/models/scopes/time_slot_scope.rb",
+        "app/policies/time_slot_policy.rb",
+        "spec/models/time_slot_spec.rb"
+      ],
+      "generated_at": "2026-07-16T16:50:53-04:00"
+    },
+    "bookings.yaml": {
+      "content_hash": "97f67abce959c6c37580ecc81432b298271f55f98b21d3157eaa0907b066caa8",
+      "generated_files": [
+        "app/models/booking.rb",
+        "db/migrate/20260716205056_create_bookings.rb",
+        "spec/factories/bookings.rb",
+        "app/models/scopes/booking_scope.rb",
+        "app/policies/booking_policy.rb",
+        "spec/models/booking_spec.rb"
+      ],
+      "generated_at": "2026-07-16T16:50:53-04:00"
+    }
+  }
+}

@@ -1,0 +1,71 @@
+model: TimeSlot
+slug: time_slots
+table: time_slots
+
+options:
+  belongs_to_organization: true
+  soft_deletes: false
+  audit_trail: false
+  pagination: true
+  per_page: 25
+
+columns:
+  service_id:
+    type: foreignId
+    foreign_model: Service
+    nullable: false
+    index: true
+  staff_member_id:
+    type: foreignId
+    foreign_model: StaffMember
+    nullable: true
+    index: true
+  starts_at:
+    type: datetime
+    nullable: false
+  ends_at:
+    type: datetime
+    nullable: false
+  available:
+    type: boolean
+    default: true
+    nullable: false
+    filterable: true
+
+relationships:
+  - type: belongsTo
+    model: Organization
+  - type: belongsTo
+    model: Service
+  - type: belongsTo
+    model: StaffMember
+  - type: hasOne
+    model: Booking
+
+permissions:
+  owner:
+    actions: [index, show, store, update, destroy]
+    show_fields: "*"
+    create_fields: "*"
+    update_fields: "*"
+  admin:
+    actions: [index, show, store, update, destroy]
+    show_fields: "*"
+    create_fields: "*"
+    update_fields: "*"
+  staff:
+    actions: [index, show, store, update]
+    show_fields: "*"
+    create_fields: "*"
+    update_fields: "*"
+  customer:
+    actions: [index, show]
+    show_fields:
+      - id
+      - service_id
+      - staff_member_id
+      - starts_at
+      - ends_at
+      - available
+    create_fields: []
+    update_fields: []

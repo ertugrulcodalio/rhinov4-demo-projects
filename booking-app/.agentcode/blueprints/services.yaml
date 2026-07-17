@@ -1,0 +1,71 @@
+model: Service
+slug: services
+table: services
+
+options:
+  belongs_to_organization: true
+  soft_deletes: false
+  audit_trail: false
+  pagination: true
+  per_page: 25
+
+columns:
+  name:
+    type: string
+    nullable: false
+    searchable: true
+  description:
+    type: text
+    nullable: true
+    searchable: true
+  duration_minutes:
+    type: integer
+    nullable: true
+  price:
+    type: decimal
+    nullable: true
+    precision: 10
+    scale: 2
+  status:
+    type: string
+    default: "draft"
+    nullable: false
+    filterable: true
+
+relationships:
+  - type: belongsTo
+    model: Organization
+  - type: hasMany
+    model: TimeSlot
+
+permissions:
+  owner:
+    actions: [index, show, store, update, destroy]
+    show_fields: "*"
+    create_fields: "*"
+    update_fields: "*"
+  admin:
+    actions: [index, show, store, update, destroy]
+    show_fields: "*"
+    create_fields: "*"
+    update_fields: "*"
+  staff:
+    actions: [index, show, store, update]
+    show_fields: "*"
+    create_fields: "*"
+    update_fields:
+      - name
+      - description
+      - duration_minutes
+      - price
+  customer:
+    actions: [index, show]
+    show_fields:
+      - id
+      - name
+      - description
+      - duration_minutes
+      - price
+      - status
+    create_fields: []
+    update_fields: []

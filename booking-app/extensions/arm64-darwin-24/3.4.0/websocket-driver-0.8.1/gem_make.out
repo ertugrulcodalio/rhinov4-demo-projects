@@ -1,0 +1,18 @@
+current directory: /Users/ertugrulsahin/Codalio/demo-project-v4/booking-app/gems/websocket-driver-0.8.1/ext/websocket-driver
+/Users/ertugrulsahin/.rbenv/versions/3.4.7/bin/ruby extconf.rb
+creating Makefile
+
+current directory: /Users/ertugrulsahin/Codalio/demo-project-v4/booking-app/gems/websocket-driver-0.8.1/ext/websocket-driver
+make DESTDIR\= sitearchdir\=./.gem.20260716-36696-jotpr2 sitelibdir\=./.gem.20260716-36696-jotpr2 clean
+
+current directory: /Users/ertugrulsahin/Codalio/demo-project-v4/booking-app/gems/websocket-driver-0.8.1/ext/websocket-driver
+make DESTDIR\= sitearchdir\=./.gem.20260716-36696-jotpr2 sitelibdir\=./.gem.20260716-36696-jotpr2
+compiling websocket_mask.c
+linking shared-object websocket_mask.bundle
+
+current directory: /Users/ertugrulsahin/Codalio/demo-project-v4/booking-app/gems/websocket-driver-0.8.1/ext/websocket-driver
+make DESTDIR\= sitearchdir\=./.gem.20260716-36696-jotpr2 sitelibdir\=./.gem.20260716-36696-jotpr2 install
+/opt/homebrew/bin/ginstall -c -m 0755 websocket_mask.bundle ./.gem.20260716-36696-jotpr2
+
+current directory: /Users/ertugrulsahin/Codalio/demo-project-v4/booking-app/gems/websocket-driver-0.8.1/ext/websocket-driver
+make DESTDIR\= sitearchdir\=./.gem.20260716-36696-jotpr2 sitelibdir\=./.gem.20260716-36696-jotpr2 clean

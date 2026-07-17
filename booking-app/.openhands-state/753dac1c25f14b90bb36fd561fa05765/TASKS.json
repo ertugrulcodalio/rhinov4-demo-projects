@@ -1,0 +1,37 @@
+[
+  {
+    "title": "Read acceptance criteria and plan",
+    "notes": "Read and analyze acceptance-criteria.json and .rhino-plan.md to understand the requirements.",
+    "status": "done"
+  },
+  {
+    "title": "Map ACs to tests",
+    "notes": "Map each acceptance criterion to existing or new tests.",
+    "status": "done"
+  },
+  {
+    "title": "Read existing tests and factories",
+    "notes": "Examine existing tests, factories, and helpers in the codebase.",
+    "status": "in_progress"
+  },
+  {
+    "title": "Write feature and isolation tests",
+    "notes": "Write comprehensive integration/feature tests for all ACs, including isolation and Extras.",
+    "status": "todo"
+  },
+  {
+    "title": "Run tests and fix failures",
+    "notes": "Run the test suite and iterate on fixing any failures.",
+    "status": "todo"
+  },
+  {
+    "title": "Update AC status to tested",
+    "notes": "Update the status of each AC in acceptance-criteria.json to 'tested'.",
+    "status": "todo"
+  },
+  {
+    "title": "Verify coverage and finish",
+    "notes": "Perform a final verification of test coverage and complete the stage.",
+    "status": "todo"
+  }
+]

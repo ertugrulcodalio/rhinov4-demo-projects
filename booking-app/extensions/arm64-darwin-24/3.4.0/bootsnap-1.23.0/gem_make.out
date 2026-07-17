@@ -1,0 +1,23 @@
+current directory: /Users/ertugrulsahin/Codalio/demo-project-v4/booking-app/gems/bootsnap-1.23.0/ext/bootsnap
+/Users/ertugrulsahin/.rbenv/versions/3.4.7/bin/ruby extconf.rb
+checking for fdatasync() in unistd.h... yes
+checking for fstatat() in sys/stat.h... yes
+checking for whether -D_GNU_SOURCE is accepted as CPPFLAGS... yes
+checking for whether -O3 is accepted as CFLAGS... yes
+checking for whether -std=c99 is accepted as CFLAGS... yes
+creating Makefile
+
+current directory: /Users/ertugrulsahin/Codalio/demo-project-v4/booking-app/gems/bootsnap-1.23.0/ext/bootsnap
+make DESTDIR\= sitearchdir\=./.gem.20260716-36696-50w9dq sitelibdir\=./.gem.20260716-36696-50w9dq clean
+
+current directory: /Users/ertugrulsahin/Codalio/demo-project-v4/booking-app/gems/bootsnap-1.23.0/ext/bootsnap
+make DESTDIR\= sitearchdir\=./.gem.20260716-36696-50w9dq sitelibdir\=./.gem.20260716-36696-50w9dq
+compiling bootsnap.c
+linking shared-object bootsnap/bootsnap.bundle
+
+current directory: /Users/ertugrulsahin/Codalio/demo-project-v4/booking-app/gems/bootsnap-1.23.0/ext/bootsnap
+make DESTDIR\= sitearchdir\=./.gem.20260716-36696-50w9dq sitelibdir\=./.gem.20260716-36696-50w9dq install
+/opt/homebrew/bin/ginstall -c -m 0755 bootsnap.bundle ./.gem.20260716-36696-50w9dq/bootsnap
+
+current directory: /Users/ertugrulsahin/Codalio/demo-project-v4/booking-app/gems/bootsnap-1.23.0/ext/bootsnap
+make DESTDIR\= sitearchdir\=./.gem.20260716-36696-50w9dq sitelibdir\=./.gem.20260716-36696-50w9dq clean

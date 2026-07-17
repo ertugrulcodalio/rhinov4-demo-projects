@@ -1,0 +1,27 @@
+[
+  {
+    "title": "PRD integrity audit",
+    "notes": "Analyze the PRD and UI prototype for consistency and gaps, then write .codalio/prd-integrity-report.json",
+    "status": "done"
+  },
+  {
+    "title": "Data model design",
+    "notes": "Design the database schema, models, relationships, and multi-tenancy ownership",
+    "status": "done"
+  },
+  {
+    "title": "Permissions and Extras design",
+    "notes": "Define roles, permissions, and identify Extras (custom policies, validations, etc.)",
+    "status": "done"
+  },
+  {
+    "title": "Screens and UI handoff mapping",
+    "notes": "Map screens, routes, hooks, and actions, and write .codalio/ui-handoff.json if prototype exists",
+    "status": "done"
+  },
+  {
+    "title": "Acceptance criteria and remaining artifacts",
+    "notes": "Generate acceptance-criteria.json, .rhino-plan.md, and .codalio/index.json",
+    "status": "done"
+  }
+]

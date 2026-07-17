@@ -1,0 +1,51 @@
+model: StaffMember
+slug: staff_members
+table: staff_members
+
+options:
+  belongs_to_organization: true
+  soft_deletes: false
+  audit_trail: false
+  pagination: true
+  per_page: 25
+
+columns:
+  name:
+    type: string
+    nullable: false
+    searchable: true
+  email:
+    type: string
+    nullable: true
+    searchable: true
+  role_title:
+    type: string
+    nullable: true
+
+relationships:
+  - type: belongsTo
+    model: Organization
+  - type: hasMany
+    model: TimeSlot
+
+permissions:
+  owner:
+    actions: [index, show, store, update, destroy]
+    show_fields: "*"
+    create_fields: "*"
+    update_fields: "*"
+  admin:
+    actions: [index, show, store, update, destroy]
+    show_fields: "*"
+    create_fields: "*"
+    update_fields: "*"
+  staff:
+    actions: [index, show]
+    show_fields: "*"
+    create_fields: []
+    update_fields: []
+  customer:
+    actions: []
+    show_fields: []
+    create_fields: []
+    update_fields: []

@@ -1,0 +1,162 @@
+{
+  "criteria": [
+    {
+      "id": "AC-1",
+      "name": "Two co-existing Rhino route groups: multi-tenant for staff (/api/:organization/) and single-tenant for customers (/api/customer/)",
+      "user_story": "Hybrid Tenancy Route Groups",
+      "status": "pending",
+      "subtasks": [
+        "Configure route groups in config/routes.rb",
+        "Configure ResolveOrganizationFromRoute middleware in config/initializers/rhino.rb"
+      ]
+    },
+    {
+      "id": "AC-2",
+      "name": "Staff can create and manage services with a status field (active / draft / inactive). Only active services are visible to customers.",
+      "user_story": "Service Management",
+      "status": "pending",
+      "subtasks": [
+        "Create services blueprint in .agentcode/blueprints/services.yaml",
+        "Verify Service model validations and status enum in app/models/service.rb"
+      ]
+    },
+    {
+      "id": "AC-3",
+      "name": "Organizations manage their staff roster. Staff members are org-scoped and not visible on the customer route.",
+      "user_story": "Staff Members Management",
+      "status": "pending",
+      "subtasks": [
+        "Create staff_members blueprint in .agentcode/blueprints/staff_members.yaml",
+        "Verify StaffMember model validations in app/models/staff_member.rb"
+      ]
+    },
+    {
+      "id": "AC-4",
+      "name": "Staff create available time slots linked to a service and optionally a staff member. Slots have an available boolean. Only available slots are visible to customers.",
+      "user_story": "Time Slot Management",
+      "status": "pending",
+      "subtasks": [
+        "Create time_slots blueprint in .agentcode/blueprints/time_slots.yaml",
+        "Verify TimeSlot model validations in app/models/time_slot.rb"
+      ]
+    },
+    {
+      "id": "AC-5",
+      "name": "Customers browse active services and available time slots, then create bookings referencing a time slot. A booking marks the slot as unavailable.",
+      "user_story": "Customer Booking Creation",
+      "status": "pending",
+      "subtasks": [
+        "Create bookings blueprint in .agentcode/blueprints/bookings.yaml",
+        "Add after_create callback in app/models/booking.rb to mark the associated TimeSlot as unavailable"
+      ]
+    },
+    {
+      "id": "AC-6",
+      "name": "Bookings progress through states (pending -> confirmed -> completed -> cancelled). Staff can update any booking status. Customers can only cancel their own pending bookings.",
+      "user_story": "Booking Lifecycle",
+      "status": "pending",
+      "subtasks": [
+        "Add status validation and state transition checks in app/models/booking.rb",
+        "Implement custom update policy in app/policies/booking_policy.rb to restrict customer updates to cancelling pending bookings"
+      ]
+    },
+    {
+      "id": "AC-7",
+      "name": "The organization route enforces organization_id scoping on all owned models. Org A staff cannot see, update, or delete Org B's resources (returns 404 not 403).",
+      "user_story": "Cross-Tenant Isolation",
+      "status": "pending",
+      "subtasks": [
+        "Verify rhino_owner :organization is set on Service, StaffMember, TimeSlot, and Booking models",
+        "Write cross-tenant isolation tests in test/models/cross_tenant_isolation_test.rb"
+      ]
+    },
+    {
+      "id": "AC-8",
+      "name": "The customer route enforces current_user scoping on bookings. Customer A cannot see, update, or delete Customer B's bookings (returns 404).",
+      "user_story": "Cross-User Isolation",
+      "status": "pending",
+      "subtasks": [
+        "Implement BookingScope in app/models/scopes/booking_scope.rb to filter by current_user.id on customer route",
+        "Write cross-user isolation tests in test/models/cross_user_isolation_test.rb"
+      ]
+    },
+    {
+      "id": "AC-9",
+      "name": "Customers never see draft or inactive services; customers never see unavailable time slots.",
+      "user_story": "Draft/Inactive Hiding",
+      "status": "pending",
+      "subtasks": [
+        "Implement ServiceScope in app/models/scopes/service_scope.rb to filter to status: active on customer route",
+        "Implement TimeSlotScope in app/models/scopes/time_slot_scope.rb to filter to available: true on customer route"
+      ]
+    },
+    {
+      "id": "AC-10",
+      "name": "Customers see only active services and available slots from their organization.",
+      "user_story": "Active-Only Customer Catalog",
+      "status": "pending",
+      "subtasks": [
+        "Verify ServiceScope and TimeSlotScope correctly filter by organization context on customer route",
+        "Write catalog visibility tests in test/models/catalog_visibility_test.rb"
+      ]
+    },
+    {
+      "id": "AC-11",
+      "name": "Customers cannot create, update, or delete services, staff members, or time slots.",
+      "user_story": "Staff Write Protection",
+      "status": "pending",
+      "subtasks": [
+        "Verify customer role permissions in services.yaml, staff_members.yaml, and time_slots.yaml blueprints",
+        "Write write protection tests in test/policies/write_protection_test.rb"
+      ]
+    },
+    {
+      "id": "AC-12",
+      "name": "Cross-org index returns 200 with empty or filtered list, never 404.",
+      "user_story": "Index Exclusion",
+      "status": "pending",
+      "subtasks": [
+        "Verify index actions return empty array or filtered list instead of raising RecordNotFound",
+        "Write index exclusion tests in test/controllers/index_exclusion_test.rb"
+      ]
+    },
+    {
+      "id": "AC-13",
+      "name": "All routes return 401 without a valid token.",
+      "user_story": "Unauthenticated Access",
+      "status": "pending",
+      "subtasks": [
+        "Verify authenticate_user! or equivalent auth guard is active on all API routes",
+        "Write unauthenticated access tests in test/controllers/unauthenticated_access_test.rb"
+      ]
+    },
+    {
+      "id": "AC-14",
+      "name": "Seed the specified users, organizations, roles, and sample data.",
+      "user_story": "Seed Data",
+      "status": "pending",
+      "subtasks": [
+        "Implement db/seeds.rb to create ClipMaster, HealWell, and the specified admin, staff, and customer users with correct roles"
+      ]
+    },
+    {
+      "id": "AC-15",
+      "name": "The time_slots table has organization_id and is properly scoped to ensure robust multi-tenant isolation.",
+      "user_story": "Gap compensation: Time Slot Organization ID (DATA_MODEL_UX_MISMATCH)",
+      "compensated_from_gap": "DATA_MODEL_UX_MISMATCH",
+      "status": "pending",
+      "subtasks": [
+        "Add organization_id to time_slots blueprint and migration",
+        "Verify TimeSlot belongs_to :organization and has rhino_owner :organization"
+      ]
+    }
+  ],
+  "updated_at": "2026-07-16T23:44:41.275489+00:00",
+  "compliance": {
+    "implemented": 0,
+    "partial": 0,
+    "missing": 15,
+    "total": 15,
+    "score": 0.0
+  }
+}

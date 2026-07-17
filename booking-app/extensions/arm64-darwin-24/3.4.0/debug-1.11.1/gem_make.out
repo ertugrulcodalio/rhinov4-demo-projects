@@ -1,0 +1,19 @@
+current directory: /Users/ertugrulsahin/Codalio/demo-project-v4/booking-app/gems/debug-1.11.1/ext/debug
+/Users/ertugrulsahin/.rbenv/versions/3.4.7/bin/ruby extconf.rb
+creating Makefile
+
+current directory: /Users/ertugrulsahin/Codalio/demo-project-v4/booking-app/gems/debug-1.11.1/ext/debug
+make DESTDIR\= sitearchdir\=./.gem.20260716-36696-bt1xr4 sitelibdir\=./.gem.20260716-36696-bt1xr4 clean
+
+current directory: /Users/ertugrulsahin/Codalio/demo-project-v4/booking-app/gems/debug-1.11.1/ext/debug
+make DESTDIR\= sitearchdir\=./.gem.20260716-36696-bt1xr4 sitelibdir\=./.gem.20260716-36696-bt1xr4
+compiling debug.c
+compiling iseq_collector.c
+linking shared-object debug/debug.bundle
+
+current directory: /Users/ertugrulsahin/Codalio/demo-project-v4/booking-app/gems/debug-1.11.1/ext/debug
+make DESTDIR\= sitearchdir\=./.gem.20260716-36696-bt1xr4 sitelibdir\=./.gem.20260716-36696-bt1xr4 install
+/opt/homebrew/bin/ginstall -c -m 0755 debug.bundle ./.gem.20260716-36696-bt1xr4/debug
+
+current directory: /Users/ertugrulsahin/Codalio/demo-project-v4/booking-app/gems/debug-1.11.1/ext/debug
+make DESTDIR\= sitearchdir\=./.gem.20260716-36696-bt1xr4 sitelibdir\=./.gem.20260716-36696-bt1xr4 clean

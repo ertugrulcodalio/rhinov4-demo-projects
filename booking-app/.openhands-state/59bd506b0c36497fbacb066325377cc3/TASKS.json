@@ -1,0 +1,37 @@
+[
+  {
+    "title": "Read inputs",
+    "notes": "Read inputs: acceptance-criteria.json, .rhino-plan.md, etc.",
+    "status": "done"
+  },
+  {
+    "title": "Inventory the suites",
+    "notes": "Inventory the suites (backend, Cypress)",
+    "status": "done"
+  },
+  {
+    "title": "Read backend test logs",
+    "notes": "Read pre-generated backend test logs",
+    "status": "done"
+  },
+  {
+    "title": "Check and run Cypress suite",
+    "notes": "Check for Cypress suite and run if exists",
+    "status": "done"
+  },
+  {
+    "title": "Compute coverage",
+    "notes": "Compute coverage for each suite",
+    "status": "done"
+  },
+  {
+    "title": "Map results to criteria",
+    "notes": "Map results to acceptance criteria and update status",
+    "status": "done"
+  },
+  {
+    "title": "Write report and update criteria",
+    "notes": "Write review report and update acceptance-criteria.json",
+    "status": "done"
+  }
+]

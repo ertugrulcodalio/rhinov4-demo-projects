@@ -1,0 +1,13 @@
+roles:
+  owner:
+    name: Owner
+    description: "Full access to everything including billing and user management"
+  admin:
+    name: Admin
+    description: "Operational admin. Full CRUD on all resources"
+  staff:
+    name: Staff
+    description: "Can manage availability and update booking status, cannot delete services"
+  customer:
+    name: Customer
+    description: "Can browse active services and time slots, create and manage own bookings"

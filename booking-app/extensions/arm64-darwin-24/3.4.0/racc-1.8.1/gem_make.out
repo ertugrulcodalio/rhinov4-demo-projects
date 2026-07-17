@@ -1,0 +1,18 @@
+current directory: /Users/ertugrulsahin/Codalio/demo-project-v4/booking-app/gems/racc-1.8.1/ext/racc/cparse
+/Users/ertugrulsahin/.rbenv/versions/3.4.7/bin/ruby extconf.rb
+creating Makefile
+
+current directory: /Users/ertugrulsahin/Codalio/demo-project-v4/booking-app/gems/racc-1.8.1/ext/racc/cparse
+make DESTDIR\= sitearchdir\=./.gem.20260716-36696-2403oe sitelibdir\=./.gem.20260716-36696-2403oe clean
+
+current directory: /Users/ertugrulsahin/Codalio/demo-project-v4/booking-app/gems/racc-1.8.1/ext/racc/cparse
+make DESTDIR\= sitearchdir\=./.gem.20260716-36696-2403oe sitelibdir\=./.gem.20260716-36696-2403oe
+compiling cparse.c
+linking shared-object racc/cparse.bundle
+
+current directory: /Users/ertugrulsahin/Codalio/demo-project-v4/booking-app/gems/racc-1.8.1/ext/racc/cparse
+make DESTDIR\= sitearchdir\=./.gem.20260716-36696-2403oe sitelibdir\=./.gem.20260716-36696-2403oe install
+/opt/homebrew/bin/ginstall -c -m 0755 cparse.bundle ./.gem.20260716-36696-2403oe/racc
+
+current directory: /Users/ertugrulsahin/Codalio/demo-project-v4/booking-app/gems/racc-1.8.1/ext/racc/cparse
+make DESTDIR\= sitearchdir\=./.gem.20260716-36696-2403oe sitelibdir\=./.gem.20260716-36696-2403oe clean

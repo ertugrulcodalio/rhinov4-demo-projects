@@ -1,0 +1,2697 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <title>RSpec results</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Expires" content="-1" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <style type="text/css">
+  body {
+    margin: 0;
+    padding: 0;
+    background: #fff;
+    font-size: 80%;
+  }
+  </style>
+  <script type="text/javascript">
+    // <![CDATA[
+
+function addClass(element_id, classname) {
+  document.getElementById(element_id).className += (" " + classname);
+}
+
+function removeClass(element_id, classname) {
+  var elem = document.getElementById(element_id);
+  var classlist = elem.className.replace(classname,'');
+  elem.className = classlist;
+}
+
+function moveProgressBar(percentDone) {
+  document.getElementById("rspec-header").style.width = percentDone +"%";
+}
+
+function makeRed(element_id) {
+  removeClass(element_id, 'passed');
+  removeClass(element_id, 'not_implemented');
+  addClass(element_id,'failed');
+}
+
+function makeYellow(element_id) {
+  var elem = document.getElementById(element_id);
+  if (elem.className.indexOf("failed") == -1) {  // class doesn't includes failed
+    if (elem.className.indexOf("not_implemented") == -1) { // class doesn't include not_implemented
+      removeClass(element_id, 'passed');
+      addClass(element_id,'not_implemented');
+    }
+  }
+}
+
+function apply_filters() {
+  var passed_filter = document.getElementById('passed_checkbox').checked;
+  var failed_filter = document.getElementById('failed_checkbox').checked;
+  var pending_filter = document.getElementById('pending_checkbox').checked;
+
+  assign_display_style("example passed", passed_filter);
+  assign_display_style("example failed", failed_filter);
+  assign_display_style("example not_implemented", pending_filter);
+
+  assign_display_style_for_group("example_group passed", passed_filter);
+  assign_display_style_for_group("example_group not_implemented", pending_filter, pending_filter || passed_filter);
+  assign_display_style_for_group("example_group failed", failed_filter, failed_filter || pending_filter || passed_filter);
+}
+
+function get_display_style(display_flag) {
+  var style_mode = 'none';
+  if (display_flag == true) {
+    style_mode = 'block';
+  }
+  return style_mode;
+}
+
+function assign_display_style(classname, display_flag) {
+  var style_mode = get_display_style(display_flag);
+  var elems = document.getElementsByClassName(classname)
+  for (var i=0; i<elems.length;i++) {
+    elems[i].style.display = style_mode;
+  }
+}
+
+function assign_display_style_for_group(classname, display_flag, subgroup_flag) {
+  var display_style_mode = get_display_style(display_flag);
+  var subgroup_style_mode = get_display_style(subgroup_flag);
+  var elems = document.getElementsByClassName(classname)
+  for (var i=0; i<elems.length;i++) {
+    var style_mode = display_style_mode;
+    if ((display_flag != subgroup_flag) && (elems[i].getElementsByTagName('dt')[0].innerHTML.indexOf(", ") != -1)) {
+      elems[i].style.display = subgroup_style_mode;
+    } else {
+      elems[i].style.display = display_style_mode;
+    }
+  }
+}
+
+    // ]]>
+  </script>
+  <style type="text/css">
+#rspec-header {
+  background: #65C400; color: #fff; height: 4em;
+}
+
+.rspec-report h1 {
+  margin: 0px 10px 0px 10px;
+  padding: 10px;
+  font-family: "Lucida Grande", Helvetica, sans-serif;
+  font-size: 1.8em;
+  position: absolute;
+}
+
+#label {
+  float:left;
+}
+
+#display-filters {
+  float:left;
+  padding: 28px 0 0 40%;
+  font-family: "Lucida Grande", Helvetica, sans-serif;
+}
+
+#summary {
+  float:right;
+  padding: 5px 10px;
+  font-family: "Lucida Grande", Helvetica, sans-serif;
+  text-align: right;
+}
+
+#summary p {
+  margin: 0 0 0 2px;
+}
+
+#summary #totals {
+  font-size: 1.2em;
+}
+
+.example_group {
+  margin: 0 10px 5px;
+  background: #fff;
+}
+
+dl {
+  margin: 0; padding: 0 0 5px;
+  font: normal 11px "Lucida Grande", Helvetica, sans-serif;
+}
+
+dt {
+  padding: 3px;
+  background: #65C400;
+  color: #fff;
+  font-weight: bold;
+}
+
+dd {
+  margin: 5px 0 5px 5px;
+  padding: 3px 3px 3px 18px;
+}
+
+dd .duration {
+  padding-left: 5px;
+  text-align: right;
+  right: 0px;
+  float:right;
+}
+
+dd.example.passed {
+  border-left: 5px solid #65C400;
+  border-bottom: 1px solid #65C400;
+  background: #DBFFB4; color: #3D7700;
+}
+
+dd.example.not_implemented {
+  border-left: 5px solid #FAF834;
+  border-bottom: 1px solid #FAF834;
+  background: #FCFB98; color: #131313;
+}
+
+dd.example.pending_fixed {
+  border-left: 5px solid #0000C2;
+  border-bottom: 1px solid #0000C2;
+  color: #0000C2; background: #D3FBFF;
+}
+
+dd.example.failed {
+  border-left: 5px solid #C20000;
+  border-bottom: 1px solid #C20000;
+  color: #C20000; background: #FFFBD3;
+}
+
+
+dt.not_implemented {
+  color: #000000; background: #FAF834;
+}
+
+dt.pending_fixed {
+  color: #FFFFFF; background: #C40D0D;
+}
+
+dt.failed {
+  color: #FFFFFF; background: #C40D0D;
+}
+
+
+#rspec-header.not_implemented {
+  color: #000000; background: #FAF834;
+}
+
+#rspec-header.pending_fixed {
+  color: #FFFFFF; background: #C40D0D;
+}
+
+#rspec-header.failed {
+  color: #FFFFFF; background: #C40D0D;
+}
+
+
+.backtrace {
+  color: #000;
+  font-size: 12px;
+}
+
+a {
+  color: #BE5C00;
+}
+
+/* Ruby code, style similar to vibrant ink */
+.ruby {
+  font-size: 12px;
+  font-family: monospace;
+  color: white;
+  background-color: black;
+  padding: 0.1em 0 0.2em 0;
+}
+
+.ruby .keyword { color: #FF6600; }
+.ruby .constant { color: #339999; }
+.ruby .attribute { color: white; }
+.ruby .global { color: white; }
+.ruby .module { color: white; }
+.ruby .class { color: white; }
+.ruby .string { color: #66FF00; }
+.ruby .ident { color: white; }
+.ruby .method { color: #FFCC00; }
+.ruby .number { color: white; }
+.ruby .char { color: white; }
+.ruby .comment { color: #9933CC; }
+.ruby .symbol { color: white; }
+.ruby .regex { color: #44B4CC; }
+.ruby .punct { color: white; }
+.ruby .escape { color: white; }
+.ruby .interp { color: white; }
+.ruby .expr { color: white; }
+
+.ruby .offending { background-color: gray; }
+.ruby .linenum {
+  width: 75px;
+  padding: 0.1em 1em 0.2em 0;
+  color: #000000;
+  background-color: #FFFBD3;
+}
+
+  </style>
+</head>
+<body>
+<div class="rspec-report">
+
+<div id="rspec-header">
+  <div id="label">
+    <h1>RSpec Code Examples</h1>
+  </div>
+
+  <div id="display-filters">
+    <input id="passed_checkbox"  name="passed_checkbox"  type="checkbox" checked="checked" onchange="apply_filters()" value="1" /> <label for="passed_checkbox">Passed</label>
+    <input id="failed_checkbox"  name="failed_checkbox"  type="checkbox" checked="checked" onchange="apply_filters()" value="2" /> <label for="failed_checkbox">Failed</label>
+    <input id="pending_checkbox" name="pending_checkbox" type="checkbox" checked="checked" onchange="apply_filters()" value="3" /> <label for="pending_checkbox">Pending</label>
+  </div>
+
+  <div id="summary">
+    <p id="totals">&#160;</p>
+    <p id="duration">&#160;</p>
+  </div>
+</div>
+
+
+<div class="results">
+<div id="div_group_1" class="example_group passed">
+  <dl style="margin-left: 0px;">
+  <dt id="example_group_1" class="passed">Blog — CRUD &amp; Permissions</dt>
+  </dl>
+</div>
+<div id="div_group_2" class="example_group passed">
+  <dl style="margin-left: 15px;">
+  <dt id="example_group_2" class="passed">as admin</dt>
+    <script type="text/javascript">makeRed('rspec-header');</script>
+    <script type="text/javascript">makeRed('div_group_2');</script>
+    <script type="text/javascript">makeRed('example_group_2');</script>
+    <script type="text/javascript">moveProgressBar('0.7');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">can list blogs</span>
+      <span class="duration">0.20632s</span>
+      <div class="failure" id="failure_1">
+        <div class="message"><pre>  Failure/Error: expect(response).to have_http_status(:ok)
+    expected the response to have status code :ok (200) but it was :not_found (404)
+  # ./spec/models/blog_spec.rb:31:in &#39;block (3 levels) in &lt;top (required)&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/models/blog_spec.rb:31:in &#39;block (3 levels) in &lt;top (required)&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">29</span>      it 'can list blogs' do
+<span class="linenum">30</span>        get "/api/#{org.slug}/blogs", headers: auth_headers(user)
+<span class="offending"><span class="linenum">31</span>        expect(response).to have_http_status(:ok)</span>
+<span class="linenum">32</span>      end
+<span class="linenum">33</span>
+<span class="linenum">34</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('1.4');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">can show blogs</span>
+      <span class="duration">0.00168s</span>
+      <div class="failure" id="failure_2">
+        <div class="message"><pre>  Failure/Error: let(:record) { create(:blog, organization: org) }
+
+  NameError:
+    uninitialized constant Blog
+  # ./spec/models/blog_spec.rb:27:in &#39;block (3 levels) in &lt;top (required)&gt;&#39;
+  # ./spec/models/blog_spec.rb:35:in &#39;block (3 levels) in &lt;top (required)&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/models/blog_spec.rb:27:in &#39;block (3 levels) in &lt;top (required)&gt;&#39;
+./spec/models/blog_spec.rb:35:in &#39;block (3 levels) in &lt;top (required)&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">25</span>    context 'as admin' do
+<span class="linenum">26</span>      let(:user) { create_user_with_role('admin', org, ['blogs.index', 'blogs.show', 'blogs.store', 'blogs.update', 'blogs.destroy']) }
+<span class="offending"><span class="linenum">27</span>      let(:record) { create(:blog, organization: org) }</span>
+<span class="linenum">28</span>
+<span class="linenum">29</span>      it 'can list blogs' do
+<span class="linenum">30</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('2.1');</script>
+    <dd class="example passed"><span class="passed_spec_name">can create blogs</span><span class='duration'>0.07207s</span></dd>
+    <script type="text/javascript">moveProgressBar('2.8');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">can update blogs</span>
+      <span class="duration">0.00106s</span>
+      <div class="failure" id="failure_3">
+        <div class="message"><pre>  Failure/Error: let(:record) { create(:blog, organization: org) }
+
+  NameError:
+    uninitialized constant Blog
+  # ./spec/models/blog_spec.rb:27:in &#39;block (3 levels) in &lt;top (required)&gt;&#39;
+  # ./spec/models/blog_spec.rb:45:in &#39;block (3 levels) in &lt;top (required)&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/models/blog_spec.rb:27:in &#39;block (3 levels) in &lt;top (required)&gt;&#39;
+./spec/models/blog_spec.rb:45:in &#39;block (3 levels) in &lt;top (required)&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">25</span>    context 'as admin' do
+<span class="linenum">26</span>      let(:user) { create_user_with_role('admin', org, ['blogs.index', 'blogs.show', 'blogs.store', 'blogs.update', 'blogs.destroy']) }
+<span class="offending"><span class="linenum">27</span>      let(:record) { create(:blog, organization: org) }</span>
+<span class="linenum">28</span>
+<span class="linenum">29</span>      it 'can list blogs' do
+<span class="linenum">30</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('3.5');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">can delete blogs</span>
+      <span class="duration">0.00071s</span>
+      <div class="failure" id="failure_4">
+        <div class="message"><pre>  Failure/Error: let(:record) { create(:blog, organization: org) }
+
+  NameError:
+    uninitialized constant Blog
+  # ./spec/models/blog_spec.rb:27:in &#39;block (3 levels) in &lt;top (required)&gt;&#39;
+  # ./spec/models/blog_spec.rb:50:in &#39;block (3 levels) in &lt;top (required)&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/models/blog_spec.rb:27:in &#39;block (3 levels) in &lt;top (required)&gt;&#39;
+./spec/models/blog_spec.rb:50:in &#39;block (3 levels) in &lt;top (required)&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">25</span>    context 'as admin' do
+<span class="linenum">26</span>      let(:user) { create_user_with_role('admin', org, ['blogs.index', 'blogs.show', 'blogs.store', 'blogs.update', 'blogs.destroy']) }
+<span class="offending"><span class="linenum">27</span>      let(:record) { create(:blog, organization: org) }</span>
+<span class="linenum">28</span>
+<span class="linenum">29</span>      it 'can list blogs' do
+<span class="linenum">30</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+  </dl>
+</div>
+<div id="div_group_3" class="example_group passed">
+  <dl style="margin-left: 15px;">
+  <dt id="example_group_3" class="passed">as user</dt>
+    <script type="text/javascript">makeRed('div_group_3');</script>
+    <script type="text/javascript">makeRed('example_group_3');</script>
+    <script type="text/javascript">moveProgressBar('4.3');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">can list blogs</span>
+      <span class="duration">0.07512s</span>
+      <div class="failure" id="failure_5">
+        <div class="message"><pre>  Failure/Error: expect(response).to have_http_status(:ok)
+    expected the response to have status code :ok (200) but it was :not_found (404)
+  # ./spec/models/blog_spec.rb:62:in &#39;block (3 levels) in &lt;top (required)&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/models/blog_spec.rb:62:in &#39;block (3 levels) in &lt;top (required)&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">60</span>      it 'can list blogs' do
+<span class="linenum">61</span>        get "/api/#{org.slug}/blogs", headers: auth_headers(user)
+<span class="offending"><span class="linenum">62</span>        expect(response).to have_http_status(:ok)</span>
+<span class="linenum">63</span>      end
+<span class="linenum">64</span>
+<span class="linenum">65</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('5.0');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">can show blogs</span>
+      <span class="duration">0.00110s</span>
+      <div class="failure" id="failure_6">
+        <div class="message"><pre>  Failure/Error: let(:record) { create(:blog, organization: org) }
+
+  NameError:
+    uninitialized constant Blog
+  # ./spec/models/blog_spec.rb:58:in &#39;block (3 levels) in &lt;top (required)&gt;&#39;
+  # ./spec/models/blog_spec.rb:66:in &#39;block (3 levels) in &lt;top (required)&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/models/blog_spec.rb:58:in &#39;block (3 levels) in &lt;top (required)&gt;&#39;
+./spec/models/blog_spec.rb:66:in &#39;block (3 levels) in &lt;top (required)&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">56</span>    context 'as user' do
+<span class="linenum">57</span>      let(:user) { create_user_with_role('user', org, ['blogs.index', 'blogs.show']) }
+<span class="offending"><span class="linenum">58</span>      let(:record) { create(:blog, organization: org) }</span>
+<span class="linenum">59</span>
+<span class="linenum">60</span>      it 'can list blogs' do
+<span class="linenum">61</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('5.7');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">cannot create blogs</span>
+      <span class="duration">0.06268s</span>
+      <div class="failure" id="failure_7">
+        <div class="message"><pre>  Failure/Error: expect(response).to have_http_status(:forbidden)
+    expected the response to have status code :forbidden (403) but it was :not_found (404)
+  # ./spec/models/blog_spec.rb:72:in &#39;block (3 levels) in &lt;top (required)&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/models/blog_spec.rb:72:in &#39;block (3 levels) in &lt;top (required)&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">70</span>      it 'cannot create blogs' do
+<span class="linenum">71</span>        post "/api/#{org.slug}/blogs", headers: auth_headers(user)
+<span class="offending"><span class="linenum">72</span>        expect(response).to have_http_status(:forbidden)</span>
+<span class="linenum">73</span>      end
+<span class="linenum">74</span>
+<span class="linenum">75</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('6.4');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">cannot update blogs</span>
+      <span class="duration">0.00132s</span>
+      <div class="failure" id="failure_8">
+        <div class="message"><pre>  Failure/Error: let(:record) { create(:blog, organization: org) }
+
+  NameError:
+    uninitialized constant Blog
+  # ./spec/models/blog_spec.rb:58:in &#39;block (3 levels) in &lt;top (required)&gt;&#39;
+  # ./spec/models/blog_spec.rb:76:in &#39;block (3 levels) in &lt;top (required)&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/models/blog_spec.rb:58:in &#39;block (3 levels) in &lt;top (required)&gt;&#39;
+./spec/models/blog_spec.rb:76:in &#39;block (3 levels) in &lt;top (required)&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">56</span>    context 'as user' do
+<span class="linenum">57</span>      let(:user) { create_user_with_role('user', org, ['blogs.index', 'blogs.show']) }
+<span class="offending"><span class="linenum">58</span>      let(:record) { create(:blog, organization: org) }</span>
+<span class="linenum">59</span>
+<span class="linenum">60</span>      it 'can list blogs' do
+<span class="linenum">61</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('7.1');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">cannot delete blogs</span>
+      <span class="duration">0.00074s</span>
+      <div class="failure" id="failure_9">
+        <div class="message"><pre>  Failure/Error: let(:record) { create(:blog, organization: org) }
+
+  NameError:
+    uninitialized constant Blog
+  # ./spec/models/blog_spec.rb:58:in &#39;block (3 levels) in &lt;top (required)&gt;&#39;
+  # ./spec/models/blog_spec.rb:81:in &#39;block (3 levels) in &lt;top (required)&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/models/blog_spec.rb:58:in &#39;block (3 levels) in &lt;top (required)&gt;&#39;
+./spec/models/blog_spec.rb:81:in &#39;block (3 levels) in &lt;top (required)&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">56</span>    context 'as user' do
+<span class="linenum">57</span>      let(:user) { create_user_with_role('user', org, ['blogs.index', 'blogs.show']) }
+<span class="offending"><span class="linenum">58</span>      let(:record) { create(:blog, organization: org) }</span>
+<span class="linenum">59</span>
+<span class="linenum">60</span>      it 'can list blogs' do
+<span class="linenum">61</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+  </dl>
+</div>
+<div id="div_group_4" class="example_group passed">
+  <dl style="margin-left: 0px;">
+  <dt id="example_group_4" class="passed">Booking — CRUD &amp; Permissions</dt>
+  </dl>
+</div>
+<div id="div_group_5" class="example_group passed">
+  <dl style="margin-left: 15px;">
+  <dt id="example_group_5" class="passed">as owner</dt>
+    <script type="text/javascript">moveProgressBar('7.9');</script>
+    <dd class="example passed"><span class="passed_spec_name">can list bookings</span><span class='duration'>0.01108s</span></dd>
+    <script type="text/javascript">makeRed('div_group_5');</script>
+    <script type="text/javascript">makeRed('example_group_5');</script>
+    <script type="text/javascript">moveProgressBar('8.6');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">can show bookings</span>
+      <span class="duration">0.00841s</span>
+      <div class="failure" id="failure_10">
+        <div class="message"><pre>  Failure/Error: name { Faker::Name.name }
+
+  NameError:
+    uninitialized constant Faker
+  # ./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/booking_spec.rb:27:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/booking_spec.rb:35:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/booking_spec.rb:27:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/booking_spec.rb:35:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">3</span>FactoryBot.define do
+<span class="linenum">4</span>  factory :service do
+<span class="offending"><span class="linenum">5</span>    name { Faker::Name.name }</span>
+<span class="linenum">6</span>    description { Faker::Lorem.paragraph }
+<span class="linenum">7</span>    duration_minutes { Faker::Number.between(from: 1, to: 100) }
+<span class="linenum">8</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('9.3');</script>
+    <dd class="example passed"><span class="passed_spec_name">can create bookings</span><span class='duration'>0.00867s</span></dd>
+    <script type="text/javascript">moveProgressBar('10.0');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">can update bookings</span>
+      <span class="duration">0.00237s</span>
+      <div class="failure" id="failure_11">
+        <div class="message"><pre>  Failure/Error: name { Faker::Name.name }
+
+  NameError:
+    uninitialized constant Faker
+  # ./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/booking_spec.rb:27:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/booking_spec.rb:45:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/booking_spec.rb:27:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/booking_spec.rb:45:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">3</span>FactoryBot.define do
+<span class="linenum">4</span>  factory :service do
+<span class="offending"><span class="linenum">5</span>    name { Faker::Name.name }</span>
+<span class="linenum">6</span>    description { Faker::Lorem.paragraph }
+<span class="linenum">7</span>    duration_minutes { Faker::Number.between(from: 1, to: 100) }
+<span class="linenum">8</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('10.7');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">can delete bookings</span>
+      <span class="duration">0.00209s</span>
+      <div class="failure" id="failure_12">
+        <div class="message"><pre>  Failure/Error: name { Faker::Name.name }
+
+  NameError:
+    uninitialized constant Faker
+  # ./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/booking_spec.rb:27:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/booking_spec.rb:50:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/booking_spec.rb:27:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/booking_spec.rb:50:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">3</span>FactoryBot.define do
+<span class="linenum">4</span>  factory :service do
+<span class="offending"><span class="linenum">5</span>    name { Faker::Name.name }</span>
+<span class="linenum">6</span>    description { Faker::Lorem.paragraph }
+<span class="linenum">7</span>    duration_minutes { Faker::Number.between(from: 1, to: 100) }
+<span class="linenum">8</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+  </dl>
+</div>
+<div id="div_group_6" class="example_group passed">
+  <dl style="margin-left: 15px;">
+  <dt id="example_group_6" class="passed">as admin</dt>
+    <script type="text/javascript">moveProgressBar('11.5');</script>
+    <dd class="example passed"><span class="passed_spec_name">can list bookings</span><span class='duration'>0.00465s</span></dd>
+    <script type="text/javascript">makeRed('div_group_6');</script>
+    <script type="text/javascript">makeRed('example_group_6');</script>
+    <script type="text/javascript">moveProgressBar('12.2');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">can show bookings</span>
+      <span class="duration">0.00224s</span>
+      <div class="failure" id="failure_13">
+        <div class="message"><pre>  Failure/Error: name { Faker::Name.name }
+
+  NameError:
+    uninitialized constant Faker
+  # ./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/booking_spec.rb:58:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/booking_spec.rb:66:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/booking_spec.rb:58:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/booking_spec.rb:66:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">3</span>FactoryBot.define do
+<span class="linenum">4</span>  factory :service do
+<span class="offending"><span class="linenum">5</span>    name { Faker::Name.name }</span>
+<span class="linenum">6</span>    description { Faker::Lorem.paragraph }
+<span class="linenum">7</span>    duration_minutes { Faker::Number.between(from: 1, to: 100) }
+<span class="linenum">8</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('12.9');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">can update bookings</span>
+      <span class="duration">0.00227s</span>
+      <div class="failure" id="failure_14">
+        <div class="message"><pre>  Failure/Error: name { Faker::Name.name }
+
+  NameError:
+    uninitialized constant Faker
+  # ./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/booking_spec.rb:58:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/booking_spec.rb:71:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/booking_spec.rb:58:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/booking_spec.rb:71:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">3</span>FactoryBot.define do
+<span class="linenum">4</span>  factory :service do
+<span class="offending"><span class="linenum">5</span>    name { Faker::Name.name }</span>
+<span class="linenum">6</span>    description { Faker::Lorem.paragraph }
+<span class="linenum">7</span>    duration_minutes { Faker::Number.between(from: 1, to: 100) }
+<span class="linenum">8</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('13.6');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">can delete bookings</span>
+      <span class="duration">0.00201s</span>
+      <div class="failure" id="failure_15">
+        <div class="message"><pre>  Failure/Error: name { Faker::Name.name }
+
+  NameError:
+    uninitialized constant Faker
+  # ./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/booking_spec.rb:58:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/booking_spec.rb:76:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/booking_spec.rb:58:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/booking_spec.rb:76:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">3</span>FactoryBot.define do
+<span class="linenum">4</span>  factory :service do
+<span class="offending"><span class="linenum">5</span>    name { Faker::Name.name }</span>
+<span class="linenum">6</span>    description { Faker::Lorem.paragraph }
+<span class="linenum">7</span>    duration_minutes { Faker::Number.between(from: 1, to: 100) }
+<span class="linenum">8</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('14.3');</script>
+    <dd class="example passed"><span class="passed_spec_name">cannot create bookings</span><span class='duration'>0.00470s</span></dd>
+  </dl>
+</div>
+<div id="div_group_7" class="example_group passed">
+  <dl style="margin-left: 15px;">
+  <dt id="example_group_7" class="passed">as staff</dt>
+    <script type="text/javascript">moveProgressBar('15.1');</script>
+    <dd class="example passed"><span class="passed_spec_name">can list bookings</span><span class='duration'>0.00410s</span></dd>
+    <script type="text/javascript">makeRed('div_group_7');</script>
+    <script type="text/javascript">makeRed('example_group_7');</script>
+    <script type="text/javascript">moveProgressBar('15.8');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">can show bookings</span>
+      <span class="duration">0.00219s</span>
+      <div class="failure" id="failure_16">
+        <div class="message"><pre>  Failure/Error: name { Faker::Name.name }
+
+  NameError:
+    uninitialized constant Faker
+  # ./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/booking_spec.rb:89:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/booking_spec.rb:97:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/booking_spec.rb:89:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/booking_spec.rb:97:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">3</span>FactoryBot.define do
+<span class="linenum">4</span>  factory :service do
+<span class="offending"><span class="linenum">5</span>    name { Faker::Name.name }</span>
+<span class="linenum">6</span>    description { Faker::Lorem.paragraph }
+<span class="linenum">7</span>    duration_minutes { Faker::Number.between(from: 1, to: 100) }
+<span class="linenum">8</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('16.5');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">can update bookings</span>
+      <span class="duration">0.00396s</span>
+      <div class="failure" id="failure_17">
+        <div class="message"><pre>  Failure/Error: name { Faker::Name.name }
+
+  NameError:
+    uninitialized constant Faker
+  # ./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/booking_spec.rb:89:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/booking_spec.rb:102:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/booking_spec.rb:89:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/booking_spec.rb:102:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">3</span>FactoryBot.define do
+<span class="linenum">4</span>  factory :service do
+<span class="offending"><span class="linenum">5</span>    name { Faker::Name.name }</span>
+<span class="linenum">6</span>    description { Faker::Lorem.paragraph }
+<span class="linenum">7</span>    duration_minutes { Faker::Number.between(from: 1, to: 100) }
+<span class="linenum">8</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('17.2');</script>
+    <dd class="example passed"><span class="passed_spec_name">cannot create bookings</span><span class='duration'>0.00486s</span></dd>
+    <script type="text/javascript">moveProgressBar('17.9');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">cannot delete bookings</span>
+      <span class="duration">0.00204s</span>
+      <div class="failure" id="failure_18">
+        <div class="message"><pre>  Failure/Error: name { Faker::Name.name }
+
+  NameError:
+    uninitialized constant Faker
+  # ./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/booking_spec.rb:89:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/booking_spec.rb:112:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/booking_spec.rb:89:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/booking_spec.rb:112:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">3</span>FactoryBot.define do
+<span class="linenum">4</span>  factory :service do
+<span class="offending"><span class="linenum">5</span>    name { Faker::Name.name }</span>
+<span class="linenum">6</span>    description { Faker::Lorem.paragraph }
+<span class="linenum">7</span>    duration_minutes { Faker::Number.between(from: 1, to: 100) }
+<span class="linenum">8</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+  </dl>
+</div>
+<div id="div_group_8" class="example_group passed">
+  <dl style="margin-left: 15px;">
+  <dt id="example_group_8" class="passed">as customer</dt>
+    <script type="text/javascript">moveProgressBar('18.7');</script>
+    <dd class="example passed"><span class="passed_spec_name">can list bookings</span><span class='duration'>0.00457s</span></dd>
+    <script type="text/javascript">makeRed('div_group_8');</script>
+    <script type="text/javascript">makeRed('example_group_8');</script>
+    <script type="text/javascript">moveProgressBar('19.4');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">can show bookings</span>
+      <span class="duration">0.00269s</span>
+      <div class="failure" id="failure_19">
+        <div class="message"><pre>  Failure/Error: name { Faker::Name.name }
+
+  NameError:
+    uninitialized constant Faker
+  # ./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/booking_spec.rb:120:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/booking_spec.rb:128:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/booking_spec.rb:120:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/booking_spec.rb:128:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">3</span>FactoryBot.define do
+<span class="linenum">4</span>  factory :service do
+<span class="offending"><span class="linenum">5</span>    name { Faker::Name.name }</span>
+<span class="linenum">6</span>    description { Faker::Lorem.paragraph }
+<span class="linenum">7</span>    duration_minutes { Faker::Number.between(from: 1, to: 100) }
+<span class="linenum">8</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('20.1');</script>
+    <dd class="example passed"><span class="passed_spec_name">can create bookings</span><span class='duration'>0.00789s</span></dd>
+    <script type="text/javascript">moveProgressBar('20.8');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">can update bookings</span>
+      <span class="duration">0.00236s</span>
+      <div class="failure" id="failure_20">
+        <div class="message"><pre>  Failure/Error: name { Faker::Name.name }
+
+  NameError:
+    uninitialized constant Faker
+  # ./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/booking_spec.rb:120:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/booking_spec.rb:138:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/booking_spec.rb:120:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/booking_spec.rb:138:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">3</span>FactoryBot.define do
+<span class="linenum">4</span>  factory :service do
+<span class="offending"><span class="linenum">5</span>    name { Faker::Name.name }</span>
+<span class="linenum">6</span>    description { Faker::Lorem.paragraph }
+<span class="linenum">7</span>    duration_minutes { Faker::Number.between(from: 1, to: 100) }
+<span class="linenum">8</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('21.5');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">can delete bookings</span>
+      <span class="duration">0.00202s</span>
+      <div class="failure" id="failure_21">
+        <div class="message"><pre>  Failure/Error: name { Faker::Name.name }
+
+  NameError:
+    uninitialized constant Faker
+  # ./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/booking_spec.rb:120:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/booking_spec.rb:143:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/booking_spec.rb:120:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/booking_spec.rb:143:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">3</span>FactoryBot.define do
+<span class="linenum">4</span>  factory :service do
+<span class="offending"><span class="linenum">5</span>    name { Faker::Name.name }</span>
+<span class="linenum">6</span>    description { Faker::Lorem.paragraph }
+<span class="linenum">7</span>    duration_minutes { Faker::Number.between(from: 1, to: 100) }
+<span class="linenum">8</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('22.3');</script>
+    <dd class="example passed"><span class="passed_spec_name">returns 403 when setting restricted fields</span><span class='duration'>0.00490s</span></dd>
+  </dl>
+</div>
+<div id="div_group_9" class="example_group passed">
+  <dl style="margin-left: 0px;">
+  <dt id="example_group_9" class="passed">Service — CRUD &amp; Permissions</dt>
+  </dl>
+</div>
+<div id="div_group_10" class="example_group passed">
+  <dl style="margin-left: 15px;">
+  <dt id="example_group_10" class="passed">as owner</dt>
+    <script type="text/javascript">moveProgressBar('23.0');</script>
+    <dd class="example passed"><span class="passed_spec_name">can list services</span><span class='duration'>0.00603s</span></dd>
+    <script type="text/javascript">makeRed('div_group_10');</script>
+    <script type="text/javascript">makeRed('example_group_10');</script>
+    <script type="text/javascript">moveProgressBar('23.7');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">can show services</span>
+      <span class="duration">0.00072s</span>
+      <div class="failure" id="failure_22">
+        <div class="message"><pre>  Failure/Error: name { Faker::Name.name }
+
+  NameError:
+    uninitialized constant Faker
+  # ./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/service_spec.rb:27:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/service_spec.rb:35:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/service_spec.rb:27:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/service_spec.rb:35:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">3</span>FactoryBot.define do
+<span class="linenum">4</span>  factory :service do
+<span class="offending"><span class="linenum">5</span>    name { Faker::Name.name }</span>
+<span class="linenum">6</span>    description { Faker::Lorem.paragraph }
+<span class="linenum">7</span>    duration_minutes { Faker::Number.between(from: 1, to: 100) }
+<span class="linenum">8</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('24.4');</script>
+    <dd class="example passed"><span class="passed_spec_name">can create services</span><span class='duration'>0.00632s</span></dd>
+    <script type="text/javascript">moveProgressBar('25.1');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">can update services</span>
+      <span class="duration">0.00066s</span>
+      <div class="failure" id="failure_23">
+        <div class="message"><pre>  Failure/Error: name { Faker::Name.name }
+
+  NameError:
+    uninitialized constant Faker
+  # ./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/service_spec.rb:27:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/service_spec.rb:45:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/service_spec.rb:27:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/service_spec.rb:45:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">3</span>FactoryBot.define do
+<span class="linenum">4</span>  factory :service do
+<span class="offending"><span class="linenum">5</span>    name { Faker::Name.name }</span>
+<span class="linenum">6</span>    description { Faker::Lorem.paragraph }
+<span class="linenum">7</span>    duration_minutes { Faker::Number.between(from: 1, to: 100) }
+<span class="linenum">8</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('25.8');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">can delete services</span>
+      <span class="duration">0.00068s</span>
+      <div class="failure" id="failure_24">
+        <div class="message"><pre>  Failure/Error: name { Faker::Name.name }
+
+  NameError:
+    uninitialized constant Faker
+  # ./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/service_spec.rb:27:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/service_spec.rb:50:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/service_spec.rb:27:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/service_spec.rb:50:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">3</span>FactoryBot.define do
+<span class="linenum">4</span>  factory :service do
+<span class="offending"><span class="linenum">5</span>    name { Faker::Name.name }</span>
+<span class="linenum">6</span>    description { Faker::Lorem.paragraph }
+<span class="linenum">7</span>    duration_minutes { Faker::Number.between(from: 1, to: 100) }
+<span class="linenum">8</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+  </dl>
+</div>
+<div id="div_group_11" class="example_group passed">
+  <dl style="margin-left: 15px;">
+  <dt id="example_group_11" class="passed">as admin</dt>
+    <script type="text/javascript">moveProgressBar('26.6');</script>
+    <dd class="example passed"><span class="passed_spec_name">can list services</span><span class='duration'>0.00429s</span></dd>
+    <script type="text/javascript">makeRed('div_group_11');</script>
+    <script type="text/javascript">makeRed('example_group_11');</script>
+    <script type="text/javascript">moveProgressBar('27.3');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">can show services</span>
+      <span class="duration">0.00091s</span>
+      <div class="failure" id="failure_25">
+        <div class="message"><pre>  Failure/Error: name { Faker::Name.name }
+
+  NameError:
+    uninitialized constant Faker
+  # ./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/service_spec.rb:58:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/service_spec.rb:66:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/service_spec.rb:58:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/service_spec.rb:66:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">3</span>FactoryBot.define do
+<span class="linenum">4</span>  factory :service do
+<span class="offending"><span class="linenum">5</span>    name { Faker::Name.name }</span>
+<span class="linenum">6</span>    description { Faker::Lorem.paragraph }
+<span class="linenum">7</span>    duration_minutes { Faker::Number.between(from: 1, to: 100) }
+<span class="linenum">8</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('28.0');</script>
+    <dd class="example passed"><span class="passed_spec_name">can create services</span><span class='duration'>0.00653s</span></dd>
+    <script type="text/javascript">moveProgressBar('28.7');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">can update services</span>
+      <span class="duration">0.00063s</span>
+      <div class="failure" id="failure_26">
+        <div class="message"><pre>  Failure/Error: name { Faker::Name.name }
+
+  NameError:
+    uninitialized constant Faker
+  # ./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/service_spec.rb:58:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/service_spec.rb:76:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/service_spec.rb:58:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/service_spec.rb:76:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">3</span>FactoryBot.define do
+<span class="linenum">4</span>  factory :service do
+<span class="offending"><span class="linenum">5</span>    name { Faker::Name.name }</span>
+<span class="linenum">6</span>    description { Faker::Lorem.paragraph }
+<span class="linenum">7</span>    duration_minutes { Faker::Number.between(from: 1, to: 100) }
+<span class="linenum">8</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('29.4');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">can delete services</span>
+      <span class="duration">0.00063s</span>
+      <div class="failure" id="failure_27">
+        <div class="message"><pre>  Failure/Error: name { Faker::Name.name }
+
+  NameError:
+    uninitialized constant Faker
+  # ./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/service_spec.rb:58:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/service_spec.rb:81:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/service_spec.rb:58:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/service_spec.rb:81:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">3</span>FactoryBot.define do
+<span class="linenum">4</span>  factory :service do
+<span class="offending"><span class="linenum">5</span>    name { Faker::Name.name }</span>
+<span class="linenum">6</span>    description { Faker::Lorem.paragraph }
+<span class="linenum">7</span>    duration_minutes { Faker::Number.between(from: 1, to: 100) }
+<span class="linenum">8</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+  </dl>
+</div>
+<div id="div_group_12" class="example_group passed">
+  <dl style="margin-left: 15px;">
+  <dt id="example_group_12" class="passed">as staff</dt>
+    <script type="text/javascript">moveProgressBar('30.2');</script>
+    <dd class="example passed"><span class="passed_spec_name">can list services</span><span class='duration'>0.00423s</span></dd>
+    <script type="text/javascript">makeRed('div_group_12');</script>
+    <script type="text/javascript">makeRed('example_group_12');</script>
+    <script type="text/javascript">moveProgressBar('30.9');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">can show services</span>
+      <span class="duration">0.00063s</span>
+      <div class="failure" id="failure_28">
+        <div class="message"><pre>  Failure/Error: name { Faker::Name.name }
+
+  NameError:
+    uninitialized constant Faker
+  # ./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/service_spec.rb:89:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/service_spec.rb:97:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/service_spec.rb:89:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/service_spec.rb:97:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">3</span>FactoryBot.define do
+<span class="linenum">4</span>  factory :service do
+<span class="offending"><span class="linenum">5</span>    name { Faker::Name.name }</span>
+<span class="linenum">6</span>    description { Faker::Lorem.paragraph }
+<span class="linenum">7</span>    duration_minutes { Faker::Number.between(from: 1, to: 100) }
+<span class="linenum">8</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('31.6');</script>
+    <dd class="example passed"><span class="passed_spec_name">can create services</span><span class='duration'>0.00752s</span></dd>
+    <script type="text/javascript">moveProgressBar('32.3');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">can update services</span>
+      <span class="duration">0.00072s</span>
+      <div class="failure" id="failure_29">
+        <div class="message"><pre>  Failure/Error: name { Faker::Name.name }
+
+  NameError:
+    uninitialized constant Faker
+  # ./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/service_spec.rb:89:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/service_spec.rb:107:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/service_spec.rb:89:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/service_spec.rb:107:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">3</span>FactoryBot.define do
+<span class="linenum">4</span>  factory :service do
+<span class="offending"><span class="linenum">5</span>    name { Faker::Name.name }</span>
+<span class="linenum">6</span>    description { Faker::Lorem.paragraph }
+<span class="linenum">7</span>    duration_minutes { Faker::Number.between(from: 1, to: 100) }
+<span class="linenum">8</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('33.0');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">cannot delete services</span>
+      <span class="duration">0.00067s</span>
+      <div class="failure" id="failure_30">
+        <div class="message"><pre>  Failure/Error: name { Faker::Name.name }
+
+  NameError:
+    uninitialized constant Faker
+  # ./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/service_spec.rb:89:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/service_spec.rb:112:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/service_spec.rb:89:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/service_spec.rb:112:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">3</span>FactoryBot.define do
+<span class="linenum">4</span>  factory :service do
+<span class="offending"><span class="linenum">5</span>    name { Faker::Name.name }</span>
+<span class="linenum">6</span>    description { Faker::Lorem.paragraph }
+<span class="linenum">7</span>    duration_minutes { Faker::Number.between(from: 1, to: 100) }
+<span class="linenum">8</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+  </dl>
+</div>
+<div id="div_group_13" class="example_group passed">
+  <dl style="margin-left: 15px;">
+  <dt id="example_group_13" class="passed">as customer</dt>
+    <script type="text/javascript">moveProgressBar('33.8');</script>
+    <dd class="example passed"><span class="passed_spec_name">can list services</span><span class='duration'>0.00427s</span></dd>
+    <script type="text/javascript">makeRed('div_group_13');</script>
+    <script type="text/javascript">makeRed('example_group_13');</script>
+    <script type="text/javascript">moveProgressBar('34.5');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">can show services</span>
+      <span class="duration">0.00063s</span>
+      <div class="failure" id="failure_31">
+        <div class="message"><pre>  Failure/Error: name { Faker::Name.name }
+
+  NameError:
+    uninitialized constant Faker
+  # ./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/service_spec.rb:120:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/service_spec.rb:128:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/service_spec.rb:120:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/service_spec.rb:128:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">3</span>FactoryBot.define do
+<span class="linenum">4</span>  factory :service do
+<span class="offending"><span class="linenum">5</span>    name { Faker::Name.name }</span>
+<span class="linenum">6</span>    description { Faker::Lorem.paragraph }
+<span class="linenum">7</span>    duration_minutes { Faker::Number.between(from: 1, to: 100) }
+<span class="linenum">8</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('35.2');</script>
+    <dd class="example passed"><span class="passed_spec_name">cannot create services</span><span class='duration'>0.00399s</span></dd>
+    <script type="text/javascript">moveProgressBar('35.9');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">cannot update services</span>
+      <span class="duration">0.00064s</span>
+      <div class="failure" id="failure_32">
+        <div class="message"><pre>  Failure/Error: name { Faker::Name.name }
+
+  NameError:
+    uninitialized constant Faker
+  # ./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/service_spec.rb:120:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/service_spec.rb:138:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/service_spec.rb:120:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/service_spec.rb:138:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">3</span>FactoryBot.define do
+<span class="linenum">4</span>  factory :service do
+<span class="offending"><span class="linenum">5</span>    name { Faker::Name.name }</span>
+<span class="linenum">6</span>    description { Faker::Lorem.paragraph }
+<span class="linenum">7</span>    duration_minutes { Faker::Number.between(from: 1, to: 100) }
+<span class="linenum">8</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('36.6');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">cannot delete services</span>
+      <span class="duration">0.00061s</span>
+      <div class="failure" id="failure_33">
+        <div class="message"><pre>  Failure/Error: name { Faker::Name.name }
+
+  NameError:
+    uninitialized constant Faker
+  # ./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/service_spec.rb:120:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/service_spec.rb:143:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/service_spec.rb:120:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/service_spec.rb:143:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">3</span>FactoryBot.define do
+<span class="linenum">4</span>  factory :service do
+<span class="offending"><span class="linenum">5</span>    name { Faker::Name.name }</span>
+<span class="linenum">6</span>    description { Faker::Lorem.paragraph }
+<span class="linenum">7</span>    duration_minutes { Faker::Number.between(from: 1, to: 100) }
+<span class="linenum">8</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('37.4');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">shows only permitted fields</span>
+      <span class="duration">0.00061s</span>
+      <div class="failure" id="failure_34">
+        <div class="message"><pre>  Failure/Error: name { Faker::Name.name }
+
+  NameError:
+    uninitialized constant Faker
+  # ./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/service_spec.rb:120:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/service_spec.rb:148:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/service_spec.rb:120:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/service_spec.rb:148:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">3</span>FactoryBot.define do
+<span class="linenum">4</span>  factory :service do
+<span class="offending"><span class="linenum">5</span>    name { Faker::Name.name }</span>
+<span class="linenum">6</span>    description { Faker::Lorem.paragraph }
+<span class="linenum">7</span>    duration_minutes { Faker::Number.between(from: 1, to: 100) }
+<span class="linenum">8</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+  </dl>
+</div>
+<div id="div_group_14" class="example_group passed">
+  <dl style="margin-left: 0px;">
+  <dt id="example_group_14" class="passed">StaffMember — CRUD &amp; Permissions</dt>
+  </dl>
+</div>
+<div id="div_group_15" class="example_group passed">
+  <dl style="margin-left: 15px;">
+  <dt id="example_group_15" class="passed">as owner</dt>
+    <script type="text/javascript">makeRed('div_group_15');</script>
+    <script type="text/javascript">makeRed('example_group_15');</script>
+    <script type="text/javascript">moveProgressBar('38.1');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">can list staff_members</span>
+      <span class="duration">0.00631s</span>
+      <div class="failure" id="failure_35">
+        <div class="message"><pre>  Failure/Error: get &quot;/api/#{org.slug}/staff_members&quot;, headers: auth_headers(user)
+
+  NotImplementedError:
+    Scopes::StaffMemberScope must implement #apply(relation)
+  # ./spec/models/staff_member_spec.rb:30:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/models/staff_member_spec.rb:30:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">28</span>
+<span class="linenum">29</span>      it 'can list staff_members' do
+<span class="offending"><span class="linenum">30</span>        get "/api/#{org.slug}/staff_members", headers: auth_headers(user)</span>
+<span class="linenum">31</span>        expect(response).to have_http_status(:ok)
+<span class="linenum">32</span>      end
+<span class="linenum">33</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('38.8');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">can show staff_members</span>
+      <span class="duration">0.00262s</span>
+      <div class="failure" id="failure_36">
+        <div class="message"><pre>  Failure/Error: let(:record) { create(:staff_member, organization: org) }
+
+  NotImplementedError:
+    Scopes::StaffMemberScope must implement #apply(relation)
+  # ./spec/models/staff_member_spec.rb:27:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/staff_member_spec.rb:35:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/models/staff_member_spec.rb:27:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/staff_member_spec.rb:35:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">25</span>    context 'as owner' do
+<span class="linenum">26</span>      let(:user) { create_user_with_role('owner', org, ['staff_members.index', 'staff_members.show', 'staff_members.store', 'staff_members.update', 'staff_members.destroy']) }
+<span class="offending"><span class="linenum">27</span>      let(:record) { create(:staff_member, organization: org) }</span>
+<span class="linenum">28</span>
+<span class="linenum">29</span>      it 'can list staff_members' do
+<span class="linenum">30</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('39.5');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">can create staff_members</span>
+      <span class="duration">0.00533s</span>
+      <div class="failure" id="failure_37">
+        <div class="message"><pre>  Failure/Error: post &quot;/api/#{org.slug}/staff_members&quot;, headers: auth_headers(user)
+
+  NotImplementedError:
+    Scopes::StaffMemberScope must implement #apply(relation)
+  # ./spec/models/staff_member_spec.rb:40:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/models/staff_member_spec.rb:40:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">38</span>
+<span class="linenum">39</span>      it 'can create staff_members' do
+<span class="offending"><span class="linenum">40</span>        post "/api/#{org.slug}/staff_members", headers: auth_headers(user)</span>
+<span class="linenum">41</span>        expect(response.status).not_to eq(403)
+<span class="linenum">42</span>      end
+<span class="linenum">43</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('40.2');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">can update staff_members</span>
+      <span class="duration">0.00066s</span>
+      <div class="failure" id="failure_38">
+        <div class="message"><pre>  Failure/Error: let(:record) { create(:staff_member, organization: org) }
+
+  NotImplementedError:
+    Scopes::StaffMemberScope must implement #apply(relation)
+  # ./spec/models/staff_member_spec.rb:27:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/staff_member_spec.rb:45:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/models/staff_member_spec.rb:27:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/staff_member_spec.rb:45:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">25</span>    context 'as owner' do
+<span class="linenum">26</span>      let(:user) { create_user_with_role('owner', org, ['staff_members.index', 'staff_members.show', 'staff_members.store', 'staff_members.update', 'staff_members.destroy']) }
+<span class="offending"><span class="linenum">27</span>      let(:record) { create(:staff_member, organization: org) }</span>
+<span class="linenum">28</span>
+<span class="linenum">29</span>      it 'can list staff_members' do
+<span class="linenum">30</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('41.0');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">can delete staff_members</span>
+      <span class="duration">0.00061s</span>
+      <div class="failure" id="failure_39">
+        <div class="message"><pre>  Failure/Error: let(:record) { create(:staff_member, organization: org) }
+
+  NotImplementedError:
+    Scopes::StaffMemberScope must implement #apply(relation)
+  # ./spec/models/staff_member_spec.rb:27:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/staff_member_spec.rb:50:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/models/staff_member_spec.rb:27:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/staff_member_spec.rb:50:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">25</span>    context 'as owner' do
+<span class="linenum">26</span>      let(:user) { create_user_with_role('owner', org, ['staff_members.index', 'staff_members.show', 'staff_members.store', 'staff_members.update', 'staff_members.destroy']) }
+<span class="offending"><span class="linenum">27</span>      let(:record) { create(:staff_member, organization: org) }</span>
+<span class="linenum">28</span>
+<span class="linenum">29</span>      it 'can list staff_members' do
+<span class="linenum">30</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+  </dl>
+</div>
+<div id="div_group_16" class="example_group passed">
+  <dl style="margin-left: 15px;">
+  <dt id="example_group_16" class="passed">as admin</dt>
+    <script type="text/javascript">makeRed('div_group_16');</script>
+    <script type="text/javascript">makeRed('example_group_16');</script>
+    <script type="text/javascript">moveProgressBar('41.7');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">can list staff_members</span>
+      <span class="duration">0.00425s</span>
+      <div class="failure" id="failure_40">
+        <div class="message"><pre>  Failure/Error: get &quot;/api/#{org.slug}/staff_members&quot;, headers: auth_headers(user)
+
+  NotImplementedError:
+    Scopes::StaffMemberScope must implement #apply(relation)
+  # ./spec/models/staff_member_spec.rb:61:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/models/staff_member_spec.rb:61:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">59</span>
+<span class="linenum">60</span>      it 'can list staff_members' do
+<span class="offending"><span class="linenum">61</span>        get "/api/#{org.slug}/staff_members", headers: auth_headers(user)</span>
+<span class="linenum">62</span>        expect(response).to have_http_status(:ok)
+<span class="linenum">63</span>      end
+<span class="linenum">64</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('42.4');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">can show staff_members</span>
+      <span class="duration">0.00065s</span>
+      <div class="failure" id="failure_41">
+        <div class="message"><pre>  Failure/Error: let(:record) { create(:staff_member, organization: org) }
+
+  NotImplementedError:
+    Scopes::StaffMemberScope must implement #apply(relation)
+  # ./spec/models/staff_member_spec.rb:58:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/staff_member_spec.rb:66:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/models/staff_member_spec.rb:58:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/staff_member_spec.rb:66:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">56</span>    context 'as admin' do
+<span class="linenum">57</span>      let(:user) { create_user_with_role('admin', org, ['staff_members.index', 'staff_members.show', 'staff_members.store', 'staff_members.update', 'staff_members.destroy']) }
+<span class="offending"><span class="linenum">58</span>      let(:record) { create(:staff_member, organization: org) }</span>
+<span class="linenum">59</span>
+<span class="linenum">60</span>      it 'can list staff_members' do
+<span class="linenum">61</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('43.1');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">can create staff_members</span>
+      <span class="duration">0.00510s</span>
+      <div class="failure" id="failure_42">
+        <div class="message"><pre>  Failure/Error: post &quot;/api/#{org.slug}/staff_members&quot;, headers: auth_headers(user)
+
+  NotImplementedError:
+    Scopes::StaffMemberScope must implement #apply(relation)
+  # ./spec/models/staff_member_spec.rb:71:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/models/staff_member_spec.rb:71:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">69</span>
+<span class="linenum">70</span>      it 'can create staff_members' do
+<span class="offending"><span class="linenum">71</span>        post "/api/#{org.slug}/staff_members", headers: auth_headers(user)</span>
+<span class="linenum">72</span>        expect(response.status).not_to eq(403)
+<span class="linenum">73</span>      end
+<span class="linenum">74</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('43.8');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">can update staff_members</span>
+      <span class="duration">0.00064s</span>
+      <div class="failure" id="failure_43">
+        <div class="message"><pre>  Failure/Error: let(:record) { create(:staff_member, organization: org) }
+
+  NotImplementedError:
+    Scopes::StaffMemberScope must implement #apply(relation)
+  # ./spec/models/staff_member_spec.rb:58:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/staff_member_spec.rb:76:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/models/staff_member_spec.rb:58:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/staff_member_spec.rb:76:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">56</span>    context 'as admin' do
+<span class="linenum">57</span>      let(:user) { create_user_with_role('admin', org, ['staff_members.index', 'staff_members.show', 'staff_members.store', 'staff_members.update', 'staff_members.destroy']) }
+<span class="offending"><span class="linenum">58</span>      let(:record) { create(:staff_member, organization: org) }</span>
+<span class="linenum">59</span>
+<span class="linenum">60</span>      it 'can list staff_members' do
+<span class="linenum">61</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('44.6');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">can delete staff_members</span>
+      <span class="duration">0.00061s</span>
+      <div class="failure" id="failure_44">
+        <div class="message"><pre>  Failure/Error: let(:record) { create(:staff_member, organization: org) }
+
+  NotImplementedError:
+    Scopes::StaffMemberScope must implement #apply(relation)
+  # ./spec/models/staff_member_spec.rb:58:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/staff_member_spec.rb:81:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/models/staff_member_spec.rb:58:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/staff_member_spec.rb:81:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">56</span>    context 'as admin' do
+<span class="linenum">57</span>      let(:user) { create_user_with_role('admin', org, ['staff_members.index', 'staff_members.show', 'staff_members.store', 'staff_members.update', 'staff_members.destroy']) }
+<span class="offending"><span class="linenum">58</span>      let(:record) { create(:staff_member, organization: org) }</span>
+<span class="linenum">59</span>
+<span class="linenum">60</span>      it 'can list staff_members' do
+<span class="linenum">61</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+  </dl>
+</div>
+<div id="div_group_17" class="example_group passed">
+  <dl style="margin-left: 15px;">
+  <dt id="example_group_17" class="passed">as staff</dt>
+    <script type="text/javascript">makeRed('div_group_17');</script>
+    <script type="text/javascript">makeRed('example_group_17');</script>
+    <script type="text/javascript">moveProgressBar('45.3');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">can list staff_members</span>
+      <span class="duration">0.00412s</span>
+      <div class="failure" id="failure_45">
+        <div class="message"><pre>  Failure/Error: get &quot;/api/#{org.slug}/staff_members&quot;, headers: auth_headers(user)
+
+  NotImplementedError:
+    Scopes::StaffMemberScope must implement #apply(relation)
+  # ./spec/models/staff_member_spec.rb:92:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/models/staff_member_spec.rb:92:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">90</span>
+<span class="linenum">91</span>      it 'can list staff_members' do
+<span class="offending"><span class="linenum">92</span>        get "/api/#{org.slug}/staff_members", headers: auth_headers(user)</span>
+<span class="linenum">93</span>        expect(response).to have_http_status(:ok)
+<span class="linenum">94</span>      end
+<span class="linenum">95</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('46.0');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">can show staff_members</span>
+      <span class="duration">0.00065s</span>
+      <div class="failure" id="failure_46">
+        <div class="message"><pre>  Failure/Error: let(:record) { create(:staff_member, organization: org) }
+
+  NotImplementedError:
+    Scopes::StaffMemberScope must implement #apply(relation)
+  # ./spec/models/staff_member_spec.rb:89:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/staff_member_spec.rb:97:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/models/staff_member_spec.rb:89:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/staff_member_spec.rb:97:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">87</span>    context 'as staff' do
+<span class="linenum">88</span>      let(:user) { create_user_with_role('staff', org, ['staff_members.index', 'staff_members.show']) }
+<span class="offending"><span class="linenum">89</span>      let(:record) { create(:staff_member, organization: org) }</span>
+<span class="linenum">90</span>
+<span class="linenum">91</span>      it 'can list staff_members' do
+<span class="linenum">92</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('46.7');</script>
+    <dd class="example passed"><span class="passed_spec_name">cannot create staff_members</span><span class='duration'>0.00441s</span></dd>
+    <script type="text/javascript">moveProgressBar('47.4');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">cannot update staff_members</span>
+      <span class="duration">0.00062s</span>
+      <div class="failure" id="failure_47">
+        <div class="message"><pre>  Failure/Error: let(:record) { create(:staff_member, organization: org) }
+
+  NotImplementedError:
+    Scopes::StaffMemberScope must implement #apply(relation)
+  # ./spec/models/staff_member_spec.rb:89:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/staff_member_spec.rb:107:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/models/staff_member_spec.rb:89:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/staff_member_spec.rb:107:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">87</span>    context 'as staff' do
+<span class="linenum">88</span>      let(:user) { create_user_with_role('staff', org, ['staff_members.index', 'staff_members.show']) }
+<span class="offending"><span class="linenum">89</span>      let(:record) { create(:staff_member, organization: org) }</span>
+<span class="linenum">90</span>
+<span class="linenum">91</span>      it 'can list staff_members' do
+<span class="linenum">92</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('48.2');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">cannot delete staff_members</span>
+      <span class="duration">0.00060s</span>
+      <div class="failure" id="failure_48">
+        <div class="message"><pre>  Failure/Error: let(:record) { create(:staff_member, organization: org) }
+
+  NotImplementedError:
+    Scopes::StaffMemberScope must implement #apply(relation)
+  # ./spec/models/staff_member_spec.rb:89:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/staff_member_spec.rb:112:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/models/staff_member_spec.rb:89:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/staff_member_spec.rb:112:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">87</span>    context 'as staff' do
+<span class="linenum">88</span>      let(:user) { create_user_with_role('staff', org, ['staff_members.index', 'staff_members.show']) }
+<span class="offending"><span class="linenum">89</span>      let(:record) { create(:staff_member, organization: org) }</span>
+<span class="linenum">90</span>
+<span class="linenum">91</span>      it 'can list staff_members' do
+<span class="linenum">92</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+  </dl>
+</div>
+<div id="div_group_18" class="example_group passed">
+  <dl style="margin-left: 15px;">
+  <dt id="example_group_18" class="passed">as customer</dt>
+    <script type="text/javascript">moveProgressBar('48.9');</script>
+    <dd class="example passed"><span class="passed_spec_name">cannot list staff_members</span><span class='duration'>0.00424s</span></dd>
+    <script type="text/javascript">makeRed('div_group_18');</script>
+    <script type="text/javascript">makeRed('example_group_18');</script>
+    <script type="text/javascript">moveProgressBar('49.6');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">cannot show staff_members</span>
+      <span class="duration">0.00062s</span>
+      <div class="failure" id="failure_49">
+        <div class="message"><pre>  Failure/Error: let(:record) { create(:staff_member, organization: org) }
+
+  NotImplementedError:
+    Scopes::StaffMemberScope must implement #apply(relation)
+  # ./spec/models/staff_member_spec.rb:120:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/staff_member_spec.rb:128:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/models/staff_member_spec.rb:120:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/staff_member_spec.rb:128:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">118</span>    context 'as customer' do
+<span class="linenum">119</span>      let(:user) { create_user_with_role('customer', org, []) }
+<span class="offending"><span class="linenum">120</span>      let(:record) { create(:staff_member, organization: org) }</span>
+<span class="linenum">121</span>
+<span class="linenum">122</span>      it 'cannot list staff_members' do
+<span class="linenum">123</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('50.3');</script>
+    <dd class="example passed"><span class="passed_spec_name">cannot create staff_members</span><span class='duration'>0.00392s</span></dd>
+    <script type="text/javascript">moveProgressBar('51.0');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">cannot update staff_members</span>
+      <span class="duration">0.00061s</span>
+      <div class="failure" id="failure_50">
+        <div class="message"><pre>  Failure/Error: let(:record) { create(:staff_member, organization: org) }
+
+  NotImplementedError:
+    Scopes::StaffMemberScope must implement #apply(relation)
+  # ./spec/models/staff_member_spec.rb:120:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/staff_member_spec.rb:138:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/models/staff_member_spec.rb:120:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/staff_member_spec.rb:138:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">118</span>    context 'as customer' do
+<span class="linenum">119</span>      let(:user) { create_user_with_role('customer', org, []) }
+<span class="offending"><span class="linenum">120</span>      let(:record) { create(:staff_member, organization: org) }</span>
+<span class="linenum">121</span>
+<span class="linenum">122</span>      it 'cannot list staff_members' do
+<span class="linenum">123</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('51.7');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">cannot delete staff_members</span>
+      <span class="duration">0.00064s</span>
+      <div class="failure" id="failure_51">
+        <div class="message"><pre>  Failure/Error: let(:record) { create(:staff_member, organization: org) }
+
+  NotImplementedError:
+    Scopes::StaffMemberScope must implement #apply(relation)
+  # ./spec/models/staff_member_spec.rb:120:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/staff_member_spec.rb:143:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/models/staff_member_spec.rb:120:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/staff_member_spec.rb:143:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">118</span>    context 'as customer' do
+<span class="linenum">119</span>      let(:user) { create_user_with_role('customer', org, []) }
+<span class="offending"><span class="linenum">120</span>      let(:record) { create(:staff_member, organization: org) }</span>
+<span class="linenum">121</span>
+<span class="linenum">122</span>      it 'cannot list staff_members' do
+<span class="linenum">123</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+  </dl>
+</div>
+<div id="div_group_19" class="example_group passed">
+  <dl style="margin-left: 0px;">
+  <dt id="example_group_19" class="passed">TimeSlot — CRUD &amp; Permissions</dt>
+  </dl>
+</div>
+<div id="div_group_20" class="example_group passed">
+  <dl style="margin-left: 15px;">
+  <dt id="example_group_20" class="passed">as owner</dt>
+    <script type="text/javascript">moveProgressBar('52.5');</script>
+    <dd class="example passed"><span class="passed_spec_name">can list time_slots</span><span class='duration'>0.00562s</span></dd>
+    <script type="text/javascript">makeRed('div_group_20');</script>
+    <script type="text/javascript">makeRed('example_group_20');</script>
+    <script type="text/javascript">moveProgressBar('53.2');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">can show time_slots</span>
+      <span class="duration">0.00072s</span>
+      <div class="failure" id="failure_52">
+        <div class="message"><pre>  Failure/Error: name { Faker::Name.name }
+
+  NameError:
+    uninitialized constant Faker
+  # ./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/time_slot_spec.rb:27:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/time_slot_spec.rb:35:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/time_slot_spec.rb:27:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/time_slot_spec.rb:35:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">3</span>FactoryBot.define do
+<span class="linenum">4</span>  factory :service do
+<span class="offending"><span class="linenum">5</span>    name { Faker::Name.name }</span>
+<span class="linenum">6</span>    description { Faker::Lorem.paragraph }
+<span class="linenum">7</span>    duration_minutes { Faker::Number.between(from: 1, to: 100) }
+<span class="linenum">8</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('53.9');</script>
+    <dd class="example passed"><span class="passed_spec_name">can create time_slots</span><span class='duration'>0.00702s</span></dd>
+    <script type="text/javascript">moveProgressBar('54.6');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">can update time_slots</span>
+      <span class="duration">0.00071s</span>
+      <div class="failure" id="failure_53">
+        <div class="message"><pre>  Failure/Error: name { Faker::Name.name }
+
+  NameError:
+    uninitialized constant Faker
+  # ./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/time_slot_spec.rb:27:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/time_slot_spec.rb:45:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/time_slot_spec.rb:27:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/time_slot_spec.rb:45:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">3</span>FactoryBot.define do
+<span class="linenum">4</span>  factory :service do
+<span class="offending"><span class="linenum">5</span>    name { Faker::Name.name }</span>
+<span class="linenum">6</span>    description { Faker::Lorem.paragraph }
+<span class="linenum">7</span>    duration_minutes { Faker::Number.between(from: 1, to: 100) }
+<span class="linenum">8</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('55.3');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">can delete time_slots</span>
+      <span class="duration">0.00071s</span>
+      <div class="failure" id="failure_54">
+        <div class="message"><pre>  Failure/Error: name { Faker::Name.name }
+
+  NameError:
+    uninitialized constant Faker
+  # ./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/time_slot_spec.rb:27:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/time_slot_spec.rb:50:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/time_slot_spec.rb:27:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/time_slot_spec.rb:50:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">3</span>FactoryBot.define do
+<span class="linenum">4</span>  factory :service do
+<span class="offending"><span class="linenum">5</span>    name { Faker::Name.name }</span>
+<span class="linenum">6</span>    description { Faker::Lorem.paragraph }
+<span class="linenum">7</span>    duration_minutes { Faker::Number.between(from: 1, to: 100) }
+<span class="linenum">8</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+  </dl>
+</div>
+<div id="div_group_21" class="example_group passed">
+  <dl style="margin-left: 15px;">
+  <dt id="example_group_21" class="passed">as admin</dt>
+    <script type="text/javascript">moveProgressBar('56.1');</script>
+    <dd class="example passed"><span class="passed_spec_name">can list time_slots</span><span class='duration'>0.00423s</span></dd>
+    <script type="text/javascript">makeRed('div_group_21');</script>
+    <script type="text/javascript">makeRed('example_group_21');</script>
+    <script type="text/javascript">moveProgressBar('56.8');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">can show time_slots</span>
+      <span class="duration">0.00066s</span>
+      <div class="failure" id="failure_55">
+        <div class="message"><pre>  Failure/Error: name { Faker::Name.name }
+
+  NameError:
+    uninitialized constant Faker
+  # ./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/time_slot_spec.rb:58:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/time_slot_spec.rb:66:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/time_slot_spec.rb:58:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/time_slot_spec.rb:66:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">3</span>FactoryBot.define do
+<span class="linenum">4</span>  factory :service do
+<span class="offending"><span class="linenum">5</span>    name { Faker::Name.name }</span>
+<span class="linenum">6</span>    description { Faker::Lorem.paragraph }
+<span class="linenum">7</span>    duration_minutes { Faker::Number.between(from: 1, to: 100) }
+<span class="linenum">8</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('57.5');</script>
+    <dd class="example passed"><span class="passed_spec_name">can create time_slots</span><span class='duration'>0.01116s</span></dd>
+    <script type="text/javascript">moveProgressBar('58.2');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">can update time_slots</span>
+      <span class="duration">0.00082s</span>
+      <div class="failure" id="failure_56">
+        <div class="message"><pre>  Failure/Error: name { Faker::Name.name }
+
+  NameError:
+    uninitialized constant Faker
+  # ./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/time_slot_spec.rb:58:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/time_slot_spec.rb:76:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/time_slot_spec.rb:58:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/time_slot_spec.rb:76:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">3</span>FactoryBot.define do
+<span class="linenum">4</span>  factory :service do
+<span class="offending"><span class="linenum">5</span>    name { Faker::Name.name }</span>
+<span class="linenum">6</span>    description { Faker::Lorem.paragraph }
+<span class="linenum">7</span>    duration_minutes { Faker::Number.between(from: 1, to: 100) }
+<span class="linenum">8</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('58.9');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">can delete time_slots</span>
+      <span class="duration">0.00085s</span>
+      <div class="failure" id="failure_57">
+        <div class="message"><pre>  Failure/Error: name { Faker::Name.name }
+
+  NameError:
+    uninitialized constant Faker
+  # ./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/time_slot_spec.rb:58:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/time_slot_spec.rb:81:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/time_slot_spec.rb:58:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/time_slot_spec.rb:81:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">3</span>FactoryBot.define do
+<span class="linenum">4</span>  factory :service do
+<span class="offending"><span class="linenum">5</span>    name { Faker::Name.name }</span>
+<span class="linenum">6</span>    description { Faker::Lorem.paragraph }
+<span class="linenum">7</span>    duration_minutes { Faker::Number.between(from: 1, to: 100) }
+<span class="linenum">8</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+  </dl>
+</div>
+<div id="div_group_22" class="example_group passed">
+  <dl style="margin-left: 15px;">
+  <dt id="example_group_22" class="passed">as staff</dt>
+    <script type="text/javascript">moveProgressBar('59.7');</script>
+    <dd class="example passed"><span class="passed_spec_name">can list time_slots</span><span class='duration'>0.00498s</span></dd>
+    <script type="text/javascript">makeRed('div_group_22');</script>
+    <script type="text/javascript">makeRed('example_group_22');</script>
+    <script type="text/javascript">moveProgressBar('60.4');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">can show time_slots</span>
+      <span class="duration">0.00069s</span>
+      <div class="failure" id="failure_58">
+        <div class="message"><pre>  Failure/Error: name { Faker::Name.name }
+
+  NameError:
+    uninitialized constant Faker
+  # ./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/time_slot_spec.rb:89:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/time_slot_spec.rb:97:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/time_slot_spec.rb:89:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/time_slot_spec.rb:97:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">3</span>FactoryBot.define do
+<span class="linenum">4</span>  factory :service do
+<span class="offending"><span class="linenum">5</span>    name { Faker::Name.name }</span>
+<span class="linenum">6</span>    description { Faker::Lorem.paragraph }
+<span class="linenum">7</span>    duration_minutes { Faker::Number.between(from: 1, to: 100) }
+<span class="linenum">8</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('61.1');</script>
+    <dd class="example passed"><span class="passed_spec_name">can create time_slots</span><span class='duration'>0.00768s</span></dd>
+    <script type="text/javascript">moveProgressBar('61.8');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">can update time_slots</span>
+      <span class="duration">0.00072s</span>
+      <div class="failure" id="failure_59">
+        <div class="message"><pre>  Failure/Error: name { Faker::Name.name }
+
+  NameError:
+    uninitialized constant Faker
+  # ./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/time_slot_spec.rb:89:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/time_slot_spec.rb:107:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/time_slot_spec.rb:89:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/time_slot_spec.rb:107:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">3</span>FactoryBot.define do
+<span class="linenum">4</span>  factory :service do
+<span class="offending"><span class="linenum">5</span>    name { Faker::Name.name }</span>
+<span class="linenum">6</span>    description { Faker::Lorem.paragraph }
+<span class="linenum">7</span>    duration_minutes { Faker::Number.between(from: 1, to: 100) }
+<span class="linenum">8</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('62.5');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">cannot delete time_slots</span>
+      <span class="duration">0.00074s</span>
+      <div class="failure" id="failure_60">
+        <div class="message"><pre>  Failure/Error: name { Faker::Name.name }
+
+  NameError:
+    uninitialized constant Faker
+  # ./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/time_slot_spec.rb:89:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/time_slot_spec.rb:112:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/time_slot_spec.rb:89:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/time_slot_spec.rb:112:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">3</span>FactoryBot.define do
+<span class="linenum">4</span>  factory :service do
+<span class="offending"><span class="linenum">5</span>    name { Faker::Name.name }</span>
+<span class="linenum">6</span>    description { Faker::Lorem.paragraph }
+<span class="linenum">7</span>    duration_minutes { Faker::Number.between(from: 1, to: 100) }
+<span class="linenum">8</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+  </dl>
+</div>
+<div id="div_group_23" class="example_group passed">
+  <dl style="margin-left: 15px;">
+  <dt id="example_group_23" class="passed">as customer</dt>
+    <script type="text/javascript">moveProgressBar('63.3');</script>
+    <dd class="example passed"><span class="passed_spec_name">can list time_slots</span><span class='duration'>0.00482s</span></dd>
+    <script type="text/javascript">makeRed('div_group_23');</script>
+    <script type="text/javascript">makeRed('example_group_23');</script>
+    <script type="text/javascript">moveProgressBar('64.0');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">can show time_slots</span>
+      <span class="duration">0.00069s</span>
+      <div class="failure" id="failure_61">
+        <div class="message"><pre>  Failure/Error: name { Faker::Name.name }
+
+  NameError:
+    uninitialized constant Faker
+  # ./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/time_slot_spec.rb:120:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/time_slot_spec.rb:128:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/time_slot_spec.rb:120:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/time_slot_spec.rb:128:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">3</span>FactoryBot.define do
+<span class="linenum">4</span>  factory :service do
+<span class="offending"><span class="linenum">5</span>    name { Faker::Name.name }</span>
+<span class="linenum">6</span>    description { Faker::Lorem.paragraph }
+<span class="linenum">7</span>    duration_minutes { Faker::Number.between(from: 1, to: 100) }
+<span class="linenum">8</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('64.7');</script>
+    <dd class="example passed"><span class="passed_spec_name">cannot create time_slots</span><span class='duration'>0.00436s</span></dd>
+    <script type="text/javascript">moveProgressBar('65.4');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">cannot update time_slots</span>
+      <span class="duration">0.00085s</span>
+      <div class="failure" id="failure_62">
+        <div class="message"><pre>  Failure/Error: name { Faker::Name.name }
+
+  NameError:
+    uninitialized constant Faker
+  # ./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/time_slot_spec.rb:120:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/time_slot_spec.rb:138:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/time_slot_spec.rb:120:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/time_slot_spec.rb:138:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">3</span>FactoryBot.define do
+<span class="linenum">4</span>  factory :service do
+<span class="offending"><span class="linenum">5</span>    name { Faker::Name.name }</span>
+<span class="linenum">6</span>    description { Faker::Lorem.paragraph }
+<span class="linenum">7</span>    duration_minutes { Faker::Number.between(from: 1, to: 100) }
+<span class="linenum">8</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('66.1');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">cannot delete time_slots</span>
+      <span class="duration">0.00064s</span>
+      <div class="failure" id="failure_63">
+        <div class="message"><pre>  Failure/Error: name { Faker::Name.name }
+
+  NameError:
+    uninitialized constant Faker
+  # ./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/time_slot_spec.rb:120:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/time_slot_spec.rb:143:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/time_slot_spec.rb:120:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/time_slot_spec.rb:143:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">3</span>FactoryBot.define do
+<span class="linenum">4</span>  factory :service do
+<span class="offending"><span class="linenum">5</span>    name { Faker::Name.name }</span>
+<span class="linenum">6</span>    description { Faker::Lorem.paragraph }
+<span class="linenum">7</span>    duration_minutes { Faker::Number.between(from: 1, to: 100) }
+<span class="linenum">8</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('66.9');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">shows only permitted fields</span>
+      <span class="duration">0.00084s</span>
+      <div class="failure" id="failure_64">
+        <div class="message"><pre>  Failure/Error: name { Faker::Name.name }
+
+  NameError:
+    uninitialized constant Faker
+  # ./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/time_slot_spec.rb:120:in &#39;block (3 levels) in &lt;main&gt;&#39;
+  # ./spec/models/time_slot_spec.rb:148:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/factories/services.rb:5:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/time_slot_spec.rb:120:in &#39;block (3 levels) in &lt;main&gt;&#39;
+./spec/models/time_slot_spec.rb:148:in &#39;block (3 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">3</span>FactoryBot.define do
+<span class="linenum">4</span>  factory :service do
+<span class="offending"><span class="linenum">5</span>    name { Faker::Name.name }</span>
+<span class="linenum">6</span>    description { Faker::Lorem.paragraph }
+<span class="linenum">7</span>    duration_minutes { Faker::Number.between(from: 1, to: 100) }
+<span class="linenum">8</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+  </dl>
+</div>
+<div id="div_group_24" class="example_group passed">
+  <dl style="margin-left: 0px;">
+  <dt id="example_group_24" class="passed">Auth</dt>
+    <script type="text/javascript">moveProgressBar('67.6');</script>
+    <dd class="example passed"><span class="passed_spec_name">logs in with valid credentials and returns token</span><span class='duration'>0.00810s</span></dd>
+    <script type="text/javascript">moveProgressBar('68.3');</script>
+    <dd class="example passed"><span class="passed_spec_name">rejects login with invalid credentials</span><span class='duration'>0.00321s</span></dd>
+    <script type="text/javascript">moveProgressBar('69.0');</script>
+    <dd class="example passed"><span class="passed_spec_name">rejects login with non-existent email</span><span class='duration'>0.00058s</span></dd>
+    <script type="text/javascript">moveProgressBar('69.7');</script>
+    <dd class="example passed"><span class="passed_spec_name">requires authentication to access protected endpoints</span><span class='duration'>0.00177s</span></dd>
+    <script type="text/javascript">moveProgressBar('70.5');</script>
+    <dd class="example passed"><span class="passed_spec_name">can logout</span><span class='duration'>0.00264s</span></dd>
+  </dl>
+</div>
+<div id="div_group_25" class="example_group passed">
+  <dl style="margin-left: 0px;">
+  <dt id="example_group_25" class="passed">Comments</dt>
+    <script type="text/javascript">makeRed('div_group_25');</script>
+    <script type="text/javascript">makeRed('example_group_25');</script>
+    <script type="text/javascript">moveProgressBar('71.2');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">admin can create a comment</span>
+      <span class="duration">0.00297s</span>
+      <div class="failure" id="failure_65">
+        <div class="message"><pre>  Failure/Error: @project = create(:project, organization_id: @org.id)
+
+  NameError:
+    uninitialized constant Project
+  # ./spec/requests/comment_spec.rb:9:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/requests/comment_spec.rb:9:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">7</span>    seed_roles
+<span class="linenum">8</span>    @org = create(:organization)
+<span class="offending"><span class="linenum">9</span>    @project = create(:project, organization_id: @org.id)</span>
+<span class="linenum">10</span>    @task = create(:task, project_id: @project.id)
+<span class="linenum">11</span>  end
+<span class="linenum">12</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('71.9');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">auto-sets user_id on comment creation</span>
+      <span class="duration">0.00282s</span>
+      <div class="failure" id="failure_66">
+        <div class="message"><pre>  Failure/Error: @project = create(:project, organization_id: @org.id)
+
+  NameError:
+    uninitialized constant Project
+  # ./spec/requests/comment_spec.rb:9:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/requests/comment_spec.rb:9:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">7</span>    seed_roles
+<span class="linenum">8</span>    @org = create(:organization)
+<span class="offending"><span class="linenum">9</span>    @project = create(:project, organization_id: @org.id)</span>
+<span class="linenum">10</span>    @task = create(:task, project_id: @project.id)
+<span class="linenum">11</span>  end
+<span class="linenum">12</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('72.6');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">comment has a uuid</span>
+      <span class="duration">0.00276s</span>
+      <div class="failure" id="failure_67">
+        <div class="message"><pre>  Failure/Error: @project = create(:project, organization_id: @org.id)
+
+  NameError:
+    uninitialized constant Project
+  # ./spec/requests/comment_spec.rb:9:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/requests/comment_spec.rb:9:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">7</span>    seed_roles
+<span class="linenum">8</span>    @org = create(:organization)
+<span class="offending"><span class="linenum">9</span>    @project = create(:project, organization_id: @org.id)</span>
+<span class="linenum">10</span>    @task = create(:task, project_id: @project.id)
+<span class="linenum">11</span>  end
+<span class="linenum">12</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('73.3');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">admin can list comments</span>
+      <span class="duration">0.00274s</span>
+      <div class="failure" id="failure_68">
+        <div class="message"><pre>  Failure/Error: @project = create(:project, organization_id: @org.id)
+
+  NameError:
+    uninitialized constant Project
+  # ./spec/requests/comment_spec.rb:9:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/requests/comment_spec.rb:9:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">7</span>    seed_roles
+<span class="linenum">8</span>    @org = create(:organization)
+<span class="offending"><span class="linenum">9</span>    @project = create(:project, organization_id: @org.id)</span>
+<span class="linenum">10</span>    @task = create(:task, project_id: @project.id)
+<span class="linenum">11</span>  end
+<span class="linenum">12</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('74.1');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">member can create a comment</span>
+      <span class="duration">0.00280s</span>
+      <div class="failure" id="failure_69">
+        <div class="message"><pre>  Failure/Error: @project = create(:project, organization_id: @org.id)
+
+  NameError:
+    uninitialized constant Project
+  # ./spec/requests/comment_spec.rb:9:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/requests/comment_spec.rb:9:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">7</span>    seed_roles
+<span class="linenum">8</span>    @org = create(:organization)
+<span class="offending"><span class="linenum">9</span>    @project = create(:project, organization_id: @org.id)</span>
+<span class="linenum">10</span>    @task = create(:task, project_id: @project.id)
+<span class="linenum">11</span>  end
+<span class="linenum">12</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('74.8');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">viewer cannot create a comment</span>
+      <span class="duration">0.00360s</span>
+      <div class="failure" id="failure_70">
+        <div class="message"><pre>  Failure/Error: @project = create(:project, organization_id: @org.id)
+
+  NameError:
+    uninitialized constant Project
+  # ./spec/requests/comment_spec.rb:9:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/requests/comment_spec.rb:9:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">7</span>    seed_roles
+<span class="linenum">8</span>    @org = create(:organization)
+<span class="offending"><span class="linenum">9</span>    @project = create(:project, organization_id: @org.id)</span>
+<span class="linenum">10</span>    @task = create(:task, project_id: @project.id)
+<span class="linenum">11</span>  end
+<span class="linenum">12</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+  </dl>
+</div>
+<div id="div_group_26" class="example_group passed">
+  <dl style="margin-left: 0px;">
+  <dt id="example_group_26" class="passed">Labels</dt>
+    <script type="text/javascript">makeRed('div_group_26');</script>
+    <script type="text/javascript">makeRed('example_group_26');</script>
+    <script type="text/javascript">moveProgressBar('75.5');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">admin can create a label</span>
+      <span class="duration">0.00744s</span>
+      <div class="failure" id="failure_71">
+        <div class="message"><pre>  Failure/Error: expect(response).to have_http_status(:created)
+    expected the response to have status code :created (201) but it was :not_found (404)
+  # ./spec/requests/label_spec.rb:23:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/requests/label_spec.rb:23:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">21</span>    }, headers: auth_headers(user), as: :json
+<span class="linenum">22</span>
+<span class="offending"><span class="linenum">23</span>    expect(response).to have_http_status(:created)</span>
+<span class="linenum">24</span>    json = JSON.parse(response.body)
+<span class="linenum">25</span>    expect(json["name"]).to eq("bug")
+<span class="linenum">26</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('76.2');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">admin can list labels</span>
+      <span class="duration">0.00595s</span>
+      <div class="failure" id="failure_72">
+        <div class="message"><pre>  Failure/Error: create(:label, organization_id: @org.id)
+
+  NameError:
+    uninitialized constant Label
+  # ./spec/requests/label_spec.rb:31:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/requests/label_spec.rb:31:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">29</span>  it "admin can list labels" do
+<span class="linenum">30</span>    user = create_user_in_org("admin", @org)
+<span class="offending"><span class="linenum">31</span>    create(:label, organization_id: @org.id)</span>
+<span class="linenum">32</span>
+<span class="linenum">33</span>    get "/api/#{@org.slug}/labels", headers: auth_headers(user), as: :json
+<span class="linenum">34</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('76.9');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">admin can update a label</span>
+      <span class="duration">0.00545s</span>
+      <div class="failure" id="failure_73">
+        <div class="message"><pre>  Failure/Error: label = create(:label, organization_id: @org.id)
+
+  NameError:
+    uninitialized constant Label
+  # ./spec/requests/label_spec.rb:43:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/requests/label_spec.rb:43:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">41</span>  it "admin can update a label" do
+<span class="linenum">42</span>    user = create_user_in_org("admin", @org)
+<span class="offending"><span class="linenum">43</span>    label = create(:label, organization_id: @org.id)</span>
+<span class="linenum">44</span>
+<span class="linenum">45</span>    put "/api/#{@org.slug}/labels/#{label.id}", params: {
+<span class="linenum">46</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('77.6');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">admin can soft-delete a label</span>
+      <span class="duration">0.00522s</span>
+      <div class="failure" id="failure_74">
+        <div class="message"><pre>  Failure/Error: label = create(:label, organization_id: @org.id)
+
+  NameError:
+    uninitialized constant Label
+  # ./spec/requests/label_spec.rb:56:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/requests/label_spec.rb:56:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">54</span>  it "admin can soft-delete a label" do
+<span class="linenum">55</span>    user = create_user_in_org("admin", @org)
+<span class="offending"><span class="linenum">56</span>    label = create(:label, organization_id: @org.id)</span>
+<span class="linenum">57</span>
+<span class="linenum">58</span>    delete "/api/#{@org.slug}/labels/#{label.id}", headers: auth_headers(user), as: :json
+<span class="linenum">59</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('78.4');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">force-delete route does not exist for labels</span>
+      <span class="duration">0.00544s</span>
+      <div class="failure" id="failure_75">
+        <div class="message"><pre>  Failure/Error: label = create(:label, organization_id: @org.id)
+
+  NameError:
+    uninitialized constant Label
+  # ./spec/requests/label_spec.rb:71:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/requests/label_spec.rb:71:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">69</span>  it "force-delete route does not exist for labels" do
+<span class="linenum">70</span>    user = create_user_in_org("admin", @org)
+<span class="offending"><span class="linenum">71</span>    label = create(:label, organization_id: @org.id)</span>
+<span class="linenum">72</span>    label.discard!
+<span class="linenum">73</span>
+<span class="linenum">74</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('79.1');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">member cannot create a label</span>
+      <span class="duration">0.00623s</span>
+      <div class="failure" id="failure_76">
+        <div class="message"><pre>  Failure/Error: expect(response).to have_http_status(:forbidden)
+    expected the response to have status code :forbidden (403) but it was :not_found (404)
+  # ./spec/requests/label_spec.rb:88:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/requests/label_spec.rb:88:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">86</span>    post "/api/#{@org.slug}/labels", params: { name: "should-fail" }, headers: auth_headers(user), as: :json
+<span class="linenum">87</span>
+<span class="offending"><span class="linenum">88</span>    expect(response).to have_http_status(:forbidden)</span>
+<span class="linenum">89</span>  end
+<span class="linenum">90</span>
+<span class="linenum">91</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('79.8');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">viewer can list labels</span>
+      <span class="duration">0.00533s</span>
+      <div class="failure" id="failure_77">
+        <div class="message"><pre>  Failure/Error: create(:label, organization_id: @org.id)
+
+  NameError:
+    uninitialized constant Label
+  # ./spec/requests/label_spec.rb:93:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/requests/label_spec.rb:93:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">91</span>  it "viewer can list labels" do
+<span class="linenum">92</span>    user = create_user_in_org("viewer", @org, permissions: %w[labels.index labels.show])
+<span class="offending"><span class="linenum">93</span>    create(:label, organization_id: @org.id)</span>
+<span class="linenum">94</span>
+<span class="linenum">95</span>    get "/api/#{@org.slug}/labels", headers: auth_headers(user), as: :json
+<span class="linenum">96</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('80.5');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">labels are isolated per organization</span>
+      <span class="duration">0.00567s</span>
+      <div class="failure" id="failure_78">
+        <div class="message"><pre>  Failure/Error: create(:label, organization_id: @org.id, name: &quot;mine&quot;)
+
+  NameError:
+    uninitialized constant Label
+  # ./spec/requests/label_spec.rb:108:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/requests/label_spec.rb:108:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">106</span>    other_org = create(:organization)
+<span class="linenum">107</span>
+<span class="offending"><span class="linenum">108</span>    create(:label, organization_id: @org.id, name: "mine")</span>
+<span class="linenum">109</span>    create(:label, organization_id: other_org.id, name: "theirs")
+<span class="linenum">110</span>
+<span class="linenum">111</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+  </dl>
+</div>
+<div id="div_group_27" class="example_group passed">
+  <dl style="margin-left: 0px;">
+  <dt id="example_group_27" class="passed">Projects</dt>
+    <script type="text/javascript">makeRed('div_group_27');</script>
+    <script type="text/javascript">makeRed('example_group_27');</script>
+    <script type="text/javascript">moveProgressBar('81.2');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">admin can list projects</span>
+      <span class="duration">0.00503s</span>
+      <div class="failure" id="failure_79">
+        <div class="message"><pre>  Failure/Error: create(:project, organization_id: @org.id)
+
+  NameError:
+    uninitialized constant Project
+  # ./spec/requests/project_spec.rb:17:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/requests/project_spec.rb:17:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">15</span>  it "admin can list projects" do
+<span class="linenum">16</span>    user = create_user_in_org("admin", @org)
+<span class="offending"><span class="linenum">17</span>    create(:project, organization_id: @org.id)</span>
+<span class="linenum">18</span>
+<span class="linenum">19</span>    get "/api/#{@org.slug}/projects", headers: auth_headers(user), as: :json
+<span class="linenum">20</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('82.0');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">admin can create a project</span>
+      <span class="duration">0.00741s</span>
+      <div class="failure" id="failure_80">
+        <div class="message"><pre>  Failure/Error: expect(response).to have_http_status(:created)
+    expected the response to have status code :created (201) but it was :not_found (404)
+  # ./spec/requests/project_spec.rb:40:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/requests/project_spec.rb:40:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">38</span>    }, headers: auth_headers(user), as: :json
+<span class="linenum">39</span>
+<span class="offending"><span class="linenum">40</span>    expect(response).to have_http_status(:created)</span>
+<span class="linenum">41</span>    json = JSON.parse(response.body)
+<span class="linenum">42</span>    expect(json["title"]).to eq("New Project")
+<span class="linenum">43</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('82.7');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">admin can update a project</span>
+      <span class="duration">0.00738s</span>
+      <div class="failure" id="failure_81">
+        <div class="message"><pre>  Failure/Error: project = create(:project, organization_id: @org.id)
+
+  NameError:
+    uninitialized constant Project
+  # ./spec/requests/project_spec.rb:48:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/requests/project_spec.rb:48:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">46</span>  it "admin can update a project" do
+<span class="linenum">47</span>    user = create_user_in_org("admin", @org)
+<span class="offending"><span class="linenum">48</span>    project = create(:project, organization_id: @org.id)</span>
+<span class="linenum">49</span>
+<span class="linenum">50</span>    put "/api/#{@org.slug}/projects/#{project.id}", params: {
+<span class="linenum">51</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('83.4');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">admin can delete a project</span>
+      <span class="duration">0.00792s</span>
+      <div class="failure" id="failure_82">
+        <div class="message"><pre>  Failure/Error: project = create(:project, organization_id: @org.id)
+
+  NameError:
+    uninitialized constant Project
+  # ./spec/requests/project_spec.rb:62:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/requests/project_spec.rb:62:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">60</span>  it "admin can delete a project" do
+<span class="linenum">61</span>    user = create_user_in_org("admin", @org)
+<span class="offending"><span class="linenum">62</span>    project = create(:project, organization_id: @org.id)</span>
+<span class="linenum">63</span>
+<span class="linenum">64</span>    delete "/api/#{@org.slug}/projects/#{project.id}", headers: auth_headers(user), as: :json
+<span class="linenum">65</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('84.1');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">admin sees all fields including budget and internal_notes</span>
+      <span class="duration">0.00818s</span>
+      <div class="failure" id="failure_83">
+        <div class="message"><pre>  Failure/Error: project = create(:project, organization_id: @org.id, budget: 50_000, internal_notes: &quot;Top secret&quot;)
+
+  NameError:
+    uninitialized constant Project
+  # ./spec/requests/project_spec.rb:77:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/requests/project_spec.rb:77:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">75</span>  it "admin sees all fields including budget and internal_notes" do
+<span class="linenum">76</span>    user = create_user_in_org("admin", @org)
+<span class="offending"><span class="linenum">77</span>    project = create(:project, organization_id: @org.id, budget: 50_000, internal_notes: "Top secret")</span>
+<span class="linenum">78</span>
+<span class="linenum">79</span>    get "/api/#{@org.slug}/projects/#{project.id}", headers: auth_headers(user), as: :json
+<span class="linenum">80</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('84.8');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">member cannot see budget or internal_notes</span>
+      <span class="duration">0.00827s</span>
+      <div class="failure" id="failure_84">
+        <div class="message"><pre>  Failure/Error: project = create(:project, organization_id: @org.id, budget: 50_000, internal_notes: &quot;Top secret&quot;)
+
+  NameError:
+    uninitialized constant Project
+  # ./spec/requests/project_spec.rb:89:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/requests/project_spec.rb:89:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">87</span>  it "member cannot see budget or internal_notes" do
+<span class="linenum">88</span>    user = create_user_in_org("member", @org, permissions: %w[projects.index projects.show])
+<span class="offending"><span class="linenum">89</span>    project = create(:project, organization_id: @org.id, budget: 50_000, internal_notes: "Top secret")</span>
+<span class="linenum">90</span>
+<span class="linenum">91</span>    get "/api/#{@org.slug}/projects/#{project.id}", headers: auth_headers(user), as: :json
+<span class="linenum">92</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('85.6');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">viewer cannot see budget or internal_notes</span>
+      <span class="duration">0.00804s</span>
+      <div class="failure" id="failure_85">
+        <div class="message"><pre>  Failure/Error: project = create(:project, organization_id: @org.id, budget: 50_000, internal_notes: &quot;Top secret&quot;)
+
+  NameError:
+    uninitialized constant Project
+  # ./spec/requests/project_spec.rb:102:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/requests/project_spec.rb:102:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">100</span>  it "viewer cannot see budget or internal_notes" do
+<span class="linenum">101</span>    user = create_user_in_org("viewer", @org, permissions: %w[projects.index projects.show])
+<span class="offending"><span class="linenum">102</span>    project = create(:project, organization_id: @org.id, budget: 50_000, internal_notes: "Top secret")</span>
+<span class="linenum">103</span>
+<span class="linenum">104</span>    get "/api/#{@org.slug}/projects/#{project.id}", headers: auth_headers(user), as: :json
+<span class="linenum">105</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('86.3');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">manager cannot set budget when creating a project</span>
+      <span class="duration">0.00881s</span>
+      <div class="failure" id="failure_86">
+        <div class="message"><pre>  Failure/Error: expect(response).to have_http_status(:forbidden)
+    expected the response to have status code :forbidden (403) but it was :not_found (404)
+  # ./spec/requests/project_spec.rb:125:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/requests/project_spec.rb:125:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">123</span>    }, headers: auth_headers(user), as: :json
+<span class="linenum">124</span>
+<span class="offending"><span class="linenum">125</span>    expect(response).to have_http_status(:forbidden)</span>
+<span class="linenum">126</span>  end
+<span class="linenum">127</span>
+<span class="linenum">128</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('87.0');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">member cannot create a project</span>
+      <span class="duration">0.00661s</span>
+      <div class="failure" id="failure_87">
+        <div class="message"><pre>  Failure/Error: expect(response).to have_http_status(:forbidden)
+    expected the response to have status code :forbidden (403) but it was :not_found (404)
+  # ./spec/requests/project_spec.rb:137:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/requests/project_spec.rb:137:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">135</span>    post "/api/#{@org.slug}/projects", params: { title: "Should Fail" }, headers: auth_headers(user), as: :json
+<span class="linenum">136</span>
+<span class="offending"><span class="linenum">137</span>    expect(response).to have_http_status(:forbidden)</span>
+<span class="linenum">138</span>  end
+<span class="linenum">139</span>
+<span class="linenum">140</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('87.7');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">viewer cannot delete a project</span>
+      <span class="duration">0.00552s</span>
+      <div class="failure" id="failure_88">
+        <div class="message"><pre>  Failure/Error: project = create(:project, organization_id: @org.id)
+
+  NameError:
+    uninitialized constant Project
+  # ./spec/requests/project_spec.rb:142:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/requests/project_spec.rb:142:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">140</span>  it "viewer cannot delete a project" do
+<span class="linenum">141</span>    user = create_user_in_org("viewer", @org, permissions: %w[projects.index projects.show])
+<span class="offending"><span class="linenum">142</span>    project = create(:project, organization_id: @org.id)</span>
+<span class="linenum">143</span>
+<span class="linenum">144</span>    delete "/api/#{@org.slug}/projects/#{project.id}", headers: auth_headers(user), as: :json
+<span class="linenum">145</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('88.4');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">cannot access projects from another organization</span>
+      <span class="duration">0.00564s</span>
+      <div class="failure" id="failure_89">
+        <div class="message"><pre>  Failure/Error: project = create(:project, organization_id: other_org.id)
+
+  NameError:
+    uninitialized constant Project
+  # ./spec/requests/project_spec.rb:156:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/requests/project_spec.rb:156:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">154</span>    other_org = create(:organization)
+<span class="linenum">155</span>    user = create_user_in_org("admin", @org)
+<span class="offending"><span class="linenum">156</span>    project = create(:project, organization_id: other_org.id)</span>
+<span class="linenum">157</span>
+<span class="linenum">158</span>    get "/api/#{@org.slug}/projects/#{project.id}", headers: auth_headers(user), as: :json
+<span class="linenum">159</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('89.2');</script>
+    <dd class="example passed"><span class="passed_spec_name">cannot access another organization endpoint</span><span class='duration'>0.00689s</span></dd>
+  </dl>
+</div>
+<div id="div_group_28" class="example_group passed">
+  <dl style="margin-left: 0px;">
+  <dt id="example_group_28" class="passed">Soft Deletes</dt>
+    <script type="text/javascript">makeRed('div_group_28');</script>
+    <script type="text/javascript">makeRed('example_group_28');</script>
+    <script type="text/javascript">moveProgressBar('89.9');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">admin can view trashed projects</span>
+      <span class="duration">0.00522s</span>
+      <div class="failure" id="failure_90">
+        <div class="message"><pre>  Failure/Error: project = create(:project, organization_id: @org.id)
+
+  NameError:
+    uninitialized constant Project
+  # ./spec/requests/soft_delete_spec.rb:13:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/requests/soft_delete_spec.rb:13:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">11</span>  it "admin can view trashed projects" do
+<span class="linenum">12</span>    user = create_user_in_org("admin", @org)
+<span class="offending"><span class="linenum">13</span>    project = create(:project, organization_id: @org.id)</span>
+<span class="linenum">14</span>    project.discard!
+<span class="linenum">15</span>
+<span class="linenum">16</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('90.6');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">admin can restore a soft-deleted project</span>
+      <span class="duration">0.00513s</span>
+      <div class="failure" id="failure_91">
+        <div class="message"><pre>  Failure/Error: project = create(:project, organization_id: @org.id)
+
+  NameError:
+    uninitialized constant Project
+  # ./spec/requests/soft_delete_spec.rb:26:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/requests/soft_delete_spec.rb:26:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">24</span>  it "admin can restore a soft-deleted project" do
+<span class="linenum">25</span>    user = create_user_in_org("admin", @org)
+<span class="offending"><span class="linenum">26</span>    project = create(:project, organization_id: @org.id)</span>
+<span class="linenum">27</span>    project.discard!
+<span class="linenum">28</span>
+<span class="linenum">29</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('91.3');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">admin can force-delete a project</span>
+      <span class="duration">0.00496s</span>
+      <div class="failure" id="failure_92">
+        <div class="message"><pre>  Failure/Error: project = create(:project, organization_id: @org.id)
+
+  NameError:
+    uninitialized constant Project
+  # ./spec/requests/soft_delete_spec.rb:37:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/requests/soft_delete_spec.rb:37:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">35</span>  it "admin can force-delete a project" do
+<span class="linenum">36</span>    user = create_user_in_org("admin", @org)
+<span class="offending"><span class="linenum">37</span>    project = create(:project, organization_id: @org.id)</span>
+<span class="linenum">38</span>    project.discard!
+<span class="linenum">39</span>
+<span class="linenum">40</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('92.0');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">viewer cannot restore a project</span>
+      <span class="duration">0.00494s</span>
+      <div class="failure" id="failure_93">
+        <div class="message"><pre>  Failure/Error: project = create(:project, organization_id: @org.id)
+
+  NameError:
+    uninitialized constant Project
+  # ./spec/requests/soft_delete_spec.rb:48:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/requests/soft_delete_spec.rb:48:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">46</span>  it "viewer cannot restore a project" do
+<span class="linenum">47</span>    viewer = create_user_in_org("viewer", @org, permissions: %w[projects.index projects.show])
+<span class="offending"><span class="linenum">48</span>    project = create(:project, organization_id: @org.id)</span>
+<span class="linenum">49</span>    project.discard!
+<span class="linenum">50</span>
+<span class="linenum">51</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+  </dl>
+</div>
+<div id="div_group_29" class="example_group passed">
+  <dl style="margin-left: 0px;">
+  <dt id="example_group_29" class="passed">Tasks</dt>
+    <script type="text/javascript">makeRed('div_group_29');</script>
+    <script type="text/javascript">makeRed('example_group_29');</script>
+    <script type="text/javascript">moveProgressBar('92.8');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">admin can create a task</span>
+      <span class="duration">0.00311s</span>
+      <div class="failure" id="failure_94">
+        <div class="message"><pre>  Failure/Error: @project = create(:project, organization_id: @org.id)
+
+  NameError:
+    uninitialized constant Project
+  # ./spec/requests/task_spec.rb:9:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/requests/task_spec.rb:9:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">7</span>    seed_roles
+<span class="linenum">8</span>    @org = create(:organization)
+<span class="offending"><span class="linenum">9</span>    @project = create(:project, organization_id: @org.id)</span>
+<span class="linenum">10</span>  end
+<span class="linenum">11</span>
+<span class="linenum">12</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('93.5');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">admin can list tasks</span>
+      <span class="duration">0.00356s</span>
+      <div class="failure" id="failure_95">
+        <div class="message"><pre>  Failure/Error: @project = create(:project, organization_id: @org.id)
+
+  NameError:
+    uninitialized constant Project
+  # ./spec/requests/task_spec.rb:9:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/requests/task_spec.rb:9:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">7</span>    seed_roles
+<span class="linenum">8</span>    @org = create(:organization)
+<span class="offending"><span class="linenum">9</span>    @project = create(:project, organization_id: @org.id)</span>
+<span class="linenum">10</span>  end
+<span class="linenum">11</span>
+<span class="linenum">12</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('94.2');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">admin can update a task</span>
+      <span class="duration">0.00296s</span>
+      <div class="failure" id="failure_96">
+        <div class="message"><pre>  Failure/Error: @project = create(:project, organization_id: @org.id)
+
+  NameError:
+    uninitialized constant Project
+  # ./spec/requests/task_spec.rb:9:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/requests/task_spec.rb:9:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">7</span>    seed_roles
+<span class="linenum">8</span>    @org = create(:organization)
+<span class="offending"><span class="linenum">9</span>    @project = create(:project, organization_id: @org.id)</span>
+<span class="linenum">10</span>  end
+<span class="linenum">11</span>
+<span class="linenum">12</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('94.9');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">admin can delete a task</span>
+      <span class="duration">0.00296s</span>
+      <div class="failure" id="failure_97">
+        <div class="message"><pre>  Failure/Error: @project = create(:project, organization_id: @org.id)
+
+  NameError:
+    uninitialized constant Project
+  # ./spec/requests/task_spec.rb:9:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/requests/task_spec.rb:9:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">7</span>    seed_roles
+<span class="linenum">8</span>    @org = create(:organization)
+<span class="offending"><span class="linenum">9</span>    @project = create(:project, organization_id: @org.id)</span>
+<span class="linenum">10</span>  end
+<span class="linenum">11</span>
+<span class="linenum">12</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('95.6');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">member only sees tasks assigned to them</span>
+      <span class="duration">0.00299s</span>
+      <div class="failure" id="failure_98">
+        <div class="message"><pre>  Failure/Error: @project = create(:project, organization_id: @org.id)
+
+  NameError:
+    uninitialized constant Project
+  # ./spec/requests/task_spec.rb:9:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/requests/task_spec.rb:9:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">7</span>    seed_roles
+<span class="linenum">8</span>    @org = create(:organization)
+<span class="offending"><span class="linenum">9</span>    @project = create(:project, organization_id: @org.id)</span>
+<span class="linenum">10</span>  end
+<span class="linenum">11</span>
+<span class="linenum">12</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('96.4');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">admin sees estimated_hours</span>
+      <span class="duration">0.00300s</span>
+      <div class="failure" id="failure_99">
+        <div class="message"><pre>  Failure/Error: @project = create(:project, organization_id: @org.id)
+
+  NameError:
+    uninitialized constant Project
+  # ./spec/requests/task_spec.rb:9:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/requests/task_spec.rb:9:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">7</span>    seed_roles
+<span class="linenum">8</span>    @org = create(:organization)
+<span class="offending"><span class="linenum">9</span>    @project = create(:project, organization_id: @org.id)</span>
+<span class="linenum">10</span>  end
+<span class="linenum">11</span>
+<span class="linenum">12</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('97.1');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">member cannot see estimated_hours</span>
+      <span class="duration">0.00315s</span>
+      <div class="failure" id="failure_100">
+        <div class="message"><pre>  Failure/Error: @project = create(:project, organization_id: @org.id)
+
+  NameError:
+    uninitialized constant Project
+  # ./spec/requests/task_spec.rb:9:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/requests/task_spec.rb:9:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">7</span>    seed_roles
+<span class="linenum">8</span>    @org = create(:organization)
+<span class="offending"><span class="linenum">9</span>    @project = create(:project, organization_id: @org.id)</span>
+<span class="linenum">10</span>  end
+<span class="linenum">11</span>
+<span class="linenum">12</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('97.8');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">member can update task status and description</span>
+      <span class="duration">0.00291s</span>
+      <div class="failure" id="failure_101">
+        <div class="message"><pre>  Failure/Error: @project = create(:project, organization_id: @org.id)
+
+  NameError:
+    uninitialized constant Project
+  # ./spec/requests/task_spec.rb:9:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/requests/task_spec.rb:9:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">7</span>    seed_roles
+<span class="linenum">8</span>    @org = create(:organization)
+<span class="offending"><span class="linenum">9</span>    @project = create(:project, organization_id: @org.id)</span>
+<span class="linenum">10</span>  end
+<span class="linenum">11</span>
+<span class="linenum">12</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('98.5');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">member cannot update task title (forbidden field)</span>
+      <span class="duration">0.00308s</span>
+      <div class="failure" id="failure_102">
+        <div class="message"><pre>  Failure/Error: @project = create(:project, organization_id: @org.id)
+
+  NameError:
+    uninitialized constant Project
+  # ./spec/requests/task_spec.rb:9:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/requests/task_spec.rb:9:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">7</span>    seed_roles
+<span class="linenum">8</span>    @org = create(:organization)
+<span class="offending"><span class="linenum">9</span>    @project = create(:project, organization_id: @org.id)</span>
+<span class="linenum">10</span>  end
+<span class="linenum">11</span>
+<span class="linenum">12</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('99.2');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">member cannot create a task</span>
+      <span class="duration">0.00356s</span>
+      <div class="failure" id="failure_103">
+        <div class="message"><pre>  Failure/Error: @project = create(:project, organization_id: @org.id)
+
+  NameError:
+    uninitialized constant Project
+  # ./spec/requests/task_spec.rb:9:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/requests/task_spec.rb:9:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">7</span>    seed_roles
+<span class="linenum">8</span>    @org = create(:organization)
+<span class="offending"><span class="linenum">9</span>    @project = create(:project, organization_id: @org.id)</span>
+<span class="linenum">10</span>  end
+<span class="linenum">11</span>
+<span class="linenum">12</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+    <script type="text/javascript">moveProgressBar('100.0');</script>
+    <dd class="example failed">
+      <span class="failed_spec_name">viewer cannot update a task</span>
+      <span class="duration">0.00330s</span>
+      <div class="failure" id="failure_104">
+        <div class="message"><pre>  Failure/Error: @project = create(:project, organization_id: @org.id)
+
+  NameError:
+    uninitialized constant Project
+  # ./spec/requests/task_spec.rb:9:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+        <div class="backtrace"><pre>./spec/requests/task_spec.rb:9:in &#39;block (2 levels) in &lt;main&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">7</span>    seed_roles
+<span class="linenum">8</span>    @org = create(:organization)
+<span class="offending"><span class="linenum">9</span>    @project = create(:project, organization_id: @org.id)</span>
+<span class="linenum">10</span>  end
+<span class="linenum">11</span>
+<span class="linenum">12</span><span class="comment"># Install the coderay gem to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
+  </dl>
+</div>
+<script type="text/javascript">document.getElementById('duration').innerHTML = "Finished in <strong>1.03864 seconds</strong>";</script>
+<script type="text/javascript">document.getElementById('totals').innerHTML = "139 examples, 104 failures";</script>
+</div>
+</div>
+</body>
+</html>

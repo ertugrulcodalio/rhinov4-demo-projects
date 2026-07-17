@@ -1,0 +1,89 @@
+{
+  "gaps": [
+    {
+      "code": "KEY_FEATURE_NO_SITEMAP",
+      "severity": "medium",
+      "message": "The PRD defines route groups and permissions but lacks a formal sitemap section.",
+      "compensation_hint": "Define the screens and routes in the implementation plan based on the route groups and permissions matrix."
+    },
+    {
+      "code": "DATA_MODEL_UX_MISMATCH",
+      "severity": "high",
+      "message": "The `time_slots` model table in Section 6 does not list `organization_id`, but Section 4 states it is scoped by `organization_id`.",
+      "compensation_hint": "Add `organization_id` to the `time_slots` model and migration to ensure robust multi-tenant scoping and indexing."
+    }
+  ],
+  "summary": {
+    "gap_count": 2
+  },
+  "role_registry": [
+    {
+      "id": "owner",
+      "name": "Owner",
+      "description": "Full access to everything including billing and user management"
+    },
+    {
+      "id": "admin",
+      "name": "Admin",
+      "description": "Operational admin. Full CRUD on all resources"
+    },
+    {
+      "id": "staff",
+      "name": "Staff",
+      "description": "Can manage availability and update booking status, cannot delete services"
+    },
+    {
+      "id": "customer",
+      "name": "Customer",
+      "description": "Can browse active services and time slots, create and manage own bookings"
+    }
+  ],
+  "coverage_matrix": [
+    {
+      "feature": "Hybrid Tenancy",
+      "status": "covered",
+      "notes": "Implemented via two route groups: /api/:organization/ and /api/customer/"
+    },
+    {
+      "feature": "Service Management",
+      "status": "covered",
+      "notes": "Implemented via services model with status active/draft/inactive"
+    },
+    {
+      "feature": "Staff Members",
+      "status": "covered",
+      "notes": "Implemented via staff_members model"
+    },
+    {
+      "feature": "Time Slot Management",
+      "status": "covered",
+      "notes": "Implemented via time_slots model with available boolean"
+    },
+    {
+      "feature": "Customer Booking",
+      "status": "covered",
+      "notes": "Implemented via bookings model referencing time_slot"
+    },
+    {
+      "feature": "Booking Lifecycle",
+      "status": "covered",
+      "notes": "Implemented via bookings status transitions and policy checks"
+    },
+    {
+      "feature": "Cross-Tenant Isolation",
+      "status": "covered",
+      "notes": "Enforced via organization_id scoping and current_user scoping"
+    },
+    {
+      "feature": "Draft/Inactive Hiding",
+      "status": "covered",
+      "notes": "Enforced via ServiceScope and TimeSlotScope on customer route"
+    }
+  ],
+  "hints_for_planner": [
+    "Add organization_id to time_slots model to satisfy multi-tenant scoping.",
+    "Implement custom scopes for Service, TimeSlot, and Booking to handle customer-route filtering.",
+    "Ensure customer route uses current_user scoping for bookings."
+  ],
+  "updated_at": "2026-07-16T20:35:00Z"
+}

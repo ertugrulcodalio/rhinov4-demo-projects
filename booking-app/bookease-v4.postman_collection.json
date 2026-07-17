@@ -1,0 +1,450 @@
+{
+  "info": {
+    "name": "BookEase V4",
+    "description": "BookEase API — Rails 8.1.3 + Rhino V4. Base URL: http://localhost:3012\n\n**Seed credentials:**\n- admin@demo.com / password (admin)\n- staff@demo.com / password (staff)\n- customer@demo.com / password (customer)\n- owner@demo.com / password (owner)\n\n**Quick start:**\n1. Run \"Login (Admin)\" → token saved to `auth_token`\n2. `org_id` is pre-set to `demo` (seed org slug)\n3. Use any request under Staff Routes or Customer Routes",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "base_url", "value": "http://localhost:3012", "type": "string" },
+    { "key": "auth_token", "value": "", "type": "string" },
+    { "key": "org_id", "value": "demo", "type": "string" },
+    { "key": "service_id", "value": "1", "type": "string" },
+    { "key": "staff_member_id", "value": "1", "type": "string" },
+    { "key": "time_slot_id", "value": "1", "type": "string" },
+    { "key": "booking_id", "value": "1", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login (Admin)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var json = pm.response.json();",
+                  "if (json.token) {",
+                  "  pm.collectionVariables.set('auth_token', json.token);",
+                  "  console.log('Token saved:', json.token);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@demo.com\",\n  \"password\": \"password\"\n}"
+            },
+            "url": "{{base_url}}/api/auth/login",
+            "description": "Login as restaurant admin. Token saved to auth_token."
+          }
+        },
+        {
+          "name": "Login (Staff)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var json = pm.response.json();",
+                  "if (json.token) { pm.collectionVariables.set('auth_token', json.token); }"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"staff@demo.com\",\n  \"password\": \"password\"\n}"
+            },
+            "url": "{{base_url}}/api/auth/login"
+          }
+        },
+        {
+          "name": "Login (Customer)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var json = pm.response.json();",
+                  "if (json.token) { pm.collectionVariables.set('auth_token', json.token); }"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"customer@demo.com\",\n  \"password\": \"password\"\n}"
+            },
+            "url": "{{base_url}}/api/customer/auth/login",
+            "description": "Customer login uses the customer route group auth endpoint."
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{auth_token}}" }
+            ],
+            "url": "{{base_url}}/api/auth/logout"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Staff Routes (/:org/)",
+      "item": [
+        {
+          "name": "Services",
+          "item": [
+            {
+              "name": "List Services",
+              "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{auth_token}}" }],
+                "url": "{{base_url}}/api/{{org_id}}/services",
+                "description": "Returns all services including draft and inactive. Admin/staff only."
+              }
+            },
+            {
+              "name": "Get Service",
+              "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{auth_token}}" }],
+                "url": "{{base_url}}/api/{{org_id}}/services/{{service_id}}"
+              }
+            },
+            {
+              "name": "Create Service",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{auth_token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Haircut\",\n  \"description\": \"Classic haircut service\",\n  \"duration_minutes\": 30,\n  \"price\": \"25.00\",\n  \"status\": \"draft\"\n}"
+                },
+                "url": "{{base_url}}/api/{{org_id}}/services"
+              }
+            },
+            {
+              "name": "Update Service (publish)",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{auth_token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"active\"\n}"
+                },
+                "url": "{{base_url}}/api/{{org_id}}/services/{{service_id}}"
+              }
+            },
+            {
+              "name": "Delete Service",
+              "request": {
+                "method": "DELETE",
+                "header": [{ "key": "Authorization", "value": "Bearer {{auth_token}}" }],
+                "url": "{{base_url}}/api/{{org_id}}/services/{{service_id}}"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Staff Members",
+          "item": [
+            {
+              "name": "List Staff Members",
+              "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{auth_token}}" }],
+                "url": "{{base_url}}/api/{{org_id}}/staff_members"
+              }
+            },
+            {
+              "name": "Get Staff Member",
+              "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{auth_token}}" }],
+                "url": "{{base_url}}/api/{{org_id}}/staff_members/{{staff_member_id}}"
+              }
+            },
+            {
+              "name": "Create Staff Member",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{auth_token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john@clipmaster.com\",\n  \"role_title\": \"Senior Barber\"\n}"
+                },
+                "url": "{{base_url}}/api/{{org_id}}/staff_members"
+              }
+            },
+            {
+              "name": "Update Staff Member",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{auth_token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"role_title\": \"Head Barber\"\n}"
+                },
+                "url": "{{base_url}}/api/{{org_id}}/staff_members/{{staff_member_id}}"
+              }
+            },
+            {
+              "name": "Delete Staff Member",
+              "request": {
+                "method": "DELETE",
+                "header": [{ "key": "Authorization", "value": "Bearer {{auth_token}}" }],
+                "url": "{{base_url}}/api/{{org_id}}/staff_members/{{staff_member_id}}"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Time Slots",
+          "item": [
+            {
+              "name": "List Time Slots",
+              "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{auth_token}}" }],
+                "url": "{{base_url}}/api/{{org_id}}/time_slots",
+                "description": "Returns all time slots including unavailable ones. Admin/staff only."
+              }
+            },
+            {
+              "name": "Get Time Slot",
+              "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{auth_token}}" }],
+                "url": "{{base_url}}/api/{{org_id}}/time_slots/{{time_slot_id}}"
+              }
+            },
+            {
+              "name": "Create Time Slot",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{auth_token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"service_id\": {{service_id}},\n  \"staff_member_id\": {{staff_member_id}},\n  \"starts_at\": \"2026-08-01T10:00:00Z\",\n  \"ends_at\": \"2026-08-01T10:30:00Z\",\n  \"available\": true\n}"
+                },
+                "url": "{{base_url}}/api/{{org_id}}/time_slots"
+              }
+            },
+            {
+              "name": "Update Time Slot",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{auth_token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"available\": false\n}"
+                },
+                "url": "{{base_url}}/api/{{org_id}}/time_slots/{{time_slot_id}}"
+              }
+            },
+            {
+              "name": "Delete Time Slot",
+              "request": {
+                "method": "DELETE",
+                "header": [{ "key": "Authorization", "value": "Bearer {{auth_token}}" }],
+                "url": "{{base_url}}/api/{{org_id}}/time_slots/{{time_slot_id}}"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Bookings (Staff View)",
+          "item": [
+            {
+              "name": "List All Bookings",
+              "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{auth_token}}" }],
+                "url": "{{base_url}}/api/{{org_id}}/bookings",
+                "description": "Staff see all org bookings, not just their own."
+              }
+            },
+            {
+              "name": "Get Booking",
+              "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{auth_token}}" }],
+                "url": "{{base_url}}/api/{{org_id}}/bookings/{{booking_id}}"
+              }
+            },
+            {
+              "name": "Update Booking Status",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{auth_token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"confirmed\"\n}"
+                },
+                "url": "{{base_url}}/api/{{org_id}}/bookings/{{booking_id}}"
+              }
+            },
+            {
+              "name": "Delete Booking",
+              "request": {
+                "method": "DELETE",
+                "header": [{ "key": "Authorization", "value": "Bearer {{auth_token}}" }],
+                "url": "{{base_url}}/api/{{org_id}}/bookings/{{booking_id}}"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Customer Routes (/customer/)",
+      "item": [
+        {
+          "name": "Services (Active Only)",
+          "item": [
+            {
+              "name": "List Active Services",
+              "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{auth_token}}" }],
+                "url": "{{base_url}}/api/customer/services",
+                "description": "Returns only active services from customer's org. Draft/inactive are hidden."
+              }
+            },
+            {
+              "name": "Get Active Service",
+              "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{auth_token}}" }],
+                "url": "{{base_url}}/api/customer/services/{{service_id}}"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Time Slots (Available Only)",
+          "item": [
+            {
+              "name": "List Available Time Slots",
+              "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{auth_token}}" }],
+                "url": "{{base_url}}/api/customer/time_slots",
+                "description": "Returns only available=true slots from customer's org."
+              }
+            },
+            {
+              "name": "Get Time Slot",
+              "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{auth_token}}" }],
+                "url": "{{base_url}}/api/customer/time_slots/{{time_slot_id}}"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Bookings (Own Only)",
+          "item": [
+            {
+              "name": "List My Bookings",
+              "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{auth_token}}" }],
+                "url": "{{base_url}}/api/customer/bookings",
+                "description": "Returns only the authenticated customer's own bookings."
+              }
+            },
+            {
+              "name": "Get My Booking",
+              "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{auth_token}}" }],
+                "url": "{{base_url}}/api/customer/bookings/{{booking_id}}"
+              }
+            },
+            {
+              "name": "Create Booking",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{auth_token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"time_slot_id\": {{time_slot_id}},\n  \"notes\": \"Please confirm 30 min before\"\n}"
+                },
+                "url": "{{base_url}}/api/customer/bookings",
+                "description": "Create a new booking for an available time slot."
+              }
+            },
+            {
+              "name": "Cancel Booking",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{auth_token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"cancelled\"\n}"
+                },
+                "url": "{{base_url}}/api/customer/bookings/{{booking_id}}",
+                "description": "Customers can only cancel their own pending bookings."
+              }
+            },
+            {
+              "name": "Delete Booking",
+              "request": {
+                "method": "DELETE",
+                "header": [{ "key": "Authorization", "value": "Bearer {{auth_token}}" }],
+                "url": "{{base_url}}/api/customer/bookings/{{booking_id}}"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "stages": {
+    "plan": [
+      {
+        "cost_usd": 0.534034,
+        "model": "gemini/gemini-3.5-flash",
+        "input_tokens": 981409,
+        "output_tokens": 16793,
+        "cache_read_tokens": 806827,
+        "cache_write_tokens": 0,
+        "reasoning_tokens": 5946,
+        "context_window": 1048576,
+        "cache_hit_percent": 82.21,
+        "total_tokens": 998202,
+        "run_id": null,
+        "recorded_at": "2026-07-16T20:36:06.616205+00:00"
+      }
+    ],
+    "review": [
+      {
+        "cost_usd": 0.378645,
+        "model": "gemini/gemini-3.5-flash",
+        "input_tokens": 715089,
+        "output_tokens": 7319,
+        "cache_read_tokens": 562859,
+        "cache_write_tokens": 0,
+        "reasoning_tokens": 2847,
+        "context_window": 1048576,
+        "cache_hit_percent": 78.71,
+        "total_tokens": 722408,
+        "run_id": null,
+        "recorded_at": "2026-07-16T23:44:41.274129+00:00"
+      }
+    ]
+  },
+  "total": {
+    "cost_usd": 0.912679,
+    "input_tokens": 1696498,
+    "output_tokens": 24112,
+    "cache_read_tokens": 1369686,
+    "cache_write_tokens": 0,
+    "reasoning_tokens": 8793,
+    "total_tokens": 1720610,
+    "cache_hit_percent": 80.74
+  },
+  "updated_at": "2026-07-16T23:44:41.274147+00:00"
+}
