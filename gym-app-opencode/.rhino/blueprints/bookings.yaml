@@ -1,0 +1,66 @@
+model: Booking
+slug: bookings
+table: bookings
+
+options:
+  belongs_to_organization: true
+  soft_deletes: false
+  audit_trail: false
+  pagination: true
+  per_page: 25
+
+columns:
+  user_id:
+    type: foreignId
+    foreign_model: User
+    nullable: false
+    index: true
+  gym_class_id:
+    type: foreignId
+    foreign_model: GymClass
+    nullable: false
+    index: true
+  status:
+    type: string
+    default: "pending"
+    nullable: false
+    filterable: true
+  notes:
+    type: text
+    nullable: true
+
+relationships:
+  - type: belongsTo
+    model: Organization
+  - type: belongsTo
+    model: User
+  - type: belongsTo
+    model: GymClass
+
+permissions:
+  owner:
+    actions: [index, show, store, update, destroy]
+    show_fields: "*"
+    create_fields: "*"
+    update_fields: "*"
+  admin:
+    actions: [index, show, update, destroy]
+    show_fields: "*"
+    create_fields: []
+    update_fields:
+      - status
+  trainer:
+    actions: [index, show, update]
+    show_fields: "*"
+    create_fields: []
+    update_fields:
+      - status
+  member:
+    actions: [index, show, store, update, destroy]
+    show_fields: "*"
+    create_fields:
+      - gym_class_id
+      - notes
+    update_fields:
+      - status
+      - notes

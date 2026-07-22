@@ -1,0 +1,75 @@
+model: Plan
+slug: plans
+table: plans
+
+options:
+  belongs_to_organization: true
+  soft_deletes: false
+  audit_trail: false
+  pagination: true
+  per_page: 25
+
+columns:
+  name:
+    type: string
+    nullable: false
+    searchable: true
+  description:
+    type: text
+    nullable: true
+    searchable: true
+  price:
+    type: decimal
+    nullable: false
+    precision: 10
+    scale: 2
+  duration_days:
+    type: integer
+    nullable: false
+  features:
+    type: text
+    nullable: true
+  status:
+    type: string
+    default: "draft"
+    nullable: false
+    filterable: true
+
+relationships:
+  - type: belongsTo
+    model: Organization
+
+permissions:
+  owner:
+    actions: [index, show, store, update, destroy]
+    show_fields: "*"
+    create_fields: "*"
+    update_fields: "*"
+  admin:
+    actions: [index, show, store, update, destroy]
+    show_fields: "*"
+    create_fields: "*"
+    update_fields: "*"
+  trainer:
+    actions: [index, show]
+    show_fields:
+      - id
+      - name
+      - description
+      - price
+      - duration_days
+      - features
+      - status
+    create_fields: []
+    update_fields: []
+  member:
+    actions: [index, show]
+    show_fields:
+      - id
+      - name
+      - description
+      - price
+      - duration_days
+      - features
+    create_fields: []
+    update_fields: []

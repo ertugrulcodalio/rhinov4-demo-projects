@@ -1,0 +1,13 @@
+roles:
+  owner:
+    name: Owner
+    description: "Full access to everything including billing and user management"
+  admin:
+    name: Admin
+    description: "Operational admin. Full CRUD on all resources"
+  trainer:
+    name: Trainer
+    description: "Can manage their own classes and view bookings for their classes"
+  member:
+    name: Member
+    description: "Can view active plans and classes, create and manage own bookings"

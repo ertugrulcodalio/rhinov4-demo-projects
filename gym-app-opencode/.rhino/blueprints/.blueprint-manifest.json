@@ -1,0 +1,54 @@
+{
+  "version": 1,
+  "generated_at": "2026-07-22T15:00:00-04:00",
+  "files": {
+    "trainers.yaml": {
+      "content_hash": "",
+      "generated_files": [
+        "app/models/trainer.rb",
+        "db/migrate/20260722150000_create_trainers.rb",
+        "spec/factories/trainers.rb",
+        "app/models/scopes/trainer_scope.rb",
+        "app/policies/trainer_policy.rb",
+        "spec/models/trainer_spec.rb"
+      ],
+      "generated_at": "2026-07-22T15:00:00-04:00"
+    },
+    "plans.yaml": {
+      "content_hash": "",
+      "generated_files": [
+        "app/models/plan.rb",
+        "db/migrate/20260722150001_create_plans.rb",
+        "spec/factories/plans.rb",
+        "app/models/scopes/plan_scope.rb",
+        "app/policies/plan_policy.rb",
+        "spec/models/plan_spec.rb"
+      ],
+      "generated_at": "2026-07-22T15:00:00-04:00"
+    },
+    "classes.yaml": {
+      "content_hash": "",
+      "generated_files": [
+        "app/models/gym_class.rb",
+        "db/migrate/20260722150002_create_classes.rb",
+        "spec/factories/classes.rb",
+        "app/models/scopes/gym_class_scope.rb",
+        "app/policies/gym_class_policy.rb",
+        "spec/models/gym_class_spec.rb"
+      ],
+      "generated_at": "2026-07-22T15:00:00-04:00"
+    },
+    "bookings.yaml": {
+      "content_hash": "",
+      "generated_files": [
+        "app/models/booking.rb",
+        "db/migrate/20260722150003_create_bookings.rb",
+        "spec/factories/bookings.rb",
+        "app/models/scopes/booking_scope.rb",
+        "app/policies/booking_policy.rb",
+        "spec/models/booking_spec.rb"
+      ],
+      "generated_at": "2026-07-22T15:00:00-04:00"
+    }
+  }
+}

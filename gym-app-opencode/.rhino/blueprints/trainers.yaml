@@ -1,0 +1,67 @@
+model: Trainer
+slug: trainers
+table: trainers
+
+options:
+  belongs_to_organization: true
+  soft_deletes: false
+  audit_trail: false
+  pagination: true
+  per_page: 25
+
+columns:
+  name:
+    type: string
+    nullable: false
+    searchable: true
+  email:
+    type: string
+    nullable: true
+    searchable: true
+  phone:
+    type: string
+    nullable: true
+  specialization:
+    type: string
+    nullable: true
+    searchable: true
+  bio:
+    type: text
+    nullable: true
+  status:
+    type: string
+    default: "active"
+    nullable: false
+    filterable: true
+
+relationships:
+  - type: belongsTo
+    model: Organization
+  - type: hasMany
+    model: Class
+
+permissions:
+  owner:
+    actions: [index, show, store, update, destroy]
+    show_fields: "*"
+    create_fields: "*"
+    update_fields: "*"
+  admin:
+    actions: [index, show, store, update, destroy]
+    show_fields: "*"
+    create_fields: "*"
+    update_fields: "*"
+  trainer:
+    actions: [index, show]
+    show_fields: "*"
+    create_fields: []
+    update_fields: []
+  member:
+    actions: [index, show]
+    show_fields:
+      - id
+      - name
+      - specialization
+      - bio
+    create_fields: []
+    update_fields: []
