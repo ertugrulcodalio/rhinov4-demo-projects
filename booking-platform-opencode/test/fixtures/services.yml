@@ -1,0 +1,6 @@
+one:
+  organization: one
+  name: "Haircut"
+  description: "Standard haircut service"
+  active: true
+  draft: false

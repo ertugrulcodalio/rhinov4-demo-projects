@@ -1,0 +1,57 @@
+model: StaffMember
+slug: staff_members
+options:
+  belongs_to_organization: true
+  soft_deletes: true
+columns:
+  name:
+    type: string
+    filterable: true
+    searchable: true
+    sortable: true
+  role:
+    type: string
+    filterable: true
+  email:
+    type: string
+    nullable: true
+    filterable: true
+    searchable: true
+  phone:
+    type: string
+    nullable: true
+    filterable: true
+  active:
+    type: boolean
+    filterable: true
+    default: true
+  created_at:
+    type: datetime
+    filterable: true
+  updated_at:
+    type: datetime
+    filterable: true
+relationships:
+  - type: belongsTo
+    model: Organization
+  - type: belongsTo
+    model: User
+    foreign_key: user_id
+  - type: hasMany
+    model: TimeSlot
+  - type: hasMany
+    model: Booking
+permissions:
+  admin:
+    actions: [index, show, store, update, destroy]
+    show_fields: "*"
+    create_fields: "*"
+    update_fields: "*"
+  manager:
+    actions: [index, show, store, update]
+    show_fields: "*"
+    create_fields: "*"
+    update_fields: "*"
+  staff:
+    actions: [index, show]
+    show_fields: [id, name, role, email]

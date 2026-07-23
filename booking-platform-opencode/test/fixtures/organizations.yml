@@ -1,0 +1,7 @@
+one:
+  name: "Acme Corp"
+  email: "admin@acme.com"
+  address: "123 Main St"
+  phone: "555-0100"
+  active: true
+  slug: "acme-corp"

@@ -1,0 +1,53 @@
+model: TimeSlot
+
+slug: time_slots
+
+options:
+  belongs_to_organization: true
+  soft_deletes: true
+
+columns:
+  start_time:
+    type: datetime
+    filterable: true
+    sortable: true
+  end_time:
+    type: datetime
+    filterable: true
+    sortable: true
+  available:
+    type: boolean
+    filterable: true
+    default: true
+  notes:
+    type: text
+    nullable: true
+  staff_memo:
+    type: text
+    nullable: true
+relationships:
+  - type: belongsTo
+    model: Organization
+  - type: belongsTo
+    model: Service
+  - type: belongsTo
+    model: StaffMember
+  - type: hasMany
+    model: Booking
+permissions:
+  admin:
+    actions: [index, show, store, update, destroy]
+    show_fields: "*"
+    create_fields: "*"
+    update_fields: "*"
+  manager:
+    actions: [index, show, store, update, destroy]
+    show_fields: "*"
+    create_fields: "*"
+    update_fields: "*"
+  staff:
+    actions: [index, show, update]
+    show_fields: [id, start_time, end_time, available, service_id, staff_member_id, notes, staff_memo]
+  public:
+    actions: [index, show]
+    show_fields: [id, start_time, end_time, available, service_id, staff_member_id]

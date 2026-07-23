@@ -1,0 +1,49 @@
+model: Service
+
+slug: services
+
+options:
+  belongs_to_organization: true
+  soft_deletes: true
+
+columns:
+  name:
+    type: string
+    filterable: true
+    searchable: true
+    sortable: true
+  description:
+    type: text
+    nullable: true
+    searchable: true
+  active:
+    type: boolean
+    filterable: true
+    default: true
+  draft:
+    type: boolean
+    filterable: true
+    default: false
+relationships:
+  - type: belongsTo
+    model: Organization
+permissions:
+  admin:
+    actions: [index, show, store, update, destroy]
+    show_fields: "*"
+    create_fields: "*"
+    update_fields: "*"
+  manager:
+    actions: [index, show, store, update]
+    show_fields: "*"
+    create_fields: "*"
+    update_fields: "*"
+  staff:
+    actions: [index, show]
+    show_fields: [id, name, description, active, draft]
+  public:
+    actions: [index, show]
+    show_fields: [id, name, description, active, draft]
+  public:
+    actions: [index, show]
+    show_fields: [id, name, description, active, draft]

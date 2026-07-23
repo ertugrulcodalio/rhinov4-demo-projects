@@ -1,0 +1,10 @@
+roles:
+  admin:
+    name: Admin
+    description: "Full access to organization management"
+  manager:
+    name: Manager
+    description: "Can manage services, staff, and bookings"
+  staff:
+    name: Staff
+    description: "Can view and manage own bookings"

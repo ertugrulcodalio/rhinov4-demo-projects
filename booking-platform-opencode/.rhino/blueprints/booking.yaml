@@ -1,0 +1,57 @@
+model: Booking
+slug: bookings
+options:
+  belongs_to_organization: true
+  soft_deletes: true
+columns:
+  customer_name:
+    type: string
+    filterable: true
+    searchable: true
+  customer_email:
+    type: string
+    filterable: true
+    searchable: true
+  customer_phone:
+    type: string
+    nullable: true
+  notes:
+    type: text
+    nullable: true
+  status:
+    type: string
+    filterable: true
+    sortable: true
+    default: pending
+relationships:
+  - type: belongsTo
+    model: Organization
+  - type: belongsTo
+    model: Service
+  - type: belongsTo
+    model: StaffMember
+  - type: belongsTo
+    model: TimeSlot
+  - type: belongsTo
+    model: User
+    foreign_key: user_id
+permissions:
+  admin:
+    actions: [index, show, store, update, destroy]
+    show_fields: "*"
+    create_fields: "*"
+    update_fields: "*"
+  manager:
+    actions: [index, show, store, update]
+    show_fields: "*"
+    create_fields: "*"
+    update_fields: "*"
+  staff:
+    actions: [index, show]
+    show_fields: "*"
+    create_fields: []
+    update_fields: []
+  public:
+    actions: [store]
+    show_fields: []
+    create_fields: [service_id, staff_member_id, time_slot_id, customer_name, customer_email, customer_phone, notes]

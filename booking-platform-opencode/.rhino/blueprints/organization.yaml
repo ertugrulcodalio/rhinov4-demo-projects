@@ -1,0 +1,57 @@
+model: Organization
+
+slug: organizations
+
+options:
+  belongs_to_organization: false
+  soft_deletes: true
+
+columns:
+  name:
+    type: string
+    filterable: true
+    searchable: true
+    sortable: true
+  email:
+    type: string
+    filterable: true
+  address:
+    type: text
+    nullable: true
+  phone:
+    type: string
+    nullable: true
+  active:
+    type: boolean
+    filterable: true
+    default: true
+  created_at:
+    type: datetime
+    filterable: true
+  updated_at:
+    type: datetime
+    filterable: true
+relationships:
+  - type: hasMany
+    model: StaffMember
+permissions:
+  admin:
+    actions: [index, show, store, update, destroy]
+    show_fields: "*"
+    create_fields: "*"
+    update_fields: "*"
+  manager:
+    actions: [index, show, store, update]
+    show_fields: "*"
+    create_fields: "*"
+    update_fields: "*"
+  staff:
+    actions: []
+    show_fields: []
+    create_fields: []
+    update_fields: []
+  public:
+    actions: []
+    show_fields: []
+    create_fields: []
+    update_fields: []
